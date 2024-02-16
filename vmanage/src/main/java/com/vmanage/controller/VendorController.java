@@ -41,12 +41,12 @@ public class VendorController {
 			objectErrors.forEach(a -> System.err.println(a.getObjectName() + " " + a.getDefaultMessage()));
 			model.addAttribute("error", objectErrors);
 
-			return "Registration.jsp";
+			return "Registration";
 
 		} else {
 			model.addAttribute("noErrors", "Details saved.");
 			this.service.save(vendorEntity);
-			return "RegisterSuccess.jsp";
+			return "RegisterSuccess";
 		}
 
 	}
