@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -20,9 +22,10 @@ import lombok.RequiredArgsConstructor;
 @Table(name = "vendor")
 @Data
 @RequiredArgsConstructor
+@NamedQuery(name = "isExist", query = "SELECT et FROM VendorEntity as et WHERE et.vendorNname=:vName OR et.vendorEmail=:vMail OR et.website=:vWebsite")
 public class VendorEntity {
 
-	@Id
+	@Id 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "v_id")
 	private int id;

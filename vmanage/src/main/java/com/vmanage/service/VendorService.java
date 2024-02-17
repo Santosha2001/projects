@@ -4,6 +4,7 @@ import com.vmanage.entities.VendorEntity;
 
 public interface VendorService {
 
-	void save(VendorEntity entity);
+	VendorEntity save(VendorEntity entity);
 
+	String isExistByNameOrMailOrSite(String name, String email, String website);
 }

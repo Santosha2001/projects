@@ -1,12 +1,17 @@
 package com.vmanage.repository;
 
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import com.vmanage.entities.VendorEntity;
 
@@ -40,4 +45,30 @@ public class VendorRepositoryImpl implements VendorRepository {
 			System.out.println("EntityManager closed.");
 		}
 	}
+
+	@Override
+	public VendorEntity isExistByNameOrMailOrSite(String name, String email, String website) {
+		EntityManager entityManager = factory.createEntityManager();
+		System.out.println("EM created.");
+		VendorEntity entity=null;
+		
+		try {
+			Query query = entityManager.createNamedQuery("isExist");
+			query.setParameter("vName", name);
+			query.setParameter("vMail", email);
+			query.setParameter("vWebsite", website);
+			 entity = (VendorEntity) query.getSingleResult();	
+			
+		} catch (PersistenceException e) {
+			System.err.println("PersistenceException: "+e.getMessage());
+			
+		}
+		finally {
+			entityManager.close();
+			System.out.println("EM closed.");
+		}
+		
+		return entity ;
+	}
+
 }

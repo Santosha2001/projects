@@ -31,7 +31,6 @@ public class VendorController {
 
 	@PostMapping("/register")
 	public String save(@Valid VendorEntity vendorEntity, BindingResult bindingResult, Model model) {
-		System.out.println("VendorEntity: " + vendorEntity);
 		System.out.println("VendorEntity has errors: " + bindingResult.hasErrors());
 
 		model.addAttribute("vendorEntity", vendorEntity);
@@ -45,7 +44,16 @@ public class VendorController {
 
 		} else {
 			model.addAttribute("noErrors", "Details saved.");
+
+			String uniqueError = service.isExistByNameOrMailOrSite(vendorEntity.getVendorNname(),
+					vendorEntity.getVendorEmail(), vendorEntity.getWebsite());
+			if (uniqueError != null) {
+				model.addAttribute("uniqueError", uniqueError);
+				return "Registration";
+			}
+
 			this.service.save(vendorEntity);
+
 			return "RegisterSuccess";
 		}
 
