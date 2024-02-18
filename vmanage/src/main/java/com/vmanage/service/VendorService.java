@@ -6,5 +6,7 @@ public interface VendorService {
 
 	VendorEntity save(VendorEntity entity);
 
-	String isExistByNameOrMailOrSite(String name, String email, String website);
+	String isExistByGstOrNumberOrMailOrSite(String gst, Long number, String email, String website);
+
+	boolean sendMail();
 }

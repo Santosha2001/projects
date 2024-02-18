@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -45,8 +44,8 @@ public class VendorController {
 		} else {
 			model.addAttribute("noErrors", "Details saved.");
 
-			String uniqueError = service.isExistByNameOrMailOrSite(vendorEntity.getVendorNname(),
-					vendorEntity.getVendorEmail(), vendorEntity.getWebsite());
+			String uniqueError = service.isExistByGstOrNumberOrMailOrSite(vendorEntity.getVendorGSTNumber(),
+					vendorEntity.getContactNumber(), vendorEntity.getVendorEmail(), vendorEntity.getWebsite());
 			if (uniqueError != null) {
 				model.addAttribute("uniqueError", uniqueError);
 				return "Registration";
@@ -54,6 +53,7 @@ public class VendorController {
 
 			this.service.save(vendorEntity);
 
+			this.service.sendMail();
 			return "RegisterSuccess";
 		}
 
