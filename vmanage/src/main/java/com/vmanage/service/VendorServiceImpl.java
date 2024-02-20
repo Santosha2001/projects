@@ -1,28 +1,22 @@
 package com.vmanage.service;
 
 import java.time.LocalDate;
-import java.util.Properties;
-
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.vmanage.email.EmailSender;
 import com.vmanage.entities.VendorEntity;
 import com.vmanage.repository.VendorRepository;
+
 
 @Service
 public class VendorServiceImpl implements VendorService {
 
 	@Autowired
 	private VendorRepository repository;
+	@Autowired
+	private EmailSender emailSender;
 
 	public VendorServiceImpl() {
 		System.out.println("VendorServiceImpl created.");
@@ -60,17 +54,20 @@ public class VendorServiceImpl implements VendorService {
 	}
 
 	@Override
-	public boolean sendMail() {
+	public boolean sendEmail(String email) {
 
-		String portNumber = "587";
-		String hostName = "smtp.gmail.com";
-		String fromEmail = "santosha5856@gmail.com";
+		System.out.println("Sending email.");
+
+		/*String portNumber = "587";
+		String hostName = "smtp.office365.com";
+		String fromEmail = "santosha7022@outlook.com";
 		String password = "Rathod@2001";
-		String to = "santosha.xworkz@gmail.com";
-		String msg = "Welcome to our projct.";
-		String subject = "Account creation.";
+		String to = email;
 
-		Properties prop = System.getProperties();
+		String subject = "Account creation success.";
+		String text = "Congragulations, your account created. Login for more information.";
+
+		Properties prop = new Properties();
 
 		prop.put("mail.smtp.host", hostName);
 		prop.put("mail.smtp.port", portNumber);
@@ -79,7 +76,6 @@ public class VendorServiceImpl implements VendorService {
 		prop.put("mail.smtp.auth", true);
 		prop.put("mail.transport.protocol", "smtp");
 
-		// step 1: creating the session.
 		Session session = Session.getInstance(prop, new Authenticator() {
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -87,25 +83,31 @@ public class VendorServiceImpl implements VendorService {
 			}
 		});
 
-		// step 2: composing the mail.
 		MimeMessage message = new MimeMessage(session);
 		try {
 			message.setFrom(new InternetAddress(fromEmail));
 			message.setSubject(subject);
-			message.setText(msg);
-
-			// step 3: send mail.
+			message.setText(text);
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 			Transport.send(message);
 
 			return true;
-
-		}
-
-		catch (MessagingException e) {
+		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-
+		*/
+		
+		String subject = "Welcome, Your account created.";
+		String text = "Congragulations, your account created. Login for more information.";
+		String from="santosha7022@outlook.com";
+		String to=email;
+		
+		boolean sender = this.emailSender.emailSender(to, from, subject, text);
+		if (sender) {
+			System.out.println("Email sent.");
+			return true;
+		}
 		return false;
 	}
+
 }

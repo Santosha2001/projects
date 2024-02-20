@@ -8,5 +8,5 @@ public interface VendorService {
 
 	String isExistByGstOrNumberOrMailOrSite(String gst, Long number, String email, String website);
 
-	boolean sendMail();
+	boolean sendEmail(String email);
 }

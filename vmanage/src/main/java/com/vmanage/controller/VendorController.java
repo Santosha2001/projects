@@ -52,8 +52,8 @@ public class VendorController {
 			}
 
 			this.service.save(vendorEntity);
+			this.service.sendEmail(vendorEntity.getVendorEmail());
 
-			this.service.sendMail();
 			return "RegisterSuccess";
 		}
 
