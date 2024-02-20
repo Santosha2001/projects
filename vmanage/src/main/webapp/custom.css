@@ -1,0 +1,11 @@
+@charset "ISO-8859-1";
+/* form outer border */
+.border{
+    width: 40vw;
+}
+
+/* form input */
+.form-control{
+    width: 35vw;
+    border-color: rgb(35, 34, 34);
+}

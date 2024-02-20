@@ -22,7 +22,7 @@ public class EmailSender {
 
 	public boolean emailSender(String to, String from, String subject, String text) {
 
-		String portNumber = "587";
+		int portNumber = 587;
 		String hostName = "smtp.office365.com";
 		// String from = "santosha7022@outlook.com";
 		String password = "Rathod@2001";

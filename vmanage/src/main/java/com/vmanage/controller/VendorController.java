@@ -52,7 +52,7 @@ public class VendorController {
 			}
 
 			this.service.save(vendorEntity);
-			this.service.sendEmail(vendorEntity.getVendorEmail());
+			this.service.sendEmail(vendorEntity.getVendorEmail(),vendorEntity.getOwnerName());
 
 			return "RegisterSuccess";
 		}
