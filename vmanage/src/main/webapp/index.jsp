@@ -19,8 +19,8 @@
 
     <body class="style-body">
 
-        <nav class="navbar navbar-expand-lg bg-secondary ">
-            <div class="container-fluid ">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3 sticky-top">
+            <div class="container-fluid">
                 <a class="navbar-brand" href="#">Vendor</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -29,8 +29,26 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="Registration.jsp">Register Here</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Registration.jsp">Register here</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Dropdown
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -39,9 +57,13 @@
         <div class="card mt-5" style="width: 18rem;">
             <img src="vendor.jfif" class="card-img-top" alt="...">
             <div class="card-body">
-              <p class="card-text">"Vendor Management Project" serves as a comprehensive platform designed to streamline and optimize the process of managing vendors for various services within an organization. This project aims to enhance efficiency, transparency, and accountability in vendor-related operations while fostering better communication and collaboration between the organization and its vendors.</p>
+                <p class="card-text">"Vendor Management Project" serves as a comprehensive platform designed to
+                    streamline and optimize the process of managing vendors for various services within an organization.
+                    This project aims to enhance efficiency, transparency, and accountability in vendor-related
+                    operations while fostering better communication and collaboration between the organization and its
+                    vendors.</p>
             </div>
-          </div>
+        </div>
 
         <footer class="bg-dark py-1 mt-5 footer-1">
             <div class="container text-light text-center">
