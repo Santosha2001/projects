@@ -62,7 +62,25 @@ public class VendorRepositoryImpl implements VendorRepository {
 			entityManager.close();
 			System.out.println("EM closed.");
 		}
+		return entity;
+	}
 
+	@Override
+	public VendorEntity findByEmail(String email) {
+		EntityManager entityManager = factory.createEntityManager();
+		System.out.println("EntityManager: " + entityManager);
+		VendorEntity entity = null;
+
+		try {
+			Query query = entityManager.createNamedQuery("findByEmail");
+			query.setParameter("email", email);
+			entity = (VendorEntity) query.getSingleResult();
+		} catch (PersistenceException e) {
+			System.err.println("PersistenceException: " + e.getMessage());
+		} finally {
+			entityManager.close();
+			System.out.println("EntityManager closed.");
+		}
 		return entity;
 	}
 

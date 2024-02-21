@@ -2,6 +2,7 @@ package com.vmanage.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.vmanage.entities.VendorEntity;
@@ -32,6 +35,7 @@ public class VendorController {
 	public String save(@Valid VendorEntity vendorEntity, BindingResult bindingResult, Model model) {
 		System.out.println("VendorEntity has errors: " + bindingResult.hasErrors());
 
+		// for retaining the values in the form
 		model.addAttribute("vendorEntity", vendorEntity);
 
 		if (bindingResult.hasErrors()) {
@@ -52,10 +56,16 @@ public class VendorController {
 			}
 
 			this.service.save(vendorEntity);
-			this.service.sendEmail(vendorEntity.getVendorEmail(),vendorEntity.getOwnerName());
+			this.service.sendEmail(vendorEntity.getVendorEmail(), vendorEntity.getOwnerName());
 
 			return "RegisterSuccess";
 		}
 
 	}
+
+//	@RequestMapping("/validateEmail")
+//	public @ResponseBody String mailAjax(HttpServletRequest request, Model model) {
+//		String email = request.getParameter("vendorEmail");
+//		return this.service.fetchMails(email);
+//	}
 }

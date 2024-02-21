@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @NamedQuery(name = "isExist", query = "SELECT et FROM VendorEntity as et WHERE et.vendorGSTNumber=:gst OR et.contactNumber=:number OR et.vendorEmail=:vMail OR et.website=:vWebsite")
+@NamedQuery(name = "findByEmail", query = "SELECT et FROM VendorEntity et WHERE et.vendorEmail=:email")
 public class VendorEntity {
 
 	@Id

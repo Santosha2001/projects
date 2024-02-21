@@ -1,7 +1,6 @@
 package com.vmanage.service;
 
 import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,4 +69,10 @@ public class VendorServiceImpl implements VendorService {
 		return false;
 	}
 
+	@Override
+	public String fetchMails(String email) {
+		VendorEntity byEmail = this.repository.findByEmail(email);
+
+		return (byEmail == null) ? "Unique" : "Duplicate";
+	}
 }

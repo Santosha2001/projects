@@ -8,4 +8,5 @@ public interface VendorRepository {
 
 	VendorEntity isExistByGstOrNumberOrMailOrSite(String gst, Long number, String email, String website);
 
+	VendorEntity findByEmail(String email);
 }

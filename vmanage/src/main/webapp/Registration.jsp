@@ -17,6 +17,31 @@
                 integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
                 crossorigin="anonymous"></script>
 
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
+                integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" 
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+            <script>
+                $("#vendorEmail").blur(function(){
+                    let enteredMail = $("#vendorEmail").val();
+                    $.ajax({
+                        url : window.location + "/validateEmail",
+                        data : "vendorEmail" + enteredMail,
+                        type : "get",
+                        success : function(result) {
+                            if (result == 'Duplicate') {
+                                $("#emailExistMsg").html("Email already registered.");
+                                $("#vendorEmail").focus();
+                                $("#registerButton").prop("disabled", true);
+                            } else {
+                                $("#emailExistMsg").html("");
+                                $("#registerButton").prop("disabled", false);
+                            }
+                        }
+                    });
+                });
+            </script>
+
             <!-- <link rel="stylesheet" href="custom.css"> -->
             <style>
                 /* form outer border */
@@ -85,47 +110,47 @@
                     <div class="form-group mt-1">
                         <label for="vendorNname">Vendor name</label>
                         <input type="text" class="form-control" id="vendorNname" name="vendorNname"
-                            placeholder="" />
+                            placeholder="" value="${vendorEntity.getVendorNname()}"/>
                     </div>
 
                     <!-- VENDOR LOCATION -->
                     <div class="form-group mt-3">
                         <label for="vendorLocation">Vendor Location</label>
                         <input type="text" class="form-control" id="vendorLocation" name="vendorLocation"
-                            placeholder="" />
+                            placeholder="" value="${vendorEntity.getVendorLocation()}" />
                     </div>
 
                     <!-- GST NUMBER -->
                     <div class="form-group mt-3">
                         <label for="vendorGSTNumber">GST Number</label>
                         <input type="text" class="form-control" id="vendorGSTNumber" name="vendorGSTNumber"
-                            placeholder="" />
+                            placeholder="" value="${vendorEntity.getVendorGSTNumber()}" />
                     </div>
 
                     <!-- COMPANY START DATE -->
                     <div class="form-group mt-3">
                         <label for="companyStartDate">Company Start Date</label>
                         <input type="date" class="form-control" id="companyStartDate" name="companyStartDate"
-                            placeholder="" />
+                            placeholder="" value="${vendorEntity.getCompanyStartDate()}" />
                     </div>
 
                     <!-- OWNER NAME -->
                     <div class="form-group mt-3">
                         <label for="ownerName">Company Owner Name</label>
                         <input type="text" class="form-control" id="ownerName" name="ownerName"
-                            placeholder="" />
+                            placeholder="" value="${vendorEntity.getOwnerName()}" />
                     </div>
 
                     <!-- SERVICE TYPE -->
                     <div class="form-group mt-3">
                         <label for="serviceType">Service Type</label>
                         <select class="form-select form-select-sm form-control" name="serviceType" id="serviceType">
-                            <option selected>Select option</option>
-                            <option value="Water">Water</option>
-                            <option value="Milk">Milk</option>
-                            <option value="Food">Food</option>
-                            <option value="Internet">Internet</option>
-                            <option value="Laptop">Laptop</option>
+                            <option value="">Select option</option>
+                            <option value="Water" <c:if test="${vendorEntity.getServiceType()=='Water'}"> selected="selected"</c:if>>Water</option>
+                            <option value="Milk" <c:if test="${vendorEntity.getServiceType()=='Milk'}"> selected="selected"</c:if>>Milk</option>
+                            <option value="Food" <c:if test="${vendorEntity.getServiceType()=='Food'}"> selected="selected"</c:if>>Food</option>
+                            <option value="Internet" <c:if test="${vendorEntity.getServiceType()=='Internet'}"> selected="selected"</c:if>>Internet</option>
+                            <option value="Laptop" <c:if test="${vendorEntity.getServiceType()=='Laptop'}"> selected="selected"</c:if>>Laptop</option>
                         </select>
                     </div>
 
@@ -133,31 +158,32 @@
                     <div class="form-group mt-3">
                         <label for="contactNumber">Contect Number</label>
                         <input type="number" class="form-control" id="contactNumber" name="contactNumber"
-                            placeholder="" readonly />
+                            placeholder="" value="${vendorEntity.getContactNumber()}" />
                     </div>
 
                     <!-- ALTERNATE NUMBER -->
                     <div class="form-group mt-3">
                         <label for="alternateContactNumber">Alternate Contact Number</label>
                         <input type="number" class="form-control" id="alternateContactNumber"
-                            name="alternateContactNumber" placeholder="" readonly />
+                            name="alternateContactNumber" value="${vendorEntity.getAlternateContactNumber()}" placeholder="" />
                     </div>
 
                     <!-- EMAIL ADDRESS -->
                     <div class="form-group mt-3">
                         <label for="vendorEmail">Email address</label>
                         <input type="email" class="form-control" id="vendorEmail" name="vendorEmail"
-                            placeholder="" />
+                            placeholder="" value="${vendorEntity.getVendorEmail()}" />
                     </div>
+                    <span id="emailExistMsg" style="color: red;"></span>
 
                     <!-- WEBSITE -->
                     <div class="form-group mt-3">
                         <label for="website">Vendor Website</label>
                         <input type="text" class="form-control" id="website" name="website"
-                            placeholder="" />
+                            placeholder="" value="${vendorEntity.getWebsite()}" />
                     </div>
 
-                    <button type="submit" class="btn btn-primary form-control mt-3">Register</button>
+                    <button type="submit" class="btn btn-primary form-control mt-3" id="registerButton">Register</button>
                 </form>
             </div>
 
