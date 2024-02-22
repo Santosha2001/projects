@@ -10,13 +10,4 @@ public interface VendorService {
 
 	boolean sendEmail(String email, String username);
 
-	// EMAIL AJAX
-	String findByMailAjax(String email);
-
-	// GST AJAX
-	String findByGstAjax(String gst);
-
-	// MOBILE NUMBER AJAX
-	String findByMobileAjax(Long mobile);
-
 }

@@ -43,7 +43,6 @@ public class VendorController {
 			return "Registration";
 
 		} else {
-			model.addAttribute("noErrors", "Details saved.");
 
 			String uniqueError = service.isExistByGstOrNumberOrMailOrSite(vendorEntity.getVendorGSTNumber(),
 					vendorEntity.getContactNumber(), vendorEntity.getVendorEmail(), vendorEntity.getWebsite());
@@ -51,9 +50,10 @@ public class VendorController {
 				model.addAttribute("uniqueError", uniqueError);
 				return "Registration";
 			}
-
 			this.service.save(vendorEntity);
 			this.service.sendEmail(vendorEntity.getVendorEmail(), vendorEntity.getOwnerName());
+
+			model.addAttribute("noErrors", "Registered Successfully.");
 
 			return "RegisterSuccess";
 		}

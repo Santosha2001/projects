@@ -18,6 +18,8 @@
                 crossorigin="anonymous"></script>
 
             <!-- <link rel="stylesheet" href="custom.css"> -->
+            <!-- <script src="ajax.js"></script> -->
+
             <style>
                 /* form outer border */
                 .border {
@@ -28,6 +30,12 @@
                 .form-control {
                     width: 35vw;
                     border-color: rgb(35, 34, 34);
+                }
+
+                input::-webkit-outer-spin-button,
+                input::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
                 }
             </style>
 
@@ -79,6 +87,7 @@
                 <h3>${uniqueError}</h3>
             </span>
 
+            
             <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
                 <form action="register" method="post">
                     <!-- VENDOR NAME -->
@@ -101,7 +110,8 @@
                     <div class="form-group mt-3">
                         <label for="vendorGSTNumber">GST Number</label>
                         <input type="text" class="form-control" id="vendorGSTNumber" name="vendorGSTNumber"
-                            placeholder="" value="${vendorEntity.getVendorGSTNumber()}" onblur="gstAjax()"/>
+                            placeholder="" value="${vendorEntity.getVendorGSTNumber()}" 
+                            maxlength="15" onblur="gstAjax()" required />
                     </div>
                     <span id="gstError" style="color: red;"></span>
 
@@ -139,7 +149,9 @@
                     <div class="form-group mt-3">
                         <label for="contactNumber">Contect Number</label>
                         <input type="number" class="form-control" id="contactNumber" name="contactNumber"
-                            placeholder="" value="${vendorEntity.getContactNumber()}" />
+                            value="${vendorEntity.getContactNumber()}" onblur="numberAjax()"
+                            maxlength="10" required />
+                             <!-- [0-9]{3}-[0-9]{3}-[0-9]{4} -->
                     </div>
                     <span id="numberError" style="color: red;"></span>
 
@@ -154,15 +166,15 @@
                     <div class="form-group mt-3">
                         <label for="vendorEmail">Email address</label>
                         <input type="email" class="form-control" id="vendorEmail" name="vendorEmail"
-                            placeholder="" value="${vendorEntity.getVendorEmail()}" onchange="uniqueMail()"/>
+                            value="${vendorEntity.getVendorEmail()}" onchange="uniqueMail()" required />
                     </div>
-                    <span id="emailExistMsg" style="color: red;"></span>
+                    <span id="emailError" style="color: red;"></span>
 
                     <!-- WEBSITE -->
                     <div class="form-group mt-3">
                         <label for="website">Vendor Website</label>
                         <input type="text" class="form-control" id="website" name="website"
-                            placeholder="" value="${vendorEntity.getWebsite()}" />
+                            value="${vendorEntity.getWebsite()}" onchange="websiteAjax()" required />
                     </div>
                     <span id="websiteError" style="color: red;"></span>
 
@@ -183,23 +195,23 @@
                 // email ajax
                 function uniqueMail(){
                     console.log("running uniqueMail");
-                    var gmail = document.getElementById("vendorEmail");
+                    var gmail = document.getElementById("vendorEmail").value;
                     console.log(gmail);
 
-                    if (gmail != null && gmail != "" && gmail.length > 5 && gmail.length < 40) {
+                    if (gmail != null && gmail != "" && gmail.length > 5 && gmail.length < 30) {
                         console.log("email is valid.");
-                        document.getElementById("emailExistMsg").innerHTML = "";
+                        document.getElementById("emailError").innerHTML = "";
 
                         const xhttp = new XMLHttpRequest();
-                        xhttp.open("GET","http://localhost:8080/vmanage/mailAjax/" + gmail);
+                        xhttp.open("GET", "http://localhost:8080/vmanage/emailAjax/" + gmail);
                         xhttp.send();
 
                         xhttp.onload = function() {
-                            document.getElementById("emailExistMsg").innerHTML = this.responseText;
+                            document.getElementById("emailError").innerHTML = this.responseText;
                         }
                     } else {
                         console.log("in-valid email");
-                        document.getElementById("emailExistMsg").innerHTML = "please enter valid email.";
+                        document.getElementById("emailError").innerHTML = "Please enter valid email.";
                     }
                 }
 
@@ -242,7 +254,27 @@
                         }                        
                     } else {
                         console.log("in-valid mobile number.")
-                        document.getElementById("numberError").innerHTML = "Enter valid mobile number.";
+                        document.getElementById("numberError").innerHTML = "Enter valid number.";
+                    }
+                }
+            
+                // website ajax
+                function websiteAjax() {
+                    console.log("running website ajax.")
+                    const site = document.getElementById("website").value;
+                    console.log(site);
+                    if (site.length != null && site.length != "" && site.length > 10 && site.length <30) {
+                        document.getElementById("websiteError").innerHTML = "";
+
+                        const xhttp = new XMLHttpRequest();
+                        xhttp.open("GET", "http://localhost:8080/vmanage/siteAjax/" + site);
+                        xhttp.send();
+                        xhttp.onload = function() {
+                            document.getElementById("websiteError").innerHTML = this.responseText;
+                        }
+                    } else {
+                        console.log("invalid website.")
+                        document.getElementById("websiteError").innerHTML = "website is invalid.";
                     }
                 }
             </script>
