@@ -17,31 +17,6 @@
                 integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
                 crossorigin="anonymous"></script>
 
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
-                integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" 
-                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-            <script>
-                $("#vendorEmail").blur(function(){
-                    let enteredMail = $("#vendorEmail").val();
-                    $.ajax({
-                        url : window.location + "/validateEmail",
-                        data : "vendorEmail" + enteredMail,
-                        type : "get",
-                        success : function(result) {
-                            if (result == 'Duplicate') {
-                                $("#emailExistMsg").html("Email already registered.");
-                                $("#vendorEmail").focus();
-                                $("#registerButton").prop("disabled", true);
-                            } else {
-                                $("#emailExistMsg").html("");
-                                $("#registerButton").prop("disabled", false);
-                            }
-                        }
-                    });
-                });
-            </script>
-
             <!-- <link rel="stylesheet" href="custom.css"> -->
             <style>
                 /* form outer border */
@@ -112,6 +87,7 @@
                         <input type="text" class="form-control" id="vendorNname" name="vendorNname"
                             placeholder="" value="${vendorEntity.getVendorNname()}"/>
                     </div>
+                    <span id="nameError" style="color: red;"></span>
 
                     <!-- VENDOR LOCATION -->
                     <div class="form-group mt-3">
@@ -119,13 +95,15 @@
                         <input type="text" class="form-control" id="vendorLocation" name="vendorLocation"
                             placeholder="" value="${vendorEntity.getVendorLocation()}" />
                     </div>
+                    <span id="locationError" style="color: red;"></span>
 
                     <!-- GST NUMBER -->
                     <div class="form-group mt-3">
                         <label for="vendorGSTNumber">GST Number</label>
                         <input type="text" class="form-control" id="vendorGSTNumber" name="vendorGSTNumber"
-                            placeholder="" value="${vendorEntity.getVendorGSTNumber()}" />
+                            placeholder="" value="${vendorEntity.getVendorGSTNumber()}" onblur="gstAjax()"/>
                     </div>
+                    <span id="gstError" style="color: red;"></span>
 
                     <!-- COMPANY START DATE -->
                     <div class="form-group mt-3">
@@ -133,6 +111,7 @@
                         <input type="date" class="form-control" id="companyStartDate" name="companyStartDate"
                             placeholder="" value="${vendorEntity.getCompanyStartDate()}" />
                     </div>
+                    <span id="startDateError" style="color: red;"></span>
 
                     <!-- OWNER NAME -->
                     <div class="form-group mt-3">
@@ -140,6 +119,7 @@
                         <input type="text" class="form-control" id="ownerName" name="ownerName"
                             placeholder="" value="${vendorEntity.getOwnerName()}" />
                     </div>
+                    <span id="ownerError" style="color: red;"></span>
 
                     <!-- SERVICE TYPE -->
                     <div class="form-group mt-3">
@@ -153,6 +133,7 @@
                             <option value="Laptop" <c:if test="${vendorEntity.getServiceType()=='Laptop'}"> selected="selected"</c:if>>Laptop</option>
                         </select>
                     </div>
+                    <span id="serviceError" style="color: red;"></span>
 
                     <!-- CONTACT NUMBER -->
                     <div class="form-group mt-3">
@@ -160,6 +141,7 @@
                         <input type="number" class="form-control" id="contactNumber" name="contactNumber"
                             placeholder="" value="${vendorEntity.getContactNumber()}" />
                     </div>
+                    <span id="numberError" style="color: red;"></span>
 
                     <!-- ALTERNATE NUMBER -->
                     <div class="form-group mt-3">
@@ -172,7 +154,7 @@
                     <div class="form-group mt-3">
                         <label for="vendorEmail">Email address</label>
                         <input type="email" class="form-control" id="vendorEmail" name="vendorEmail"
-                            placeholder="" value="${vendorEntity.getVendorEmail()}" />
+                            placeholder="" value="${vendorEntity.getVendorEmail()}" onchange="uniqueMail()"/>
                     </div>
                     <span id="emailExistMsg" style="color: red;"></span>
 
@@ -182,6 +164,7 @@
                         <input type="text" class="form-control" id="website" name="website"
                             placeholder="" value="${vendorEntity.getWebsite()}" />
                     </div>
+                    <span id="websiteError" style="color: red;"></span>
 
                     <button type="submit" class="btn btn-primary form-control mt-3" id="registerButton">Register</button>
                 </form>
@@ -194,6 +177,75 @@
                         rights reserved.</small>
                 </div>
             </footer>
+
+            <!-- javascript -->
+            <script>
+                // email ajax
+                function uniqueMail(){
+                    console.log("running uniqueMail");
+                    var gmail = document.getElementById("vendorEmail");
+                    console.log(gmail);
+
+                    if (gmail != null && gmail != "" && gmail.length > 5 && gmail.length < 40) {
+                        console.log("email is valid.");
+                        document.getElementById("emailExistMsg").innerHTML = "";
+
+                        const xhttp = new XMLHttpRequest();
+                        xhttp.open("GET","http://localhost:8080/vmanage/mailAjax/" + gmail);
+                        xhttp.send();
+
+                        xhttp.onload = function() {
+                            document.getElementById("emailExistMsg").innerHTML = this.responseText;
+                        }
+                    } else {
+                        console.log("in-valid email");
+                        document.getElementById("emailExistMsg").innerHTML = "please enter valid email.";
+                    }
+                }
+
+                // gst ajax
+                function gstAjax() {
+                    console.log("runnig gst ajax.");
+                    const gst = document.getElementById("vendorGSTNumber").value;
+                    console.log(gst);
+                    if (gst != null && gst != "" && gst.length == 15) {
+                        console.log(gst)
+                        document.getElementById("gstError").innerHTML = "";
+
+                        const xhttp = new XMLHttpRequest();
+                        xhttp.open("GET","http://localhost:8080/vmanage/gstAjax/" + gst);
+                        xhttp.send();
+
+                        xhttp.onload = function() {
+                            document.getElementById("gstError").innerHTML = this.responseText;
+                        }
+                    } else {
+                        console.log("in-valid gst number.")
+                        document.getElementById("gstError").innerHTML = "Please enter valid gst.";
+                    }
+                }
+
+                // contact number ajax
+                function numberAjax(){
+                    const mobile = document.getElementById("contactNumber").value;
+                    console.log(mobile);
+                    if (mobile != "" && mobile.length == 10) {
+                        console.log(mobile);
+                        document.getElementById("numberError").innerHTML = "";
+
+                        const xhttp = new XMLHttpRequest();
+                        xhttp.open("GET","http://localhost:8080/vmanage/mobileAjax/" + mobile);
+                        xhttp.send();
+
+                        xhttp.onload = function() {
+                            document.getElementById("numberError").innerHTML = this.responseText;
+                        }                        
+                    } else {
+                        console.log("in-valid mobile number.")
+                        document.getElementById("numberError").innerHTML = "Enter valid mobile number.";
+                    }
+                }
+            </script>
         </body>
 
         </html>

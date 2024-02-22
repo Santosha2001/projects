@@ -1,5 +1,7 @@
 package com.vmanage.repository;
 
+import java.util.List;
+
 import com.vmanage.entities.VendorEntity;
 
 public interface VendorRepository {
@@ -8,5 +10,5 @@ public interface VendorRepository {
 
 	VendorEntity isExistByGstOrNumberOrMailOrSite(String gst, Long number, String email, String website);
 
-	VendorEntity findByEmail(String email);
+	List<VendorEntity> findAll();
 }

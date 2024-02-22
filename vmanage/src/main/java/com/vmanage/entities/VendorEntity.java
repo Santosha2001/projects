@@ -9,9 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
@@ -22,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @NamedQuery(name = "isExist", query = "SELECT et FROM VendorEntity as et WHERE et.vendorGSTNumber=:gst OR et.contactNumber=:number OR et.vendorEmail=:vMail OR et.website=:vWebsite")
-@NamedQuery(name = "findByEmail", query = "SELECT et FROM VendorEntity et WHERE et.vendorEmail=:email")
+@NamedQuery(name = "findAll", query = "SELECT et FROM VendorEntity et")
 public class VendorEntity {
 
 	@Id
@@ -41,7 +43,8 @@ public class VendorEntity {
 	private String vendorLocation;
 
 	@NotNull(message = "GST can't be empty")
-	@Size(min = 3, max = 20, message = "GST should be in specified range.")
+	@Size(min = 15, max = 15, message = "GST should 15 characters.")
+	@Pattern(regexp = "^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}$")
 	@Column(name = "v_gst_number")
 	private String vendorGSTNumber;
 
@@ -59,10 +62,14 @@ public class VendorEntity {
 	private String serviceType;
 
 	@NotNull
+	@Pattern(regexp = "^[6-9]\\d{9}$")
+	@Digits(integer = 10, fraction = 0)
 	@Column(name = "v_contact_number")
 	private Long contactNumber;
 
 	@NotNull
+	@Pattern(regexp = "^[6-9]\\d{9}$")
+	@Digits(integer = 10, fraction = 0)
 	@Column(name = "v_alternate_number")
 	private Long alternateContactNumber;
 

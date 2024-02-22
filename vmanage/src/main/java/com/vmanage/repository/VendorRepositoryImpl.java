@@ -1,5 +1,8 @@
 package com.vmanage.repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -66,22 +69,22 @@ public class VendorRepositoryImpl implements VendorRepository {
 	}
 
 	@Override
-	public VendorEntity findByEmail(String email) {
+	public List<VendorEntity> findAll() {
 		EntityManager entityManager = factory.createEntityManager();
 		System.out.println("EntityManager: " + entityManager);
-		VendorEntity entity = null;
+		List<VendorEntity> list = new ArrayList<VendorEntity>();
 
 		try {
-			Query query = entityManager.createNamedQuery("findByEmail");
-			query.setParameter("email", email);
-			entity = (VendorEntity) query.getSingleResult();
+			Query query = entityManager.createNamedQuery("findAll");
+			list = query.getResultList();
 		} catch (PersistenceException e) {
 			System.err.println("PersistenceException: " + e.getMessage());
 		} finally {
 			entityManager.close();
-			System.out.println("EntityManager closed.");
+			System.out.println("EntityManager closaed.");
 		}
-		return entity;
+
+		return list;
 	}
 
 }

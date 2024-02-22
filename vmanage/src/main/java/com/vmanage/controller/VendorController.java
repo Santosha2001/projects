@@ -2,7 +2,6 @@ package com.vmanage.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.vmanage.entities.VendorEntity;
@@ -63,9 +60,4 @@ public class VendorController {
 
 	}
 
-//	@RequestMapping("/validateEmail")
-//	public @ResponseBody String mailAjax(HttpServletRequest request, Model model) {
-//		String email = request.getParameter("vendorEmail");
-//		return this.service.fetchMails(email);
-//	}
 }

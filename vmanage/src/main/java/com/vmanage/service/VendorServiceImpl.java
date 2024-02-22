@@ -1,6 +1,8 @@
 package com.vmanage.service;
 
 import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,10 +71,59 @@ public class VendorServiceImpl implements VendorService {
 		return false;
 	}
 
-	@Override
-	public String fetchMails(String email) {
-		VendorEntity byEmail = this.repository.findByEmail(email);
+	boolean exist = false;
 
-		return (byEmail == null) ? "Unique" : "Duplicate";
+	@Override
+	public String findByMailAjax(String email) {
+		List<VendorEntity> byEmail = this.repository.findAll();
+		for (VendorEntity vendorEntity : byEmail) {
+			System.out.println(vendorEntity.getVendorEmail() + " mail from ajax request--> " + email);
+//			if (!vendorEntity.getVendorEmail().equalsIgnoreCase(email)) {
+//				System.out.println("email does not exist, you use it.");
+//			} else {
+//				return "email already exist";
+//			}
+			if (vendorEntity.getVendorEmail().equalsIgnoreCase(email)) {
+				exist = true;
+				System.out.println("EMAIL--> " + exist);
+				return "mail already exist.";
+			} else {
+				System.out.println("mail not exist");
+			}
+		}
+		return null;
 	}
+
+	@Override
+	public String findByGstAjax(String gst) {
+
+		List<VendorEntity> list = this.repository.findAll();
+
+		for (VendorEntity vendorEntity : list) {
+			System.out.println(vendorEntity.getVendorGSTNumber() + " " + gst);
+			if (vendorEntity.getVendorGSTNumber().equalsIgnoreCase(gst)) {
+				return "GST already exist";
+			} else {
+				System.out.println("gst not found.");
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String findByMobileAjax(Long mobile) {
+
+		List<VendorEntity> list = this.repository.findAll();
+
+		for (VendorEntity vendorEntity : list) {
+			System.out.println(vendorEntity.getContactNumber() + " " + mobile);
+			if (vendorEntity.getContactNumber().equals(mobile)) {
+				return "Contact number exist";
+			} else {
+				System.out.println("contact not found.");
+			}
+		}
+		return null;
+	}
+
 }
