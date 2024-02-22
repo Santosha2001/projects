@@ -8,6 +8,7 @@
 	<name>Vendor Management Project</name>
 
 	<properties>
+		<spring.core.version>5.2.3.RELEASE</spring.core.version>
 		<spring.webmvc.version>5.3.24</spring.webmvc.version>
 		<spring.contex.version>5.2.3.RELEASE</spring.contex.version>
 		<lombok.version>1.18.30</lombok.version>
@@ -22,7 +23,11 @@
 
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
-		
+		<!--<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.core.version}</version>
+		</dependency>-->
 
 		<!--https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
 		<dependency>
