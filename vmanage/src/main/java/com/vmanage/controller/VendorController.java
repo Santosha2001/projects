@@ -55,7 +55,7 @@ public class VendorController {
 
 			model.addAttribute("noErrors", "Registered Successfully.");
 
-			return "login";
+			return "RegisterSuccess";
 		}
 
 	}
