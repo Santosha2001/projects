@@ -25,9 +25,11 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 		List<VendorEntity> list = this.repository.findAll();
 
 		for (VendorEntity vendorEntity : list) {
-			System.out.println(vendorEntity.getVendorGSTNumber() + " " + gst);
+			System.out.println(vendorEntity.getVendorGSTNumber() + "  " + gst);
 			if (vendorEntity.getVendorGSTNumber().equalsIgnoreCase(gst)) {
-				return "GST already exist";
+				System.out.println(("equal."));
+
+				return "GST exist";
 			} else {
 				System.out.println("gst not found.");
 			}
@@ -42,8 +44,10 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 		List<VendorEntity> list = this.repository.findAll();
 
 		for (VendorEntity vendorEntity : list) {
-			System.out.println(vendorEntity.getContactNumber() + " " + mobile);
+			System.out.println(vendorEntity.getContactNumber() + "  " + mobile);
 			if (vendorEntity.getContactNumber().equals(mobile)) {
+				System.out.println(("equal."));
+
 				return "Contact number exist";
 			} else {
 				System.out.println("contact not found.");
@@ -57,9 +61,15 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 	public String findByEmail(String email) {
 		List<VendorEntity> list = this.repository.findAll();
 		for (VendorEntity vendorEntity : list) {
-			System.out.println(vendorEntity.getVendorEmail() + " " + email);
+			System.out.println(vendorEntity.getVendorEmail() + "  " + email);
 
-			return (vendorEntity.getVendorEmail().equalsIgnoreCase(email)) ? "Email exist." : "";
+			if (vendorEntity.getVendorEmail().equalsIgnoreCase(email)) {
+				System.out.println(("equal."));
+
+				return "Email exist.";
+			} else {
+				System.out.println("Email not exist.");
+			}
 		}
 		return null;
 	}
@@ -69,9 +79,16 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 	public String findByWebsiteAjax(String website) {
 		List<VendorEntity> list = this.repository.findAll();
 		for (VendorEntity vendorEntity : list) {
-			System.out.println(vendorEntity.getWebsite() + " " + website);
+			System.out.println(vendorEntity.getWebsite() + "  " + website);
 
-			return (vendorEntity.getWebsite().equalsIgnoreCase(website)) ? "website already registered." : "";
+			if (vendorEntity.getWebsite().equalsIgnoreCase(website)) {
+				System.out.println(("equal."));
+				return "Website exist.";
+			} else {
+				System.out.println("Website not exist.");
+			}
+			// return (vendorEntity.getWebsite().equalsIgnoreCase(website)) ? "website
+			// already registered." : "";
 		}
 		return null;
 	}

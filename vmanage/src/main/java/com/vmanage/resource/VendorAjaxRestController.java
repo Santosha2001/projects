@@ -37,14 +37,14 @@ public class VendorAjaxRestController {
 		return byMobileAjax;
 	}
 
-	@GetMapping(value = "/emailAjax/{email}")
+	@GetMapping(value = "/emailAjax/{email:.+}")
 	public String emailAjax(@PathVariable String email) {
 		String byEmail = this.ajaxService.findByEmail(email);
 		System.out.println("Email ajax: " + email);
 		return byEmail;
 	}
 
-	@GetMapping(value = "/siteAjax/{website}")
+	@GetMapping(value = "/siteAjax/{website:.+}")
 	public String websiteAjax(@PathVariable String website) {
 		String byWebsiteAjax = this.ajaxService.findByWebsiteAjax(website);
 		System.out.println("website ajax: " + website);

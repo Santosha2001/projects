@@ -25,7 +25,7 @@ public class EmailSender {
 		int portNumber = 587;
 		String hostName = "smtp.office365.com";
 		// String from = "santosha7022@outlook.com";
-		String password = "Rathod@2001";
+		String password = "Santhu@2001";
 
 		// 1. SETTING SMTP PROPERTIES
 		Properties prop = new Properties();
