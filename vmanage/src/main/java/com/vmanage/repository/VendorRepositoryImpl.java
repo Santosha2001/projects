@@ -24,7 +24,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 	}
 
 	@Override
-	public void saveRepo(VendorEntity vendorEntity) {
+	public void save(VendorEntity vendorEntity) {
 		System.out.println(vendorEntity + "\n");
 
 		EntityManager entityManager = factory.createEntityManager();
@@ -38,10 +38,12 @@ public class VendorRepositoryImpl implements VendorRepository {
 		} catch (PersistenceException e) {
 			System.err.println("PersistenceException: " + e.getMessage());
 			transaction.rollback();
+
 		} finally {
 			entityManager.close();
 			System.out.println("EntityManager closed.");
 		}
+
 	}
 
 	@Override
@@ -59,8 +61,10 @@ public class VendorRepositoryImpl implements VendorRepository {
 			entity = (VendorEntity) query.getSingleResult();
 
 		} catch (PersistenceException e) {
-			System.err.println("PersistenceException: " + e.getMessage());
-
+			if (entity == null) {
+				return null;
+			}
+			System.err.println("PersistenceException in exist: " + e.getMessage());
 		} finally {
 			entityManager.close();
 			System.out.println("EM closed.");

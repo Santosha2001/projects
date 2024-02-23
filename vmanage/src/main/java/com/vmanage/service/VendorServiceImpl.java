@@ -27,7 +27,7 @@ public class VendorServiceImpl implements VendorService {
 		entity.setCreatedBy(entity.getOwnerName());
 		entity.setCreatedDate(LocalDate.now());
 
-		this.repository.saveRepo(entity);
+		this.repository.save(entity);
 		return entity;
 	}
 
