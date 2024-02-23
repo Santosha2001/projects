@@ -13,7 +13,6 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
@@ -25,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @NamedQuery(name = "isExist", query = "SELECT et FROM VendorEntity as et WHERE et.vendorGSTNumber=:gst OR et.contactNumber=:number OR et.vendorEmail=:vMail OR et.website=:vWebsite")
 @NamedQuery(name = "findAll", query = "SELECT et FROM VendorEntity et")
+//@NamedQuery(name = "updateOtpByEmail", query = "UPDATE VendorEntity et SET et.otp=:otp WHERE et.vendorEmail=:mail")
 public class VendorEntity {
 
 	@Id
@@ -44,7 +44,7 @@ public class VendorEntity {
 
 	@NotNull(message = "GST can't be empty")
 	@Size(min = 15, max = 15, message = "GST should 15 characters.")
-	//@Pattern(regexp = "^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}$")
+	// @Pattern(regexp = "^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}$")
 	@Column(name = "v_gst_number")
 	private String vendorGSTNumber;
 
@@ -62,13 +62,13 @@ public class VendorEntity {
 	private String serviceType;
 
 	@NotNull
-	//@Pattern(regexp = "^[6-9]\\d{9}$")
+	// @Pattern(regexp = "^[6-9]\\d{9}$")
 	@Digits(integer = 10, fraction = 0)
 	@Column(name = "v_contact_number")
 	private Long contactNumber;
 
 	@NotNull
-	//@Pattern(regexp = "^[6-9]\\d{9}$")
+	// @Pattern(regexp = "^[6-9]\\d{9}$")
 	@Digits(integer = 10, fraction = 0)
 	@Column(name = "v_alternate_number")
 	private Long alternateContactNumber;
@@ -94,4 +94,7 @@ public class VendorEntity {
 
 	@Column(name = "v_updated_date")
 	private LocalDate updatedDate;
+
+//	@Column(name = "v_otp")
+//	private int otp;
 }

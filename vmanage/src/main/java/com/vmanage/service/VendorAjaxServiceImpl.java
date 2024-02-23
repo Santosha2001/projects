@@ -87,8 +87,6 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 			} else {
 				System.out.println("Website not exist.");
 			}
-			// return (vendorEntity.getWebsite().equalsIgnoreCase(website)) ? "website
-			// already registered." : "";
 		}
 		return null;
 	}

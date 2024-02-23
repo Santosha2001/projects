@@ -53,9 +53,9 @@ public class VendorController {
 			this.service.save(vendorEntity);
 			this.service.sendEmail(vendorEntity.getVendorEmail(), vendorEntity.getOwnerName());
 
-			model.addAttribute("noErrors", "Registered Successfully.");
+			model.addAttribute("noErrors", "Registered successfully. Please Login.");
 
-			return "RegisterSuccess";
+			return "Registration";
 		}
 
 	}

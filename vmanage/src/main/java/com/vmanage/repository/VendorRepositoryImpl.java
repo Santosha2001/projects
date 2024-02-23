@@ -90,5 +90,32 @@ public class VendorRepositoryImpl implements VendorRepository {
 
 		return list;
 	}
+	
+	/*
+	@Override
+	public void updateOtpByEmail(int otp, String email) {
+
+		EntityManager entityManager = factory.createEntityManager();
+		System.out.println("EntityManager: " + entityManager);
+		EntityTransaction transaction = entityManager.getTransaction();
+		System.out.println("EntityTransaction: " + transaction);
+
+		try {
+			Query query = entityManager.createNamedQuery("updateOtpByEmail");
+			query.setParameter("otp", otp);
+			query.setParameter("mail", email);
+			query.executeUpdate();
+			transaction.commit();
+			System.out.println("Transaction committed.");
+		} catch (PersistenceException e) {
+			System.err.println("PersistenceException: " + e.getMessage());
+			transaction.rollback();
+		} finally {
+			entityManager.close();
+			System.out.println("EntityManager closaed.");
+		}
+
+	}
+	*/
 
 }

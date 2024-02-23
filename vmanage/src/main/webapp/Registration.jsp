@@ -42,7 +42,6 @@
         </head>
 
         <body>
-
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3 sticky-top">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">Vendor</a>
@@ -58,6 +57,9 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Register here</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="login.jsp">Log In</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -87,7 +89,8 @@
                 <h3>${uniqueError}</h3>
             </span>
 
-            
+            <span style="justify-content: center; color: green;">${noErrors}</span>
+
             <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
                 <form action="register" method="post">
                     <!-- VENDOR NAME -->

@@ -38,7 +38,7 @@
 			</div>
 		</nav>
 
-        <h3>${noErrors}</h3>
+        <!-- <h3>${noErrors}</h3> -->
 
 		<footer class="bg-dark py-1 mt-5 footer-1">
 			<div class="container text-light text-center">

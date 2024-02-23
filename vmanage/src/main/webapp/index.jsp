@@ -38,6 +38,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="Registration.jsp">Register here</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.jsp">Log In</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">

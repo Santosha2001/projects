@@ -11,4 +11,6 @@ public interface VendorRepository {
 	VendorEntity isExistByGstOrNumberOrMailOrSite(String gst, Long number, String email, String website);
 
 	List<VendorEntity> findAll();
+
+//	void updateOtpByEmail(int otp, String email);
 }

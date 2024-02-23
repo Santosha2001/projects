@@ -53,6 +53,7 @@ public class VendorServiceImpl implements VendorService {
 		return null;
 	}
 
+	
 	@Override
 	public boolean sendEmail(String email, String username) {
 		System.out.println("Sending email.");
@@ -69,5 +70,6 @@ public class VendorServiceImpl implements VendorService {
 		}
 		return false;
 	}
+	
 
 }
