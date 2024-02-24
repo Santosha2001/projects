@@ -97,7 +97,8 @@
                     <div class="form-group mt-1">
                         <label for="vendorNname">Vendor name</label>
                         <input type="text" class="form-control" id="vendorNname" name="vendorNname"
-                            value="${vendorEntity.getVendorNname()}" maxlength="20" onchange="validateName()"/>
+                            value="${vendorEntity.getVendorNname()}" maxlength="20" 
+                            onchange="validateName()" required />
                     </div>
                     <span id="nameError" style="color: red;"></span>
 
@@ -105,7 +106,8 @@
                     <div class="form-group mt-3">
                         <label for="vendorLocation">Vendor Location</label>
                         <input type="text" class="form-control" id="vendorLocation" name="vendorLocation"
-                            placeholder="" value="${vendorEntity.getVendorLocation()}" />
+                            value="${vendorEntity.getVendorLocation()}" maxlength="20" 
+                            onchange="validateLocation()" required />
                     </div>
                     <span id="locationError" style="color: red;"></span>
 
@@ -196,28 +198,129 @@
             <!-- javascript -->
             <script>
 
-                //name validate
+                // name validate
                 function validateName() {
                     let name = document.getElementById("vendorNname").value;
                     let btn = document.getElementById("registerButton");
 
                     if (name == null || name == "") {
                         document.getElementById("nameError").innerHTML = "*name can't be blank.";
-                        btn.removeAttribute("disabled");
+                        btn.setAttribute("disabled", "");
                     } else if(name.includes('  ')) {
                         document.getElementById("nameError").innerHTML = "*name can't be empty.";
-                        btn.removeAttribute("disabled");
+                        btn.setAttribute("disabled", "");
                     } else if (name.match(/[0-9]/)) {
                         document.getElementById("nameError").innerHTML = "*name should be in characters.";
-                        btn.removeAttribute("disabled");
-                    } else if (name.length < 3 || name.length >= 20) {
+                        btn.setAttribute("disabled", "");
+                    } else if (name.length < 3 || name.length > 20) {
                         document.getElementById("nameError").innerHTML = "*name should be in 3-20 range.";
-                        btn.removeAttribute("disabled");
+                        btn.setAttribute("disabled", "");
                     } else {
                         document.getElementById("nameError").innerHTML = "";
-                        btn.removeAttribute("disabled", "");
+                        btn.removeAttribute("disabled");
                     }
                 }
+
+                
+                // location validate
+                function validateLocation() {
+                    const location = document.getElementById("vendorLocation").value;
+                    const btn = document.getElementById("registerButton");
+
+                    if (location == null || location == "") {
+                        document.getElementById("locationError").innerHTML = "*location can't be blank.";
+                        btn.setAttribute("disabled", "");
+                    } else if(location.includes('  ')) {
+                        document.getElementById("locationError").innerHTML = "*location can't be empty.";
+                        btn.setAttribute("disabled", "");
+                    } else if (location.match(/[0-9]/)) {
+                        document.getElementById("locationError").innerHTML = "*location should be in characters.";
+                        btn.setAttribute("disabled", "");
+                    } else if (location.length < 3 || location.length > 20) {
+                        document.getElementById("locationError").innerHTML = "*location should be in 3-20 range.";
+                        btn.setAttribute("disabled", "");
+                    } else {
+                        document.getElementById("locationError").innerHTML = "";
+                        btn.removeAttribute("disabled");
+                    }
+                }
+
+
+                // gst validation with ajax
+                function gstAjax() {
+                    console.log("runnig gst ajax.");
+                    const gst = document.getElementById("vendorGSTNumber").value;
+                    const btn = document.getElementById("registerButton");
+                    console.log(gst);
+
+                    const gstRegex = /^(\d{2})([A-Z]{5})(\d{4})([A-Z]{1})([A-Z\d]{1})([A-Z\d]{1})$/;
+
+                    if (gst != null && gst != "" && gst.length == 15) {
+                        console.log(gst)
+                        document.getElementById("gstError").innerHTML = "";
+
+                        const xhttp = new XMLHttpRequest();
+                        xhttp.open("GET","http://localhost:8080/vmanage/gstAjax/" + gst);
+                        xhttp.send();
+
+                        xhttp.onload = function() {
+                            document.getElementById("gstError").innerHTML = this.responseText;
+                        }
+
+                        document.getElementById("gstError").innerHTML = "";
+                        btn.removeAttribute("disabled");
+                    } else if (gst == null || gst == "") {
+                        document.getElementById("gstError").innerHTML = "gst can't be blank.";
+                        btn.setAttribute("disabled", "");
+                    } else if (gst.includes('  ')) {
+                        document.getElementById("gstError").innerHTML = "gst can't be empty.";
+                        btn.setAttribute("disabled", "");
+                    } else if (gst.length < 15 || gst.length > 15) {
+                        document.getElementById("gstError").innerHTML = "gst should be 15 characters.";
+                        btn.setAttribute("disabled", "");
+                    } else if (!gst.test(gstRegex)) {
+                        document.getElementById("gstError").innerHTML = "gst should be in proper format.";
+                        btn.setAttribute("disabled", "");
+                    }
+                    // else {
+                    //     console.log("in-valid gst number.")
+                    //     document.getElementById("gstError").innerHTML = "Please enter valid gst.";
+                    //     btn.setAttribute("disabled", "");
+                    // }
+                }
+                
+                /*
+                function gstAjax() {
+                    console.log("runnig gst ajax.");
+                    const gst = document.getElementById("vendorGSTNumber").value;
+                    const btn = document/getElementById("registerButton");
+
+                    console.log(gst);
+                    if (gst == null || gst == "") {
+                        document.getElementById("gstError").innerHTML = "*gst can't be blank";
+                        btn.setAttribute("disabled", "");
+                    } else if (gst.includes('  ')) {
+                        console.log("in-valid gst number.")
+                        document.getElementById("gstError").innerHTML = "*gst can't be blank.";
+                        btn.setAttribute("disabled", "");
+                    } else if (gst.length != 15) {
+                        document.getElementById("gstError").innerHTML = "*gst should be 15 characters.";
+                        btn.setAttribute("disabled", "");
+                    } else {
+                        const xhttp = new XMLHttpRequest();
+                        xhttp.open("GET","http://localhost:8080/vmanage/gstAjax/" + gst);
+                        xhttp.send();
+
+                        xhttp.onload = function() {
+                            document.getElementById("gstError").innerHTML = this.responseText;
+                        }
+
+                        document.getElementById("gstError").innerHTML = "";
+                        btn.removeAttribute("disabled");
+                    }
+                }
+                */
+
 
                 // email ajax
                 function uniqueMail(){
@@ -242,27 +345,7 @@
                     }
                 }
 
-                // gst ajax
-                function gstAjax() {
-                    console.log("runnig gst ajax.");
-                    const gst = document.getElementById("vendorGSTNumber").value;
-                    console.log(gst);
-                    if (gst != null && gst != "" && gst.length == 15) {
-                        console.log(gst)
-                        document.getElementById("gstError").innerHTML = "";
-
-                        const xhttp = new XMLHttpRequest();
-                        xhttp.open("GET","http://localhost:8080/vmanage/gstAjax/" + gst);
-                        xhttp.send();
-
-                        xhttp.onload = function() {
-                            document.getElementById("gstError").innerHTML = this.responseText;
-                        }
-                    } else {
-                        console.log("in-valid gst number.")
-                        document.getElementById("gstError").innerHTML = "Please enter valid gst.";
-                    }
-                }
+                
 
                 // contact number ajax
                 function numberAjax(){
