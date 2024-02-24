@@ -132,7 +132,8 @@
                     <div class="form-group mt-3">
                         <label for="ownerName">Company Owner Name</label>
                         <input type="text" class="form-control" id="ownerName" name="ownerName"
-                            placeholder="" value="${vendorEntity.getOwnerName()}" />
+                            value="${vendorEntity.getOwnerName()}" maxlength="20" 
+                            onchange="validateOwnerName()" required />
                     </div>
                     <span id="ownerError" style="color: red;"></span>
 
@@ -154,8 +155,7 @@
                     <div class="form-group mt-3">
                         <label for="contactNumber">Contect Number</label>
                         <input type="number" class="form-control" id="contactNumber" name="contactNumber"
-                            value="${vendorEntity.getContactNumber()}" onblur="numberAjax()"
-                            maxlength="10" required />
+                            value="${vendorEntity.getContactNumber()}" onblur="numberAjax()" />
                              <!-- [0-9]{3}-[0-9]{3}-[0-9]{4} -->
                     </div>
                     <span id="numberError" style="color: red;"></span>
@@ -164,14 +164,15 @@
                     <div class="form-group mt-3">
                         <label for="alternateContactNumber">Alternate Contact Number</label>
                         <input type="number" class="form-control" id="alternateContactNumber"
-                            name="alternateContactNumber" value="${vendorEntity.getAlternateContactNumber()}" placeholder="" />
+                            name="alternateContactNumber" value="${vendorEntity.getAlternateContactNumber()}" />
                     </div>
 
                     <!-- EMAIL ADDRESS -->
                     <div class="form-group mt-3">
                         <label for="vendorEmail">Email address</label>
                         <input type="email" class="form-control" id="vendorEmail" name="vendorEmail"
-                            value="${vendorEntity.getVendorEmail()}" onchange="uniqueMail()" required />
+                            value="${vendorEntity.getVendorEmail()}" onchange="uniqueMail()"
+                            maxlength="30" minlength="5" required />
                     </div>
                     <span id="emailError" style="color: red;"></span>
 
@@ -278,15 +279,10 @@
                     } else if (gst.length < 15 || gst.length > 15) {
                         document.getElementById("gstError").innerHTML = "gst should be 15 characters.";
                         btn.setAttribute("disabled", "");
-                    } else if (!gst.test(gstRegex)) {
+                    } else if (!gstRegex.test(gst)) {
                         document.getElementById("gstError").innerHTML = "gst should be in proper format.";
                         btn.setAttribute("disabled", "");
                     }
-                    // else {
-                    //     console.log("in-valid gst number.")
-                    //     document.getElementById("gstError").innerHTML = "Please enter valid gst.";
-                    //     btn.setAttribute("disabled", "");
-                    // }
                 }
                 
                 /*
@@ -322,11 +318,70 @@
                 */
 
 
+                // owner name validate
+                function validateOwnerName() {
+                    let owner = document.getElementById("ownerName").value;
+                    let btn = document.getElementById("registerButton");
+
+                    if (owner == null || owner == "") {
+                        document.getElementById("ownerError").innerHTML = "*owner name can't be blank.";
+                        btn.setAttribute("disabled", "");
+                    } else if(owner.includes('  ')) {
+                        document.getElementById("ownerError").innerHTML = "*owner name can't be empty.";
+                        btn.setAttribute("disabled", "");
+                    } else if (owner.match(/[0-9]/)) {
+                        document.getElementById("ownerError").innerHTML = "*owner name should be in characters.";
+                        btn.setAttribute("disabled", "");
+                    } else if (owner.length < 3 || owner.length > 20) {
+                        document.getElementById("ownerError").innerHTML = "*owner name should be in 3-20 range.";
+                        btn.setAttribute("disabled", "");
+                    } else {
+                        document.getElementById("ownerError").innerHTML = "";
+                        btn.removeAttribute("disabled");
+                    }
+                }
+
+
+                // contact number validation ajax
+                function numberAjax(){
+                    const mobile = document.getElementById("contactNumber").value;
+                    const btn = document.getElementById("registerButton");
+                    var mobileNumberRegex = /^[6-9]{1}[0-9]{9}$/;
+
+                    if (mobile != "" && mobile.length == 10) {
+                        console.log(mobile);
+                        document.getElementById("numberError").innerHTML = "";
+
+                        const xhttp = new XMLHttpRequest();
+                        xhttp.open("GET","http://localhost:8080/vmanage/mobileAjax/" + mobile);
+                        xhttp.send();
+
+                        xhttp.onload = function() {
+                            document.getElementById("numberError").innerHTML = this.responseText;
+                        }
+                        btn.removeAttribute("disabled");
+                    } else if (mobile == null || mobile == "") {
+                        document.getElementById("numberError").innerHTML = "*number can't blank.";
+                        btn.setAttribute("disabled", "");
+                    } else if (mobile.includes('  ')) {
+                        document.getElementById("numberError").innerHTML = "*number can't empty.";
+                        btn.setAttribute("disabled", "");
+                    } else if (mobile.length < 10 || mobile.length > 10) {
+                        document.getElementById("numberError").innerHTML = "*number should be 10 numbers.";
+                        btn.setAttribute("disabled", "");
+                    }
+                    else if (!mobileNumberRegex.test(mobile)) {
+                        document.getElementById("numberError").innerHTML = "*number should in format.";
+                        btn.setAttribute("disabled", "");
+                    }
+                }
+
+
                 // email ajax
                 function uniqueMail(){
-                    console.log("running uniqueMail");
                     var gmail = document.getElementById("vendorEmail").value;
-                    console.log(gmail);
+                    const btn = document.getElementById("registerButton");
+                    const regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 
                     if (gmail != null && gmail != "" && gmail.length > 5 && gmail.length < 30) {
                         console.log("email is valid.");
@@ -339,34 +394,25 @@
                         xhttp.onload = function() {
                             document.getElementById("emailError").innerHTML = this.responseText;
                         }
-                    } else {
-                        console.log("in-valid email");
-                        document.getElementById("emailError").innerHTML = "Please enter valid email.";
+
+                        document.getElementById("emailError").innerHTML = "";                        
+                        btn.removeAttribute("disabled");
+
+                    } else if(gmail == null || gmail == "" || gmail.includes("  ")) {
+                        document.getElementById("emailError").innerHTML = "*email can't be blank.";
+                        btn.setAttribute("disabled", "");
+                    }  else if (gmail.length < 5 || gmail.length > 30) {
+                        document.getElementById("emailError").innerHTML = "*email should be in 5-30 character.";
+                        btn.setAttribute("disabled", "");
+                    } else if (!regex.test(gmail)){
+                        document.getElementById("emailError").innerHTML = "*email should be in format.";
+                        btn.setAttribute("disabled", "");
                     }
                 }
 
                 
 
-                // contact number ajax
-                function numberAjax(){
-                    const mobile = document.getElementById("contactNumber").value;
-                    console.log(mobile);
-                    if (mobile != "" && mobile.length == 10) {
-                        console.log(mobile);
-                        document.getElementById("numberError").innerHTML = "";
-
-                        const xhttp = new XMLHttpRequest();
-                        xhttp.open("GET","http://localhost:8080/vmanage/mobileAjax/" + mobile);
-                        xhttp.send();
-
-                        xhttp.onload = function() {
-                            document.getElementById("numberError").innerHTML = this.responseText;
-                        }                        
-                    } else {
-                        console.log("in-valid mobile number.")
-                        document.getElementById("numberError").innerHTML = "Enter valid number.";
-                    }
-                }
+                
             
                 // website ajax
                 function websiteAjax() {
