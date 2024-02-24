@@ -98,7 +98,7 @@
                         <label for="vendorNname">Vendor name</label>
                         <input type="text" class="form-control" id="vendorNname" name="vendorNname"
                             value="${vendorEntity.getVendorNname()}" maxlength="20" 
-                            onchange="validateName()" required />
+                            onclick="validateName()" required />
                     </div>
                     <span id="nameError" style="color: red;"></span>
 
@@ -107,7 +107,7 @@
                         <label for="vendorLocation">Vendor Location</label>
                         <input type="text" class="form-control" id="vendorLocation" name="vendorLocation"
                             value="${vendorEntity.getVendorLocation()}" maxlength="20" 
-                            onchange="validateLocation()" required />
+                            onclick="validateLocation()" required />
                     </div>
                     <span id="locationError" style="color: red;"></span>
 
@@ -133,14 +133,15 @@
                         <label for="ownerName">Company Owner Name</label>
                         <input type="text" class="form-control" id="ownerName" name="ownerName"
                             value="${vendorEntity.getOwnerName()}" maxlength="20" 
-                            onchange="validateOwnerName()" required />
+                            onclick="validateOwnerName()" required />
                     </div>
                     <span id="ownerError" style="color: red;"></span>
 
                     <!-- SERVICE TYPE -->
                     <div class="form-group mt-3">
                         <label for="serviceType">Service Type</label>
-                        <select class="form-select form-select-sm form-control" name="serviceType" id="serviceType">
+                        <select class="form-select form-select-sm form-control" name="serviceType" 
+                                id="serviceType" onclick="validateType()" required>
                             <option value="">Select option</option>
                             <option value="Water" <c:if test="${vendorEntity.getServiceType()=='Water'}"> selected="selected"</c:if>>Water</option>
                             <option value="Milk" <c:if test="${vendorEntity.getServiceType()=='Milk'}"> selected="selected"</c:if>>Milk</option>
@@ -337,6 +338,21 @@
                         btn.setAttribute("disabled", "");
                     } else {
                         document.getElementById("ownerError").innerHTML = "";
+                        btn.removeAttribute("disabled");
+                    }
+                }
+
+
+                // service type validation
+                function validateType() {
+                    const serviceType = document.getElementById("serviceType");
+                    let btn = document.getElementById("registerButton");
+
+                    if (serviceType.selectedIndex === 0) {
+                        document.getElementById("serviceError").innerHTML = "*select a type.";
+                        btn.setAttribute("disabled", "");
+                    } else {
+                        document.getElementById("serviceError").innerHTML = "";
                         btn.removeAttribute("disabled");
                     }
                 }
