@@ -82,9 +82,9 @@
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
             <form action="signin" method="post">
 
-                <h2 style="text-align: center; color: rgb(42, 43, 43); font-style: italic;">Log In</h2>
+                <h2 style="text-align: center; color: #29b03e; font-style: italic;">LOG IN</h2>
                 <!-- EMAIL ADDRESS FOR LOG IN-->
-                <div class="form-group mt-4">
+                <div class="form-group mt-5">
                     <input type="email" class="form-control" id="vendorEmail" name="vendorEmail"
                         placeholder="Email address" value="${entity.getVendorEmail()}" onchange="loginMail()"
                         required />
@@ -100,11 +100,20 @@
 
                 <!-- <button type="submit" class="btn btn-primary form-control mt-3" id="registerButton">Register</button> -->
 
-                <button type="button" class="btn btn-primary btn-sm mt-4">Generate OTP</button>
-                <button type="button" class="btn btn-secondary btn-sm mt-4">Log In</button>
+                <button type="button" class="btn btn-primary btn-sm mt-4 mb-2">Generate OTP</button>
+                <button type="button" class="btn btn-secondary btn-sm mt-4 mb-2">Log In</button>
 
             </form>
         </div>
+
+        <!-- footer -->
+        <footer class="bg-dark py-1 mt-5 footer-1 fixed-bottom">
+            <div class="container text-light text-center">
+                <p class="display-5 mb-3">Vendor Management</p>
+                <small class="text-white-50">&copy; Copyright by X-Workz. All
+                    rights reserved.</small>
+            </div>
+        </footer>
 
         <script>
             function loginMail() {
