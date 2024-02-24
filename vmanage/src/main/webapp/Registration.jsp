@@ -97,7 +97,7 @@
                     <div class="form-group mt-1">
                         <label for="vendorNname">Vendor name</label>
                         <input type="text" class="form-control" id="vendorNname" name="vendorNname"
-                            placeholder="" value="${vendorEntity.getVendorNname()}"/>
+                            placeholder="" value="${vendorEntity.getVendorNname()}" onchange="validateName()"/>
                     </div>
                     <span id="nameError" style="color: red;"></span>
 
@@ -195,6 +195,28 @@
 
             <!-- javascript -->
             <script>
+
+                //name validate
+                function validateName() {
+                    let name = document.getElementById("vendorNname").value;
+                    let btn = document.getElementById("registerButton");
+                    let regex = /^[a-zA-Z]+$/;
+
+                    if (name == null || name == "") {
+                        document.getElementById("nameError").innerHTML = "*name can't be blank.";
+                        btn.removeAttribute("disabled");
+                    } else if (name.match(/[0-9]/)) {
+                        document.getElementById("nameError").innerHTML = "*name should be in characters.";
+                        btn.removeAttribute("disabled");
+                    } else if (name.length <= 3 || name.length >= 20) {
+                        document.getElementById("nameError").innerHTML = "*name should be in 3-20 range.";
+                        btn.removeAttribute("disabled");
+                    } else {
+                        document.getElementById("nameError").innerHTML = "";
+                        btn.removeAttribute("disabled", "");
+                    }
+                }
+
                 // email ajax
                 function uniqueMail(){
                     console.log("running uniqueMail");
