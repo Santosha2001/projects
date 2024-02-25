@@ -98,7 +98,7 @@
                         <label for="vendorNname">Vendor name</label>
                         <input type="text" class="form-control" id="vendorNname" name="vendorNname"
                             value="${vendorEntity.getVendorNname()}" maxlength="20" 
-                            onclick="validateName()" required />
+                            onblur="validateName()" required />
                     </div>
                     <span id="nameError" style="color: red;"></span>
 
@@ -107,7 +107,7 @@
                         <label for="vendorLocation">Vendor Location</label>
                         <input type="text" class="form-control" id="vendorLocation" name="vendorLocation"
                             value="${vendorEntity.getVendorLocation()}" maxlength="20" 
-                            onclick="validateLocation()" required />
+                            onblur="validateLocation()" required />
                     </div>
                     <span id="locationError" style="color: red;"></span>
 
@@ -133,7 +133,7 @@
                         <label for="ownerName">Company Owner Name</label>
                         <input type="text" class="form-control" id="ownerName" name="ownerName"
                             value="${vendorEntity.getOwnerName()}" maxlength="20" 
-                            onclick="validateOwnerName()" required />
+                            onblur="validateOwnerName()" required />
                     </div>
                     <span id="ownerError" style="color: red;"></span>
 
@@ -172,7 +172,7 @@
                     <div class="form-group mt-3">
                         <label for="vendorEmail">Email address</label>
                         <input type="email" class="form-control" id="vendorEmail" name="vendorEmail"
-                            value="${vendorEntity.getVendorEmail()}" onchange="uniqueMail()"
+                            value="${vendorEntity.getVendorEmail()}" onblur="uniqueMail()"
                             maxlength="30" minlength="5" required />
                     </div>
                     <span id="emailError" style="color: red;"></span>
@@ -181,7 +181,7 @@
                     <div class="form-group mt-3">
                         <label for="website">Vendor Website</label>
                         <input type="text" class="form-control" id="website" name="website"
-                            value="${vendorEntity.getWebsite()}" onchange="websiteAjax()" required />
+                            value="${vendorEntity.getWebsite()}" onblur="websiteAjax()" required />
                     </div>
                     <span id="websiteError" style="color: red;"></span>
 
@@ -280,7 +280,7 @@
                     } else if (gst.length < 15 || gst.length > 15) {
                         document.getElementById("gstError").innerHTML = "gst should be 15 characters.";
                         btn.setAttribute("disabled", "");
-                    } else if (!gstRegex.test(gst)) {
+                    } else if (gstRegex.test(gst) == false) {
                         document.getElementById("gstError").innerHTML = "gst should be in proper format.";
                         btn.setAttribute("disabled", "");
                     }
@@ -397,7 +397,9 @@
                 function uniqueMail(){
                     var gmail = document.getElementById("vendorEmail").value;
                     const btn = document.getElementById("registerButton");
-                    const regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+                    // const regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+                    const regex = /^([a-zA-Z0-9\.]+@+[a-zA-Z]+(\.)+[a-zA-Z]{2,})$/;
+                    const result = regex.test(gmail);
 
                     if (gmail != null && gmail != "" && gmail.length > 5 && gmail.length < 30) {
                         console.log("email is valid.");
@@ -420,7 +422,7 @@
                     }  else if (gmail.length < 5 || gmail.length > 30) {
                         document.getElementById("emailError").innerHTML = "*email should be in 5-30 character.";
                         btn.setAttribute("disabled", "");
-                    } else if (!regex.test(gmail)){
+                    } else if (result == false){
                         document.getElementById("emailError").innerHTML = "*email should be in format.";
                         btn.setAttribute("disabled", "");
                     }
