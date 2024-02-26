@@ -28,12 +28,5 @@ public class VendorLogInController {
 		return emailLogInAjax;
 	}
 
-//	@PostMapping(value = "/signin")
-//	public String generateOtpToMail(@PathVariable String email,@PathVariable int otp,Model model) {
-//		
-//		this.ajaxService.logInUsingMailAndOtp(email, otp);
-//		this.ajaxService.updateOtpByMail(email);		
-//		
-//		return null;
-//	}
+	
 }

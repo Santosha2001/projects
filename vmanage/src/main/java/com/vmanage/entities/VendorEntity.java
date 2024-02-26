@@ -1,6 +1,7 @@
 package com.vmanage.entities;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -93,5 +94,9 @@ public class VendorEntity {
 	private LocalDate updatedDate;
 
 	@Column(name = "v_otp")
-	private Integer otp;
+	private String otp;
+
+	private boolean active; // for activating the user
+
+	private LocalDateTime otpGenratedTime;
 }
