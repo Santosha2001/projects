@@ -1,4 +1,4 @@
-package com.vmanage.service;
+package com.vmanage.ajax.service;
 
 public interface VendorAjaxService {
 
@@ -9,4 +9,6 @@ public interface VendorAjaxService {
 	String findByEmail(String email);
 
 	String findByWebsiteAjax(String website);
+	
+	String emailLogInAjax(String email);
 }

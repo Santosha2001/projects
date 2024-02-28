@@ -53,7 +53,6 @@ public class VendorServiceImpl implements VendorService {
 		return null;
 	}
 
-	
 	@Override
 	public boolean sendEmail(String email, String username) {
 		System.out.println("Sending email.");
@@ -70,6 +69,32 @@ public class VendorServiceImpl implements VendorService {
 		}
 		return false;
 	}
-	
+
+	@Override
+	public VendorEntity findByEmail(String email) {
+
+		VendorEntity byEmail = this.repository.findByEmail(email);
+		if (byEmail != null && !byEmail.getVendorEmail().isEmpty()) {
+			return byEmail;
+		}
+
+		return byEmail;
+	}
+
+	@Override
+	public VendorEntity updateOtpByEmail(String otp, String email) {
+
+		VendorEntity updateOtpByEmail = this.repository.updateOtpByEmail(otp, email);
+
+		if (updateOtpByEmail != null) {
+			if (updateOtpByEmail.getVendorEmail().equalsIgnoreCase(email)) {
+				updateOtpByEmail.setOtp(otp);
+			} else {
+				System.out.println("otp not updated.");
+			}
+		}
+
+		return updateOtpByEmail;
+	}
 
 }

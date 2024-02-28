@@ -90,32 +90,57 @@ public class VendorRepositoryImpl implements VendorRepository {
 
 		return list;
 	}
-	
-	/*
-	@Override
-	public void updateOtpByEmail(int otp, String email) {
 
+	@Override
+	public VendorEntity updateOtpByEmail(String otp, String email) {
 		EntityManager entityManager = factory.createEntityManager();
 		System.out.println("EntityManager: " + entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 		System.out.println("EntityTransaction: " + transaction);
 
+		VendorEntity entity = new VendorEntity();
 		try {
+			transaction.begin();
+			System.out.println("Transaction started.");
 			Query query = entityManager.createNamedQuery("updateOtpByEmail");
 			query.setParameter("otp", otp);
-			query.setParameter("mail", email);
-			query.executeUpdate();
+			query.setParameter("email", email);
+		int result=	query.executeUpdate();
+		System.out.println("result:"+result);
 			transaction.commit();
 			System.out.println("Transaction committed.");
+			return entity;
 		} catch (PersistenceException e) {
 			System.err.println("PersistenceException: " + e.getMessage());
 			transaction.rollback();
 		} finally {
 			entityManager.close();
-			System.out.println("EntityManager closaed.");
+			System.out.println("EntityManager closed.");
 		}
 
+		return entity;
 	}
-	*/
+
+	@Override
+	public VendorEntity findByEmail(String email) {
+		EntityManager entityManager = factory.createEntityManager();
+		System.out.println("EntityManager: " + entityManager);
+		VendorEntity entity = new VendorEntity();
+		System.out.println("entity: "+entity);
+
+		try {
+			Query query = entityManager.createNamedQuery("findByEmail");
+			Query query2 = query.setParameter("email", email);
+			entity = (VendorEntity) query2.getSingleResult();
+
+			System.out.println("ENTITY: "+entity);
+		} catch (Exception e) {
+			System.err.println("PersistenceException: " + e.getMessage());
+		} finally {
+			entityManager.close();
+			System.out.println("EntityManager closed.");
+		}
+		return entity;
+	}
 
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.vmanage.service.VendorAjaxService;
+import com.vmanage.ajax.service.VendorAjaxService;
 
 @EnableWebMvc
 @RestController
@@ -49,5 +49,12 @@ public class VendorAjaxRestController {
 		String byWebsiteAjax = this.ajaxService.findByWebsiteAjax(website);
 		System.out.println("website ajax: " + website);
 		return byWebsiteAjax;
+	}
+
+	@GetMapping(value = "/mailLogInAjax/{email:.+}")
+	public String emailAjaxForLogIn(@PathVariable String email) {
+		String emailLogInAjax = this.ajaxService.emailLogInAjax(email);
+		System.out.println("mail login ajax: " + email);
+		return emailLogInAjax;
 	}
 }

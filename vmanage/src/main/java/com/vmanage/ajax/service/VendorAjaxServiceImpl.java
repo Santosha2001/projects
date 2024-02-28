@@ -1,4 +1,4 @@
-package com.vmanage.service;
+package com.vmanage.ajax.service;
 
 import java.util.List;
 
@@ -86,6 +86,20 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 				return "Website exist.";
 			} else {
 				System.out.println("Website not exist.");
+			}
+		}
+		return null;
+	}
+	
+	
+	@Override
+	public String emailLogInAjax(String email) {
+		List<VendorEntity> list = this.repository.findAll();
+		for (VendorEntity vendorEntity : list) {
+			if (vendorEntity.getVendorEmail().equalsIgnoreCase(email)) {
+				return "";
+			} else {
+				return "Email not registered.";
 			}
 		}
 		return null;

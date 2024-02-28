@@ -12,5 +12,7 @@ public interface VendorRepository {
 
 	List<VendorEntity> findAll();
 
-//	void updateOtpByEmail(int otp, String email);
+	VendorEntity findByEmail(String email);
+
+	VendorEntity updateOtpByEmail(String otp, String email);
 }

@@ -10,4 +10,8 @@ public interface VendorService {
 
 	boolean sendEmail(String email, String username);
 
+	VendorEntity findByEmail(String email);
+
+	VendorEntity updateOtpByEmail(String otp, String email);
+
 }

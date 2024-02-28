@@ -58,7 +58,7 @@
                             <a class="nav-link" href="Registration.jsp">Register here</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Log In</a>
+                            <a class="nav-link" href="loginSuccess.jsp">Log In</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -80,30 +80,28 @@
         </nav>
 
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
-            <form action="${pageContext.request.contextPath}/otp/sendOTP" method="post">
+            <form action="" method="post">
 
                 <h2 style="text-align: center; color: #29b03e; font-style: italic;">LOG IN</h2>
                 <!-- EMAIL ADDRESS FOR LOG IN-->
                 <div class="form-group mt-5">
                     <input type="email" class="form-control" id="vendorEmail" name="vendorEmail"
-                        placeholder="Email address" value="" onchange="loginMail()"
+                        placeholder="Email address" value="${entity.getVendorEmail()}" onchange="loginMail()"
                         required />
                 </div>
                 <span id="emailError" style="color: red;"></span>
 
                 <!-- OTP FOR LOG IN-->
-
+                <div class="form-group mt-3">
+                    <input type="number" class="form-control" id="vendorEmail" name="vendorEmail"
+                        placeholder="Enter OTP" value="${entity.getVendorEmail()}" onchange="uniqueMail()" required />
+                </div>
+                <span id="emailError" style="color: red;"></span>
 
                 <!-- <button type="submit" class="btn btn-primary form-control mt-3" id="registerButton">Register</button> -->
 
-                <button type="submit" class="btn btn-primary btn-sm mt-4 mb-2">Generate OTP</button>
-
-                <div class="form-group mt-3">
-                    <input type="number" class="form-control" id="vendorEmail" name="vendorEmail"
-                        placeholder="Enter OTP" value="${entity.getVendorEmail()}" onchange="uniqueMail()" />
-                </div>
-                <span id="emailError" style="color: red;"></span>
-                <button type="button" class="btn btn-secondary btn-sm mt-4 mb-2">Log In</button>
+                <button type="button" class="btn btn-primary btn-sm mt-4 mb-2">Log In</button>
+                <!-- <button type="button" class="btn btn-secondary btn-sm mt-4 mb-2">Log In</button> -->
 
             </form>
         </div>
