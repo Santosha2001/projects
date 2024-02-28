@@ -28,11 +28,8 @@ public class LoginController {
 
 			this.loginService.sendOtp(vendorEmail);
 			System.out.println("OTP SENT TO MAIL");
-//			model.addAttribute("sent", "otp sent");
-		}
 
-		System.out.println("OTP NOT SENT TO MAIL");
-//		model.addAttribute("fail", "otp not sent");
+		}
 
 		return "login";
 	}

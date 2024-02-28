@@ -12,6 +12,6 @@ public interface VendorService {
 
 	VendorEntity findByEmail(String email);
 
-	void updateOtpByEmail(String otp, String email);
+	VendorEntity updateOtpByEmail(String otp, String email);
 
 }
