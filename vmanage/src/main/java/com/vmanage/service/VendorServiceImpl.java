@@ -49,6 +49,7 @@ public class VendorServiceImpl implements VendorService {
 
 			System.out.println("Details not present save it.");
 		}
+
 		return null;
 	}
 
@@ -76,14 +77,30 @@ public class VendorServiceImpl implements VendorService {
 		if (byEmail != null && !byEmail.getVendorEmail().isEmpty()) {
 			return byEmail;
 		}
+
 		return byEmail;
 	}
 
+	
 	@Override
-	public VendorEntity updateOtpByEmail(String otp, String email) {
+	public void updateOtpByEmail(String otp, String email) {
 
-		VendorEntity updateOtpByEmail = this.repository.updateOtpByEmail(otp, email);
-		System.out.println("updateOtpByEmail:: " + updateOtpByEmail);
-		return updateOtpByEmail;
+		this.repository.updateOtpByEmail(otp, email);
+
+		
+//		if (updateOtpByEmail != null) {
+//			if (updateOtpByEmail.getVendorEmail().equalsIgnoreCase(email)) {
+//				updateOtpByEmail.setOtp(otp);
+//			} else {
+//				System.out.println("otp not updated.");
+//			}
+//		}
+		
+		
+//		System.out.println("updateOtpByEmail:: "+updateOtpByEmail);
+
+		 //return updateOtpByEmail(otp, email);
 	}
+	
+
 }

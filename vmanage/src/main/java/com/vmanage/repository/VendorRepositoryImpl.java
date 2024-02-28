@@ -92,9 +92,11 @@ public class VendorRepositoryImpl implements VendorRepository {
 	}
 
 	@Override
-	public VendorEntity updateOtpByEmail(String otp, String email) {
+	public void updateOtpByEmail(String otp, String email) {
 		EntityManager entityManager = factory.createEntityManager();
+//		System.out.println("EntityManager: " + entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
+//		System.out.println("EntityTransaction: " + transaction);
 
 		VendorEntity entity = new VendorEntity();
 		try {
@@ -103,36 +105,39 @@ public class VendorRepositoryImpl implements VendorRepository {
 			Query query = entityManager.createNamedQuery("updateOtpByEmail");
 			query.setParameter("otp", otp);
 			query.setParameter("email", email);
-			int result = query.executeUpdate();
-
-			System.out.println("row updated: " + result);
+			int result=	query.executeUpdate();
+			
+		System.out.println("result: "+result);
 			transaction.commit();
-
+			System.out.println("Transaction committed.");
+			
 		} catch (PersistenceException e) {
 			System.err.println("PersistenceException: " + e.getMessage());
 			transaction.rollback();
 		} finally {
 			entityManager.close();
+			System.out.println("EntityManager closed.");
 		}
 
-		return entity;
+		//return entity;
 	}
 
 	@Override
 	public VendorEntity findByEmail(String email) {
 		EntityManager entityManager = factory.createEntityManager();
+		System.out.println("EntityManager: " + entityManager);
 		VendorEntity entity = new VendorEntity();
-		System.out.println("entity: " + entity);
+		System.out.println("entity: "+entity);
 
 		try {
 			Query query = entityManager.createNamedQuery("findByEmail");
 			Query query2 = query.setParameter("email", email);
 			entity = (VendorEntity) query2.getSingleResult();
 
-			System.out.println("ENTITY: " + entity);
+			System.out.println("ENTITY: "+entity);
 		} catch (Exception e) {
 			System.err.println("PersistenceException: " + e.getMessage());
-
+			
 		} finally {
 			entityManager.close();
 			System.out.println("EntityManager closed.");
