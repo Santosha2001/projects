@@ -80,7 +80,7 @@
         </nav>
 
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
-            <form action="${pageContext.request.contextPath}/otp/sendOTP" method="post">
+            <form action="${pageContext.request.contextPath}/otp/sendOTP?email=${email}" method="post">
 
                 <h2 style="text-align: center; color: #29b03e; font-style: italic;">LOG IN</h2>
                 <!-- EMAIL ADDRESS FOR LOG IN-->
@@ -98,12 +98,12 @@
 
                 <button type="submit" class="btn btn-primary btn-sm mt-4 mb-2">Generate OTP</button>
 
-                <div class="form-group mt-3">
+                <!-- <div class="form-group mt-3">
                     <input type="number" class="form-control" id="vendorEmail" name="vendorEmail"
                         placeholder="Enter OTP" value="${entity.getVendorEmail()}" onchange="uniqueMail()" />
                 </div>
                 <span id="emailError" style="color: red;"></span>
-                <button type="button" class="btn btn-secondary btn-sm mt-4 mb-2">Log In</button>
+                <button type="button" class="btn btn-secondary btn-sm mt-4 mb-2">Log In</button> -->
 
             </form>
         </div>

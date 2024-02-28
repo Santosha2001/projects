@@ -75,26 +75,34 @@ public class VendorServiceImpl implements VendorService {
 
 		VendorEntity byEmail = this.repository.findByEmail(email);
 		if (byEmail != null && !byEmail.getVendorEmail().isEmpty()) {
+//			this.repository.updateOtpByEmail(byEmail.getOtp(), email);
+			System.out.println("ONE TIME PASSWORD.");
 			return byEmail;
 		}
 
 		return byEmail;
 	}
 
+	
 	@Override
-	public VendorEntity updateOtpByEmail(String otp, String email) {
+	public void updateOtpByEmail(String otp, String email) {
 
 		VendorEntity updateOtpByEmail = this.repository.updateOtpByEmail(otp, email);
 
-		if (updateOtpByEmail != null) {
-			if (updateOtpByEmail.getVendorEmail().equalsIgnoreCase(email)) {
-				updateOtpByEmail.setOtp(otp);
-			} else {
-				System.out.println("otp not updated.");
-			}
-		}
+		
+//		if (updateOtpByEmail != null) {
+//			if (updateOtpByEmail.getVendorEmail().equalsIgnoreCase(email)) {
+//				updateOtpByEmail.setOtp(otp);
+//			} else {
+//				System.out.println("otp not updated.");
+//			}
+//		}
+		
+		
+		System.out.println("updateOtpByEmail:: "+updateOtpByEmail);
 
-		return updateOtpByEmail;
+		// return updateOtpByEmail;
 	}
+	
 
 }

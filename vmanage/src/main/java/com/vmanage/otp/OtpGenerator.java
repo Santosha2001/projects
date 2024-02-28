@@ -11,7 +11,7 @@ public class OtpGenerator {
 		System.out.println("OtpGenerator created.");
 	}
 
-	public static String generateOtp() {
+	public String generateOtp() {
 
 		Random random = new Random();
 		int randomNumber = random.nextInt(999999);
@@ -24,8 +24,7 @@ public class OtpGenerator {
 		return output;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(generateOtp());
-	}
-
+	/*
+	 * public static void main(String[] args) { System.out.println(generateOtp()); }
+	 */
 }

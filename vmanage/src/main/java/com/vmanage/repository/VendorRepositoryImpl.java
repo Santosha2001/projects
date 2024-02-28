@@ -94,28 +94,29 @@ public class VendorRepositoryImpl implements VendorRepository {
 	@Override
 	public VendorEntity updateOtpByEmail(String otp, String email) {
 		EntityManager entityManager = factory.createEntityManager();
-		System.out.println("EntityManager: " + entityManager);
+//		System.out.println("EntityManager: " + entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
-		System.out.println("EntityTransaction: " + transaction);
+//		System.out.println("EntityTransaction: " + transaction);
 
 		VendorEntity entity = new VendorEntity();
 		try {
 			transaction.begin();
-			System.out.println("Transaction started.");
+			System.out.println("Transaction started in updateOtpByEmail");
 			Query query = entityManager.createNamedQuery("updateOtpByEmail");
 			query.setParameter("otp", otp);
 			query.setParameter("email", email);
-		int result=	query.executeUpdate();
-		System.out.println("result:"+result);
+			int result=	query.executeUpdate();
+			
+			System.out.println("row updated: " + result);
 			transaction.commit();
-			System.out.println("Transaction committed.");
-			return entity;
+//			System.out.println("Transaction committed.");
+			
 		} catch (PersistenceException e) {
 			System.err.println("PersistenceException: " + e.getMessage());
 			transaction.rollback();
 		} finally {
 			entityManager.close();
-			System.out.println("EntityManager closed.");
+//			System.out.println("EntityManager closed.");
 		}
 
 		return entity;
@@ -124,7 +125,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 	@Override
 	public VendorEntity findByEmail(String email) {
 		EntityManager entityManager = factory.createEntityManager();
-		System.out.println("EntityManager: " + entityManager);
+//		System.out.println("EntityManager: " + entityManager);
 		VendorEntity entity = new VendorEntity();
 		System.out.println("entity: "+entity);
 
@@ -136,6 +137,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 			System.out.println("ENTITY: "+entity);
 		} catch (Exception e) {
 			System.err.println("PersistenceException: " + e.getMessage());
+			
 		} finally {
 			entityManager.close();
 			System.out.println("EntityManager closed.");

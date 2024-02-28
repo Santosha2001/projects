@@ -27,9 +27,17 @@ public class LoginServiceImpl implements LoginService {
 		System.out.println("byEmail: " + byEmail);
 		if (byEmail.getVendorEmail().equalsIgnoreCase(email)) {
 			String otp = this.otpGenerator.generateOtp();
-			this.service.updateOtpByEmail(otp, email);
+			System.out.println("OTP: "+otp);
+			
+			// this.service.updateOtpByEmail(otp, email);
 
-			this.emailSender.emailSender(email, "santosha7022@outlook.com", "One Time Password", otp);
+			boolean emailSender2 = this.emailSender.emailSender(email, "santosha7022@outlook.com", "One Time Password", otp);
+			
+			if (emailSender2) {
+				this.service.updateOtpByEmail(otp, email);
+			} else {
+				System.err.println("otp not sent.");
+			}
 		}
 
 	}
