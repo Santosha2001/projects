@@ -33,13 +33,11 @@ public class LoginServiceImpl implements LoginService {
 	public void sendOtp(String email) {
 
 		VendorEntity byEmail = this.service.findByEmail(email);
-		System.out.println("byEmail: " + byEmail);
 
 		if (byEmail.getVendorEmail().equalsIgnoreCase(email)) {
 			String otp = this.otpGenerator.generateOtp();
 			System.out.println("OTP: " + otp);
 
-			
 			boolean emailSender2 = this.emailSender.emailSender(email, "santosha7022@outlook.com", "One Time Password",
 					"Your OTP for login is " + otp + ". Don't share with anyone.");
 

@@ -27,12 +27,9 @@ public class VendorRepositoryImpl implements VendorRepository {
 	/* SAVE ENTITY */
 	@Override
 	public void save(VendorEntity vendorEntity) {
-		System.out.println(vendorEntity + "\n");
 
 		EntityManager entityManager = factory.createEntityManager();
-		System.out.println("EntityManager created: " + entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
-		System.out.println("EntityTransaction created: " + transaction);
 		try {
 			transaction.begin();
 			entityManager.persist(vendorEntity);
@@ -44,7 +41,6 @@ public class VendorRepositoryImpl implements VendorRepository {
 
 		} finally {
 			entityManager.close();
-			System.out.println("EntityManager closed.");
 		}
 	}
 
@@ -52,7 +48,6 @@ public class VendorRepositoryImpl implements VendorRepository {
 	@Override
 	public VendorEntity isExistByGstOrNumberOrMailOrSite(String gst, Long number, String email, String website) {
 		EntityManager entityManager = factory.createEntityManager();
-		System.out.println("EM created.");
 		VendorEntity entity = null;
 
 		try {
@@ -61,6 +56,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 			query.setParameter("number", number);
 			query.setParameter("vMail", email);
 			query.setParameter("vWebsite", website);
+
 			entity = (VendorEntity) query.getSingleResult();
 
 		} catch (PersistenceException e) {
@@ -71,7 +67,6 @@ public class VendorRepositoryImpl implements VendorRepository {
 
 		} finally {
 			entityManager.close();
-			System.out.println("EM closed.");
 		}
 		return entity;
 	}
@@ -80,7 +75,6 @@ public class VendorRepositoryImpl implements VendorRepository {
 	@Override
 	public List<VendorEntity> findAll() {
 		EntityManager entityManager = factory.createEntityManager();
-		System.out.println("EntityManager: " + entityManager);
 		List<VendorEntity> list = new ArrayList<VendorEntity>();
 
 		try {
@@ -92,9 +86,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 
 		} finally {
 			entityManager.close();
-			System.out.println("EntityManager closaed.");
 		}
-
 		return list;
 	}
 
@@ -106,7 +98,6 @@ public class VendorRepositoryImpl implements VendorRepository {
 
 		try {
 			transaction.begin();
-			System.out.println("Transaction started in updateOtpByEmail");
 			Query query = entityManager.createNamedQuery("updateOtpByEmail");
 			query.setParameter("otp", otp);
 			query.setParameter("email", email);
@@ -115,7 +106,6 @@ public class VendorRepositoryImpl implements VendorRepository {
 			System.out.println("result: " + result);
 
 			transaction.commit();
-			System.out.println("Transaction committed.");
 
 		} catch (PersistenceException e) {
 			System.err.println("PersistenceException: " + e.getMessage());
@@ -123,8 +113,6 @@ public class VendorRepositoryImpl implements VendorRepository {
 
 		} finally {
 			entityManager.close();
-			System.out.println("EntityManager closed.");
-
 		}
 	}
 
@@ -139,14 +127,12 @@ public class VendorRepositoryImpl implements VendorRepository {
 			Query query2 = query.setParameter("email", email);
 
 			entity = (VendorEntity) query2.getSingleResult();
-			System.out.println("ENTITY: " + entity);
 
 		} catch (Exception e) {
 			System.err.println("PersistenceException: " + e.getMessage());
 
 		} finally {
 			entityManager.close();
-			System.out.println("EntityManager closed.");
 		}
 		return entity;
 	}
@@ -156,7 +142,6 @@ public class VendorRepositoryImpl implements VendorRepository {
 	public List<String> findOtp(String otp) {
 
 		EntityManager entityManager = factory.createEntityManager();
-		System.out.println("EntityManager created.");
 		List<String> list = new ArrayList<String>();
 
 		try {
@@ -169,18 +154,16 @@ public class VendorRepositoryImpl implements VendorRepository {
 		} finally {
 			entityManager.close();
 		}
-
 		return list;
 	}
 
+	/* UPDATE OTP GENERATED TIME BY EMAIL */
 	@Override
 	public void updatedOtpGeneratedTime(LocalDateTime otpGeneratedTime, String email) {
 		EntityManager entityManager = factory.createEntityManager();
-		System.out.println("EntityManager created.");
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
-			System.out.println("EntityTransaction created in updatedOtpGeneratedTime");
 			transaction.begin();
 			Query query = entityManager.createNamedQuery("updatedOtpGeneratedTime");
 			query.setParameter("time", otpGeneratedTime);
@@ -188,7 +171,6 @@ public class VendorRepositoryImpl implements VendorRepository {
 
 			int executeUpdate = query.executeUpdate();
 			System.out.println("updated rows: " + executeUpdate);
-			
 			transaction.commit();
 
 		} catch (PersistenceException e) {
@@ -197,9 +179,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 			transaction.rollback();
 		} finally {
 			entityManager.close();
-			System.out.println("EntityManager closed.");
 		}
-
 	}
 
 }

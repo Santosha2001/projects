@@ -26,9 +26,9 @@ public class LoginController {
 		System.out.println("sendung otp  to email : " + vendorEmail);
 
 		if (vendorEmail != null && !vendorEmail.isEmpty()) {
-			this.loginService.sendOtp(vendorEmail);
-			System.out.println("OTP SENT TO MAIL");
+			this.loginService.sendOtp(vendorEmail);		
 			model.addAttribute("mail", vendorEmail);
+			
 			return "loginSuccess";
 		}
 		
