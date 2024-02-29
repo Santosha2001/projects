@@ -75,7 +75,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 		return entity;
 	}
 
-	/* FIND ALL */
+	/* FIND ALL ENTITIES */
 	@Override
 	public List<VendorEntity> findAll() {
 		EntityManager entityManager = factory.createEntityManager();
@@ -155,6 +155,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 	public List<String> findOtp(String otp) {
 
 		EntityManager entityManager = factory.createEntityManager();
+		System.out.println("EntityManager created.");
 		List<String> list = new ArrayList<String>();
 
 		try {

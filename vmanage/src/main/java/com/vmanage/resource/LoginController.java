@@ -29,9 +29,22 @@ public class LoginController {
 			this.loginService.sendOtp(vendorEmail);
 			System.out.println("OTP SENT TO MAIL");
 			model.addAttribute("mail", vendorEmail);
+			return "loginSuccess";
 		}
+		
 		return "login";
 	}
-	
+
 	/* VERIFY OTP */
+	@PostMapping(value = "/otpVerify")
+	public String verifyOtp(@RequestParam String otp, Model model) {
+
+		String verifyOtp = this.loginService.verifyOtp(otp);
+		if (verifyOtp != null && !"".equals(verifyOtp)) {
+			model.addAttribute("otpverified", "Login Successful.");
+			return "index";
+		}
+
+		return "loginSuccess";
+	}
 }

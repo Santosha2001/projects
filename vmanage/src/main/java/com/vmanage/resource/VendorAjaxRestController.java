@@ -64,6 +64,7 @@ public class VendorAjaxRestController {
 	}
 
 	/* OTP VERIFY AJAX FOR LOGIN */
+	/*
 	@GetMapping(value = "/otpVerifyAjax/{otp}")
 	public String otpVerifyAjax(@PathVariable String otp) {
 
@@ -72,4 +73,5 @@ public class VendorAjaxRestController {
 
 		return verifyOtp;
 	}
+	*/
 }

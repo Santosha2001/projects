@@ -93,16 +93,8 @@
                 <span id="emailError" style="color: red;"></span>
 
                 <!-- GENERATE OTP -->
-                <button type="submit" class="btn btn-primary btn-sm mt-4 mb-2" id="generateOTP">Generate OTP</button>
-
-                <!-- VERIFY OTP -->
-                <div class="form-group mt-3">
-                    <input type="number" class="form-control" id="otp" name="otp" placeholder="Enter OTP" value=""
-                        onchange="otpVerify()" />
-                </div>
-                <span id="otpError" style="color: red;"></span>
-
-                <button type="button" class="btn btn-secondary btn-sm mt-4 mb-2" id="otpVerifyBtn">Log In</button>
+                <button type="submit" class="btn form-control btn-primary btn-sm mt-4 mb-2" id="generateOTP">Generate
+                    OTP</button>
 
             </form>
         </div>

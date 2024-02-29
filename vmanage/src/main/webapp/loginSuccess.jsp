@@ -79,29 +79,32 @@
             </div>
         </nav>
 
+        <span style="justify-content: center; color: green;">${otpverified}</span>
+
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
-            <form action="signin" method="post">
+            <form action="${pageContext.request.contextPath}/otp/otpVerify?otp=${otp}" method="post">
+                <!-- action="${pageContext.request.contextPath}/otp/sendOTP?email=${email}" -->
 
                 <h2 style="text-align: center; color: #29b03e; font-style: italic;">LOG IN</h2>
+
                 <!-- EMAIL ADDRESS FOR LOG IN-->
                 <div class="form-group mt-5">
                     <input type="email" class="form-control" id="vendorEmail" name="vendorEmail"
-                        placeholder="Email address" value="${entity.getVendorEmail()}" onchange="loginMail()"
-                        required />
+                        placeholder="Email address" value="${mail}" onblur="loginMail()" readonly />
                 </div>
                 <span id="emailError" style="color: red;"></span>
 
-                <!-- OTP FOR LOG IN-->
+                <!-- VERIFY OTP -->
                 <div class="form-group mt-3">
-                    <input type="number" class="form-control" id="vendorEmail" name="vendorEmail"
-                        placeholder="Enter OTP" value="${entity.getVendorEmail()}" onchange="uniqueMail()" required />
+                    <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter OTP" value=""
+                        onchange="otpVerify()" maxlength="6" />
                 </div>
-                <span id="emailError" style="color: red;"></span>
+                <span id="otpError" style="color: red;"></span>
 
-                <!-- <button type="submit" class="btn btn-primary form-control mt-3" id="registerButton">Register</button> -->
 
-                <button type="button" class="btn btn-primary btn-sm mt-4 mb-2">Generate OTP</button>
-                <!-- <button type="button" class="btn btn-secondary btn-sm mt-4 mb-2">Log In</button> -->
+                <button type="submit" class="btn form-control btn-secondary btn-sm mt-4 mb-2" id="otpVerifyBtn">Log
+                    In</button>
+
 
             </form>
         </div>
@@ -115,6 +118,34 @@
             </div>
         </footer>
 
+        <!-- <script>
+            function otpVerify() {
+                const otp = document.getElementById("otp").value;
+                const logInBtn = document.getElementById("otpVerifyBtn");
+
+                if (otp != null && otp != "" && otp.length == 6) {
+                    document.getElementById("otpError").innerHTML = "";
+
+                    const xhtp = new XMLHttpRequest();
+                    xhtp.open("GET", "http://localhost:8080/vmanage/otpVerifyAjax/" + otp);
+
+                    xhtp.send();
+
+                    xhtp.onload = function () {
+                        document.getElementById("otpError").innerHTML = this.responseText;
+                    }
+
+                    logInBtn.removeAttribute('disabled');
+
+                } else if (otp == null || otp == "" || otp.includes('  ')) {
+                    document.getElementById("otpError").innerHTML = "*otp is in-valid.";
+                    logInBtn.setAttribute("disabled", "");
+                } else if (otp.length != 6) {
+                    document.getElementById("otpError").innerHTML = "*otp length is mismatch.";
+                    logInBtn.setAttribute("disabled", "");
+                }
+            }
+        </script> -->
     </body>
 
     </html>
