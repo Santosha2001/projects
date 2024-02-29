@@ -88,7 +88,7 @@
                 <!-- EMAIL ADDRESS FOR LOG IN-->
                 <div class="form-group mt-5">
                     <input type="email" class="form-control" id="vendorEmail" name="vendorEmail"
-                        placeholder="Email address" value="" onblur="loginMail()" required />
+                        placeholder="Email address" value="${mail}" onblur="loginMail()" required />
                 </div>
                 <span id="emailError" style="color: red;"></span>
 
@@ -96,13 +96,13 @@
                 <button type="submit" class="btn btn-primary btn-sm mt-4 mb-2" id="generateOTP">Generate OTP</button>
 
                 <!-- VERIFY OTP -->
-                <!-- <div class="form-group mt-3">
-                    <input type="number" class="form-control" id="vendorEmail" name="vendorEmail"
-                        placeholder="Enter OTP" value="${entity.getVendorEmail()}" onchange="uniqueMail()" />
+                <div class="form-group mt-3">
+                    <input type="number" class="form-control" id="otp" name="otp" placeholder="Enter OTP" value=""
+                        onchange="otpVerify()" />
                 </div>
-                <span id="emailError" style="color: red;"></span>
+                <span id="otpError" style="color: red;"></span>
 
-                <button type="button" class="btn btn-secondary btn-sm mt-4 mb-2">Log In</button> -->
+                <button type="button" class="btn btn-secondary btn-sm mt-4 mb-2" id="otpVerifyBtn">Log In</button>
 
             </form>
         </div>
@@ -145,6 +145,33 @@
                 } else if (mail.length < 5 || mail.length > 30) {
                     document.getElementById("emailError").innerHTML = "*email should be in 5-30 character.";
                     btn.setAttribute("disabled", "");
+                }
+            }
+
+            function otpVerify() {
+                const otp = document.getElementById("otp").value;
+                const logInBtn = document.getElementById("otpVerifyBtn");
+
+                if (otp != null && otp != "" && otp.length == 6) {
+                    document.getElementById("otpError").innerHTML = "";
+
+                    const xhtp = new XMLHttpRequest();
+                    xhtp.open("GET", "http://localhost:8080/vmanage/otpVerifyAjax/" + otp);
+
+                    xhtp.send();
+
+                    xhtp.onload = function () {
+                        document.getElementById("otpError").innerHTML = this.responseText;
+                    }
+
+                    logInBtn.removeAttribute('disabled');
+
+                } else if (otp == null || otp == "" || otp.includes('  ')) {
+                    document.getElementById("otpError").innerHTML = "*otp is in-valid.";
+                    logInBtn.setAttribute("disabled", "");
+                } else if (otp.length != 6) {
+                    document.getElementById("otpError").innerHTML = "*otp length is mismatch.";
+                    logInBtn.setAttribute("disabled", "");
                 }
             }
         </script>

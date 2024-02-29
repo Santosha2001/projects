@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.vmanage.ajax.service.VendorAjaxService;
+import com.vmanage.login.LoginService;
 
 @EnableWebMvc
 @RestController
@@ -18,6 +19,9 @@ public class VendorAjaxRestController {
 	@Autowired
 	@Qualifier(value = "ajaxService")
 	private VendorAjaxService ajaxService;
+	
+	@Autowired
+	private LoginService loginService;
 
 	public VendorAjaxRestController() {
 		System.out.println("VendorAjaxRestController created.");
@@ -56,5 +60,15 @@ public class VendorAjaxRestController {
 		String emailLogInAjax = this.ajaxService.emailLogInAjax(email);
 		System.out.println("mail login ajax: " + email);
 		return emailLogInAjax;
+	}
+	
+	//OTP VERIFY AJAX
+	@GetMapping(value = "/otpVerifyAjax/{otp}")
+	public String otpVerifyAjax(@PathVariable String otp) {
+		
+		String verifyOtp = this.loginService.verifyOtp(otp);
+		System.out.println("OTP AJAX: "+ otp);
+		
+		return verifyOtp;
 	}
 }

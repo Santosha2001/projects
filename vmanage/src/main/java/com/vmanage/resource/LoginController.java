@@ -1,5 +1,7 @@
 package com.vmanage.resource;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.vmanage.entities.VendorEntity;
 import com.vmanage.login.LoginService;
 
 @Controller
@@ -28,11 +31,9 @@ public class LoginController {
 
 			this.loginService.sendOtp(vendorEmail);
 			System.out.println("OTP SENT TO MAIL");
-//			model.addAttribute("sent", "otp sent");
+			model.addAttribute("mail", vendorEmail);
 		}
 
-//		System.out.println("OTP NOT SENT TO MAIL");
-//		model.addAttribute("fail", "otp not sent");
 
 		return "login";
 	}

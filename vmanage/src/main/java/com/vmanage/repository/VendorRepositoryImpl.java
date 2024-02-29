@@ -145,4 +145,26 @@ public class VendorRepositoryImpl implements VendorRepository {
 		return entity;
 	}
 
+	
+	@Override
+	public List<String> findOtp(String otp) {
+		
+		EntityManager entityManager = factory.createEntityManager();
+		List<String> list=new ArrayList<String>();
+		
+		try {
+			Query query = entityManager.createNamedQuery("findOtp");
+			list=query.getResultList();
+			
+			
+		} catch (PersistenceException e) {
+			System.err.println("PersistenceException: "+e.getMessage());
+		}
+		 finally {
+			entityManager.close();
+		}
+		
+		return null;
+	}
+
 }

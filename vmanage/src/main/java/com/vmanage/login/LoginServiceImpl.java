@@ -1,11 +1,14 @@
 package com.vmanage.login;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vmanage.email.EmailSender;
 import com.vmanage.entities.VendorEntity;
 import com.vmanage.otp.OtpGenerator;
+import com.vmanage.repository.VendorRepository;
 import com.vmanage.service.VendorService;
 
 @Service
@@ -19,7 +22,10 @@ public class LoginServiceImpl implements LoginService {
 
 	@Autowired
 	private VendorService service;
-
+	
+	@Autowired
+	private VendorRepository repository;
+	
 	@Override
 	public void sendOtp(String email) {
 
@@ -41,6 +47,26 @@ public class LoginServiceImpl implements LoginService {
 			}
 		}
 
+	}
+
+
+	@Override
+	public String verifyOtp(String otp) {
+		
+		List<VendorEntity> all = this.repository.findAll();
+		
+		for (VendorEntity vendorEntity : all) {
+			if (vendorEntity.getOtp().equals(otp)) {
+				System.out.println("OTP MATCH.");
+				return "";
+			}
+			else {
+				System.out.println("OTP NOT MATCH");
+				return "Otp not match";
+			}
+		}
+		
+		return null;
 	}
 
 }
