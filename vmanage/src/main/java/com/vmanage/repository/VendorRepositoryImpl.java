@@ -1,5 +1,6 @@
 package com.vmanage.repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,6 +171,31 @@ public class VendorRepositoryImpl implements VendorRepository {
 		}
 
 		return list;
+	}
+
+	@Override
+	public void updatedOtpGeneratedTime(LocalDateTime otpGeneratedTime, String email) {
+		EntityManager entityManager = factory.createEntityManager();
+		System.out.println("EntityManager created.");
+		EntityTransaction transaction = entityManager.getTransaction();
+		System.out.println("EntityTransaction created.");
+
+		try {
+			Query query = entityManager.createNamedQuery("updatedOtpGeneratedTime");
+			query.setParameter("time", otpGeneratedTime);
+			query.setParameter("email", email);
+
+			int executeUpdate = query.executeUpdate();
+			System.out.println("updated: " + executeUpdate);
+
+		} catch (PersistenceException e) {
+			System.out.println("PersistenceException: " + e.getMessage());
+			transaction.rollback();
+		} finally {
+			entityManager.close();
+			System.out.println("EntityManager closed.");
+		}
+
 	}
 
 }

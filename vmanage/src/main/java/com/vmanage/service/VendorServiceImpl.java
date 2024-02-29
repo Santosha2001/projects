@@ -1,6 +1,7 @@
 package com.vmanage.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,7 +87,6 @@ public class VendorServiceImpl implements VendorService {
 	public void updateOtpByEmail(String otp, String email) {
 
 		this.repository.updateOtpByEmail(otp, email);
-
 	}
 
 }
