@@ -9,6 +9,8 @@ public interface VendorAjaxService {
 	String findByEmail(String email);
 
 	String findByWebsiteAjax(String website);
-	
+
 	String emailLogInAjax(String email);
+
+	String otpAjax(String otp);
 }

@@ -32,22 +32,26 @@ public class VendorController {
 	public String save(@Valid VendorEntity vendorEntity, BindingResult bindingResult, Model model) {
 		System.out.println("VendorEntity has errors: " + bindingResult.hasErrors());
 
-		// for retaining the values in the form
+		/* FOR RETAINING THE VALES IN THE FORM FIELDS */
 		model.addAttribute("vendorEntity", vendorEntity);
 
 		if (bindingResult.hasErrors()) {
 			List<ObjectError> objectErrors = bindingResult.getAllErrors();
 			objectErrors.forEach(a -> System.err.println(a.getObjectName() + " " + a.getDefaultMessage()));
+
+			/* FOR BACKEND(JAVA) VALIDATION OF FIELDS */
 			model.addAttribute("error", objectErrors);
 
 			return "Registration";
 
 		} else {
-
 			String uniqueError = service.isExistByGstOrNumberOrMailOrSite(vendorEntity.getVendorGSTNumber(),
 					vendorEntity.getContactNumber(), vendorEntity.getVendorEmail(), vendorEntity.getWebsite());
 			if (uniqueError != null) {
+
+				/* EXISTENCE CHECK OF FIELDS USING BACKEND */
 				model.addAttribute("uniqueError", uniqueError);
+
 				return "Registration";
 			}
 			this.service.save(vendorEntity);
@@ -57,7 +61,5 @@ public class VendorController {
 
 			return "Registration";
 		}
-
 	}
-
 }

@@ -18,12 +18,11 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 		System.out.println("VendorAjaxServiceImpl created.");
 	}
 
-	// GST USING AJAX
+	/* GST AJAX VALIDATON */
 	@Override
 	public String findByGstAjax(String gst) {
 
 		List<VendorEntity> list = this.repository.findAll();
-
 		for (VendorEntity vendorEntity : list) {
 			System.out.println(vendorEntity.getVendorGSTNumber() + "  " + gst);
 			if (vendorEntity.getVendorGSTNumber().equalsIgnoreCase(gst)) {
@@ -37,7 +36,7 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 		return null;
 	}
 
-	// MOBILE NUMBER USING AJAX
+	/* MOBILE NUMBER AJAX VALIDATIOIN */
 	@Override
 	public String findByMobileAjax(Long mobile) {
 
@@ -56,7 +55,7 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 		return null;
 	}
 
-	// EMAIL USING AJAX
+	/* EMAIL AJAX VALIDATION */
 	@Override
 	public String findByEmail(String email) {
 		List<VendorEntity> list = this.repository.findAll();
@@ -74,7 +73,7 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 		return null;
 	}
 
-	// WEBSITE USING AJAX
+	/* WEBSITE AJAX VALIDATION */
 	@Override
 	public String findByWebsiteAjax(String website) {
 		List<VendorEntity> list = this.repository.findAll();
@@ -90,8 +89,8 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 		}
 		return null;
 	}
-	
-	
+
+	/* EMAIL AJAX VALIDATION WHILE LOGIN */
 	@Override
 	public String emailLogInAjax(String email) {
 		List<VendorEntity> list = this.repository.findAll();
@@ -105,4 +104,20 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 		return null;
 	}
 
+	/* OTP AJAX */
+	@Override
+	public String otpAjax(String otp) {
+
+		List<VendorEntity> all = this.repository.findAll();
+		for (VendorEntity vendorEntity : all) {
+			if (vendorEntity.getOtp().equals(otp)) {
+				System.out.println("OTP MATCH.");
+				return "";
+			} else {
+				System.out.println("OTP NOT MATCH");
+				return "Otp not match";
+			}
+		}
+		return null;
+	}
 }

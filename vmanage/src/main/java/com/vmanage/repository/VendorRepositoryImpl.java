@@ -23,6 +23,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 		System.out.println("VendorRepositoryImpl created.");
 	}
 
+	/* SAVE ENTITY */
 	@Override
 	public void save(VendorEntity vendorEntity) {
 		System.out.println(vendorEntity + "\n");
@@ -35,6 +36,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 			transaction.begin();
 			entityManager.persist(vendorEntity);
 			transaction.commit();
+
 		} catch (PersistenceException e) {
 			System.err.println("PersistenceException: " + e.getMessage());
 			transaction.rollback();
@@ -43,9 +45,9 @@ public class VendorRepositoryImpl implements VendorRepository {
 			entityManager.close();
 			System.out.println("EntityManager closed.");
 		}
-
 	}
 
+	/* IS EXIST */
 	@Override
 	public VendorEntity isExistByGstOrNumberOrMailOrSite(String gst, Long number, String email, String website) {
 		EntityManager entityManager = factory.createEntityManager();
@@ -65,6 +67,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 				return null;
 			}
 			System.err.println("PersistenceException in exist: " + e.getMessage());
+
 		} finally {
 			entityManager.close();
 			System.out.println("EM closed.");
@@ -72,6 +75,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 		return entity;
 	}
 
+	/* FIND ALL */
 	@Override
 	public List<VendorEntity> findAll() {
 		EntityManager entityManager = factory.createEntityManager();
@@ -81,8 +85,10 @@ public class VendorRepositoryImpl implements VendorRepository {
 		try {
 			Query query = entityManager.createNamedQuery("findAll");
 			list = query.getResultList();
+
 		} catch (PersistenceException e) {
 			System.err.println("PersistenceException: " + e.getMessage());
+
 		} finally {
 			entityManager.close();
 			System.out.println("EntityManager closaed.");
@@ -91,53 +97,52 @@ public class VendorRepositoryImpl implements VendorRepository {
 		return list;
 	}
 
+	/* UPDATED OTP BY EMAIL */
 	@Override
 	public void updateOtpByEmail(String otp, String email) {
 		EntityManager entityManager = factory.createEntityManager();
-//		System.out.println("EntityManager: " + entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
-//		System.out.println("EntityTransaction: " + transaction);
 
-		VendorEntity entity = new VendorEntity();
 		try {
 			transaction.begin();
 			System.out.println("Transaction started in updateOtpByEmail");
 			Query query = entityManager.createNamedQuery("updateOtpByEmail");
 			query.setParameter("otp", otp);
 			query.setParameter("email", email);
-			int result=	query.executeUpdate();
-			
-		System.out.println("result: "+result);
+
+			int result = query.executeUpdate();
+			System.out.println("result: " + result);
+
 			transaction.commit();
 			System.out.println("Transaction committed.");
-			
+
 		} catch (PersistenceException e) {
 			System.err.println("PersistenceException: " + e.getMessage());
 			transaction.rollback();
+
 		} finally {
 			entityManager.close();
 			System.out.println("EntityManager closed.");
-		}
 
-		//return entity;
+		}
 	}
 
+	/* FIND ENTITY BY EMAIL */
 	@Override
 	public VendorEntity findByEmail(String email) {
 		EntityManager entityManager = factory.createEntityManager();
-		System.out.println("EntityManager: " + entityManager);
 		VendorEntity entity = new VendorEntity();
-		System.out.println("entity: "+entity);
 
 		try {
 			Query query = entityManager.createNamedQuery("findByEmail");
 			Query query2 = query.setParameter("email", email);
-			entity = (VendorEntity) query2.getSingleResult();
 
-			System.out.println("ENTITY: "+entity);
+			entity = (VendorEntity) query2.getSingleResult();
+			System.out.println("ENTITY: " + entity);
+
 		} catch (Exception e) {
 			System.err.println("PersistenceException: " + e.getMessage());
-			
+
 		} finally {
 			entityManager.close();
 			System.out.println("EntityManager closed.");
@@ -145,26 +150,25 @@ public class VendorRepositoryImpl implements VendorRepository {
 		return entity;
 	}
 
-	
+	/* FIND ALL OTP's FROM THE DATABSE */
 	@Override
 	public List<String> findOtp(String otp) {
-		
+
 		EntityManager entityManager = factory.createEntityManager();
-		List<String> list=new ArrayList<String>();
-		
+		List<String> list = new ArrayList<String>();
+
 		try {
 			Query query = entityManager.createNamedQuery("findOtp");
-			list=query.getResultList();
-			
-			
+			list = query.getResultList();
+
 		} catch (PersistenceException e) {
-			System.err.println("PersistenceException: "+e.getMessage());
-		}
-		 finally {
+			System.err.println("PersistenceException: " + e.getMessage());
+
+		} finally {
 			entityManager.close();
 		}
-		
-		return null;
+
+		return list;
 	}
 
 }

@@ -22,6 +22,7 @@ public class VendorServiceImpl implements VendorService {
 		System.out.println("VendorServiceImpl created.");
 	}
 
+	/* SAVE ENTITY SERVICE */
 	@Override
 	public VendorEntity save(VendorEntity entity) {
 		entity.setCreatedBy(entity.getOwnerName());
@@ -31,11 +32,11 @@ public class VendorServiceImpl implements VendorService {
 		return entity;
 	}
 
+	/* ENTITY EXIST SERVICE */
 	@Override
 	public String isExistByGstOrNumberOrMailOrSite(String gst, Long number, String email, String website) {
 
 		VendorEntity entity = repository.isExistByGstOrNumberOrMailOrSite(gst, number, email, website);
-
 		if (entity != null) {
 			if (entity.getVendorGSTNumber().equals(gst)) {
 				return "GST already exist.";
@@ -46,13 +47,12 @@ public class VendorServiceImpl implements VendorService {
 			} else if (entity.getWebsite().equals(website)) {
 				return "Website already exist";
 			}
-
 			System.out.println("Details not present save it.");
 		}
-
 		return null;
 	}
 
+	/* SAEND MAIL SERVICE */
 	@Override
 	public boolean sendEmail(String email, String username) {
 		System.out.println("Sending email.");
@@ -70,6 +70,7 @@ public class VendorServiceImpl implements VendorService {
 		return false;
 	}
 
+	/* FIND ENTITY BY EMAIL */
 	@Override
 	public VendorEntity findByEmail(String email) {
 
@@ -77,30 +78,15 @@ public class VendorServiceImpl implements VendorService {
 		if (byEmail != null && !byEmail.getVendorEmail().isEmpty()) {
 			return byEmail;
 		}
-
 		return byEmail;
 	}
 
-	
+	/* UPDATE OTP BY EMAIL */
 	@Override
 	public void updateOtpByEmail(String otp, String email) {
 
 		this.repository.updateOtpByEmail(otp, email);
 
-		
-//		if (updateOtpByEmail != null) {
-//			if (updateOtpByEmail.getVendorEmail().equalsIgnoreCase(email)) {
-//				updateOtpByEmail.setOtp(otp);
-//			} else {
-//				System.out.println("otp not updated.");
-//			}
-//		}
-		
-		
-//		System.out.println("updateOtpByEmail:: "+updateOtpByEmail);
-
-		 //return updateOtpByEmail(otp, email);
 	}
-	
 
 }
