@@ -178,18 +178,22 @@ public class VendorRepositoryImpl implements VendorRepository {
 		EntityManager entityManager = factory.createEntityManager();
 		System.out.println("EntityManager created.");
 		EntityTransaction transaction = entityManager.getTransaction();
-		System.out.println("EntityTransaction created.");
 
 		try {
+			System.out.println("EntityTransaction created in updatedOtpGeneratedTime");
+			transaction.begin();
 			Query query = entityManager.createNamedQuery("updatedOtpGeneratedTime");
 			query.setParameter("time", otpGeneratedTime);
 			query.setParameter("email", email);
 
 			int executeUpdate = query.executeUpdate();
-			System.out.println("updated: " + executeUpdate);
+			System.out.println("updated rows: " + executeUpdate);
+			
+			transaction.commit();
 
 		} catch (PersistenceException e) {
-			System.out.println("PersistenceException: " + e.getMessage());
+			System.out.println("PersistenceException: in updatedOtpGeneratedTime " + e.getMessage());
+			e.printStackTrace();
 			transaction.rollback();
 		} finally {
 			entityManager.close();

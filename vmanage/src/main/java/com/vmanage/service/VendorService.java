@@ -1,5 +1,7 @@
 package com.vmanage.service;
 
+import java.time.LocalDateTime;
+
 import com.vmanage.entities.VendorEntity;
 
 public interface VendorService {
@@ -13,5 +15,7 @@ public interface VendorService {
 	VendorEntity findByEmail(String email);
 
 	void updateOtpByEmail(String otp, String email);
+
+	void updateOtpGeneratedTime(LocalDateTime otpGeneratedTime, String email);
 
 }

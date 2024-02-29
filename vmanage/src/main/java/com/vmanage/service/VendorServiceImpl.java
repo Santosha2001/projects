@@ -87,6 +87,13 @@ public class VendorServiceImpl implements VendorService {
 	public void updateOtpByEmail(String otp, String email) {
 
 		this.repository.updateOtpByEmail(otp, email);
+		
+	}
+	
+	/* UPDATE OTP GENERATED TIME */
+	@Override
+	public void updateOtpGeneratedTime(LocalDateTime otpGeneratedTime, String email) {
+		this.repository.updatedOtpGeneratedTime(LocalDateTime.now(), email);
 	}
 
 }

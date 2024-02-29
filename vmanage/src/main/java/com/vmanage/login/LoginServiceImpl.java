@@ -31,8 +31,6 @@ public class LoginServiceImpl implements LoginService {
 	/* SEND OTP TO MAIL */
 	@Override
 	public void sendOtp(String email) {
-		
-		VendorEntity vendorEntity = new VendorEntity();
 
 		VendorEntity byEmail = this.service.findByEmail(email);
 		System.out.println("byEmail: " + byEmail);
@@ -41,12 +39,15 @@ public class LoginServiceImpl implements LoginService {
 			String otp = this.otpGenerator.generateOtp();
 			System.out.println("OTP: " + otp);
 
+			
 			boolean emailSender2 = this.emailSender.emailSender(email, "santosha7022@outlook.com", "One Time Password",
 					"Your OTP for login is " + otp + ". Don't share with anyone.");
 
+			this.service.updateOtpGeneratedTime(LocalDateTime.now(), email);
+
 			if (emailSender2) {
 				this.service.updateOtpByEmail(otp, email);
-				vendorEntity.setOtpGenratedTime(LocalDateTime.now());
+
 				System.out.println("otp sent to mail.");
 			} else {
 				System.err.println("otp not sent.");
