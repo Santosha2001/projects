@@ -96,7 +96,7 @@
 
                 <!-- VERIFY OTP -->
                 <div class="form-group mt-3">
-                    <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter OTP" value=""
+                    <input type="number" class="form-control" id="otp" name="otp" placeholder="Enter OTP" value=""
                         onchange="otpVerify()" maxlength="6" />
                 </div>
                 <span id="otpError" style="color: red;"></span>

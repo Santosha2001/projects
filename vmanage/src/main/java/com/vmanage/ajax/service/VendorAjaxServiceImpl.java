@@ -108,28 +108,31 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 	@Override
 	public String otpAjax(String otp) {
 
-		List<String> otps = this.repository.findOtp(otp);
-		for (String otpAjax : otps) {
-			System.out.println(otpAjax + " " + otp);
-			if (otpAjax != null && !"".equals(otpAjax)) {
-				if (otpAjax.equals(otp)) {
-					System.out.println("OTP MATCHED.");
+		/*
+		 * List<String> otps = this.repository.findOtp(otp); for (String otpAjax : otps)
+		 * { System.out.println(otpAjax + " " + otp); if (otpAjax != null &&
+		 * !"".equals(otpAjax)) { if (otpAjax.equals(otp)) {
+		 * System.out.println("OTP MATCHED."); return ""; }
+		 * 
+		 * } else { System.out.println("OTP NOT MATCHED."); return "*otp not matched"; }
+		 * }
+		 */
+
+		List<VendorEntity> all = this.repository.findAll();
+
+		for (VendorEntity vendorEntity : all) {
+			System.out.println(vendorEntity.getOtp() + " " + otp);
+			if (vendorEntity.getOtp() != null && !"".equals(vendorEntity.getOtp())) {
+				if (vendorEntity.getOtp().equals(otp)) {
+
+					System.out.println("OTP MATCH.");
 					return "";
 				}
-
 			} else {
-				System.out.println("OTP NOT MATCHED.");
-				return "*otp not matched";
+				System.out.println("OTP NOT MATCH");
+				return "Otp not match";
 			}
 		}
-
-		/*
-		 * List<VendorEntity> all = this.repository.findAll(); for (VendorEntity
-		 * vendorEntity : all) { System.out.println(vendorEntity.getOtp() + " " + otp);
-		 * if (vendorEntity.getOtp().equals(otp)) { System.out.println("OTP MATCH.");
-		 * return ""; } else { System.out.println("OTP NOT MATCH"); return
-		 * "Otp not match"; } }
-		 */
 
 		return null;
 	}
