@@ -57,31 +57,21 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public String verifyOtp(String otp) {
 
-		/*
-		 * List<String> otps = this.repository.findOtp(otp);
-		 * 
-		 * for (String otpCheck : otps) { System.out.println(otpCheck + " " + otp);
-		 * 
-		 * if (otpCheck != null && !"".equals(otpCheck)) { if
-		 * (otpCheck.equalsIgnoreCase(otp)) {
-		 * 
-		 * System.out.println("OTP IS FOUND."); } } else {
-		 * System.out.println("OTP IS NOT FOUND."); } }
-		 */
-
 		List<VendorEntity> list = this.repository.findAll();
-
 		for (VendorEntity vendorEntity : list) {
 			System.out.println(vendorEntity.getOtp() + " " + otp);
+			
 			if (vendorEntity.getOtp() != null && !"".equals(vendorEntity.getOtp())) {
 				if (vendorEntity.getOtp().equals(otp)) {
-					System.out.println("otp match to database.");
+					System.out.println("otp matched.");
 				}
+
+			} else {
+				System.out.println("otp not matched.");
 			}
-			System.out.println("otp not match to database.");
 		}
 
-		return null;
+		return otp;
 	}
 
 }

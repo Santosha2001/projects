@@ -26,12 +26,12 @@ public class LoginController {
 		System.out.println("sendung otp  to email : " + vendorEmail);
 
 		if (vendorEmail != null && !vendorEmail.isEmpty()) {
-			this.loginService.sendOtp(vendorEmail);		
+			this.loginService.sendOtp(vendorEmail);
 			model.addAttribute("mail", vendorEmail);
-			
+
 			return "loginSuccess";
 		}
-		
+
 		return "login";
 	}
 
@@ -41,8 +41,17 @@ public class LoginController {
 
 		String verifyOtp = this.loginService.verifyOtp(otp);
 		if (verifyOtp != null && !"".equals(verifyOtp)) {
-			model.addAttribute("otpverified", "Login Successful.");
-			return "index";
+			if (verifyOtp.equals(otp)) {
+				System.out.println("OTP MATCHED.");
+
+				model.addAttribute("otpverified", "Login Successful.");
+				return "loginSuccess";
+			} else {
+				System.out.println("OTP NOT MATCHED.");
+				model.addAttribute("otoNotVerified", "LogIn Failure.");
+
+				return "loginSuccess";
+			}
 		}
 
 		return "loginSuccess";
