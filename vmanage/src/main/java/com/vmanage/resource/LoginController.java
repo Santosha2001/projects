@@ -31,7 +31,7 @@ public class LoginController {
 
 			return "loginSuccess";
 		}
-
+		
 		return "login";
 	}
 
@@ -40,20 +40,16 @@ public class LoginController {
 	public String verifyOtp(@RequestParam String otp, Model model) {
 
 		String verifyOtp = this.loginService.verifyOtp(otp);
-		if (verifyOtp != null && !"".equals(verifyOtp)) {
-			if (verifyOtp.equals(otp)) {
-				System.out.println("OTP MATCHED.");
 
-				model.addAttribute("otpverified", "Login Successful.");
-				return "loginSuccess";
-			} else {
-				System.out.println("OTP NOT MATCHED.");
-				model.addAttribute("otoNotVerified", "LogIn Failure.");
+		if (verifyOtp != null && !"".equals(verifyOtp) && verifyOtp.equals(otp)) {
+			System.out.println("OTP MATCHED.");
+			model.addAttribute("otpMatched", "Login Success.");
+			return "loginSuccess";
 
-				return "loginSuccess";
-			}
 		}
+		System.out.println("OTP NOT MATCHED.");
+		model.addAttribute("otpNotMatched", "Login Failed.");
 
-		return "loginSuccess";
+		return "login";
 	}
 }

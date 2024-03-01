@@ -79,6 +79,8 @@
             </div>
         </nav>
 
+        <span style="justify-content: center; text-align: center; color: red;">${otpNotMatched}</span>
+
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
             <form action="${pageContext.request.contextPath}/otp/sendOTP?email=${email}" method="post">
                 <!-- action="${pageContext.request.contextPath}/otp/sendOTP?email=${email}" -->

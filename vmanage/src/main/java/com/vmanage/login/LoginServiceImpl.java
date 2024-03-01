@@ -1,7 +1,6 @@
 package com.vmanage.login;
 
 import java.time.LocalDateTime;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,18 +59,14 @@ public class LoginServiceImpl implements LoginService {
 		List<VendorEntity> list = this.repository.findAll();
 		for (VendorEntity vendorEntity : list) {
 			System.out.println(vendorEntity.getOtp() + " " + otp);
-			
-			if (vendorEntity.getOtp() != null && !"".equals(vendorEntity.getOtp())) {
-				if (vendorEntity.getOtp().equals(otp)) {
-					System.out.println("otp matched.");
-				}
 
+			if (vendorEntity.getOtp() != null && !"".equals(vendorEntity.getOtp())
+					&& vendorEntity.getOtp().equals(otp)) {
+				System.out.println("otp matched.");
 			} else {
 				System.out.println("otp not matched.");
 			}
 		}
-
 		return otp;
 	}
-
 }
