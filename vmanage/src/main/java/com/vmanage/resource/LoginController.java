@@ -27,6 +27,8 @@ public class LoginController {
 	/* SENDING OTP TO EMAIL */
 	@PostMapping("/sendOTP")
 	public String loginUsingOtp(@RequestParam String vendorEmail, Model model) {
+		
+		vendorEmail = vendorEmail.replace(",", "");
 		System.out.println("sendung otp  to email : " + vendorEmail);
 
 		if (vendorEmail != null && !vendorEmail.isEmpty()) {
@@ -42,14 +44,14 @@ public class LoginController {
 	/* VERIFY OTP */
 
 	@PostMapping(value = "/otpVerify")
-	public String verifyOtp(@RequestParam Integer otp, @RequestParam String email, Model model) {
+	public String verifyOtp(@RequestParam Integer otp, @RequestParam String vendorEmail, Model model) {
 
-		Integer otp2 = this.loginService.findOtp(otp, email);
+		Integer otp2 = this.loginService.findOtp(otp, vendorEmail);
 
-		System.out.println("EMAIL: " + email);
+		System.out.println("EMAIL: " + vendorEmail);
 		System.out.println("OTP: " + otp);
 
-		if (email != null) {
+		if (vendorEmail != null) {
 			if (otp2 != null && !"".equals(otp2) && otp2.equals(otp)) {
 				System.out.println("OTP MATCHED.");
 				model.addAttribute("otpMatched", "Login Success.");
