@@ -34,7 +34,8 @@ public class LoginServiceImpl implements LoginService {
 		VendorEntity byEmail = this.service.findByEmail(email);
 
 		if (byEmail.getVendorEmail().equalsIgnoreCase(email)) {
-			String otp = this.otpGenerator.generateOtp();
+			
+			Integer otp = this.otpGenerator.generateOtp();
 			System.out.println("OTP: " + otp);
 
 			boolean emailSender2 = this.emailSender.emailSender(email, "santosha7022@outlook.com", "One Time Password",
@@ -53,20 +54,25 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	/* VERIFY OTP */
+	
 	@Override
-	public String verifyOtp(String otp) {
+	public Integer verifyOtp(Integer otp, String email) {
 
 		List<VendorEntity> list = this.repository.findAll();
 		for (VendorEntity vendorEntity : list) {
 			System.out.println(vendorEntity.getOtp() + " " + otp);
 
-			if (vendorEntity.getOtp() != null && !"".equals(vendorEntity.getOtp())
-					&& vendorEntity.getOtp().equals(otp)) {
-				System.out.println("otp matched.");
+			if (vendorEntity.getVendorEmail()!=null && vendorEntity.getVendorEmail().equalsIgnoreCase(email)) {
+				if (vendorEntity.getOtp() != null  && vendorEntity.getOtp().equals(otp)) {
+					
+					System.out.println("otp matched.");
+				}
 			} else {
 				System.out.println("otp not matched.");
 			}
 		}
 		return otp;
 	}
+	
+
 }

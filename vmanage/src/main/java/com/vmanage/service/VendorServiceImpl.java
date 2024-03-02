@@ -84,7 +84,7 @@ public class VendorServiceImpl implements VendorService {
 
 	/* UPDATE OTP BY EMAIL */
 	@Override
-	public void updateOtpByEmail(String otp, String email) {
+	public void updateOtpByEmail(Integer otp, String email) {
 
 		this.repository.updateOtpByEmail(otp, email);
 		

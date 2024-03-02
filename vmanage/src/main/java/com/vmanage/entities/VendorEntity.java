@@ -25,12 +25,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @NamedQuery(name = "isExist", query = "SELECT et FROM VendorEntity as et WHERE et.vendorGSTNumber=:gst OR "
 		+ "et.contactNumber=:number OR et.vendorEmail=:vMail OR et.website=:vWebsite")
+
 @NamedQuery(name = "findAll", query = "SELECT et FROM VendorEntity et")
 @NamedQuery(name = "findByEmail", query = "SELECT et FROM VendorEntity et WHERE et.vendorEmail=:email")
 @NamedQuery(name = "updateOtpByEmail", query = "UPDATE VendorEntity et SET et.otp=:otp WHERE "
 		+ "et.vendorEmail=:email")
-@NamedQuery(name = "findOtp", query = "SELECT et.otp FROM VendorEntity et")
 
+// @NamedQuery(name = "findOtp", query = "SELECT et.otp FROM VendorEntity et")
+//@NamedQuery(name = "findOtpByEmail", query = "SELECT et.otp FROM VendorEntity et WHERE et.vendorEmail=:mail")
 @NamedQuery(name = "updatedOtpGeneratedTime", query = "UPDATE VendorEntity et SET et.otpGenratedTime=:time "
 		+ "WHERE et.vendorEmail=:email")
 
@@ -102,7 +104,7 @@ public class VendorEntity {
 	private LocalDate updatedDate;
 
 	@Column(name = "v_otp")
-	private String otp;
+	private Integer otp;
 
 	@Column(name = "otp_generated_time")
 	private LocalDateTime otpGenratedTime;

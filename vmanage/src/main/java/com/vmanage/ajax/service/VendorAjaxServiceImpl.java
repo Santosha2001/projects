@@ -105,27 +105,18 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 	}
 
 	/* OTP AJAX */
+	/*
 	@Override
-	public String otpAjax(String otp) {
-
-		/*
-		 * List<String> otps = this.repository.findOtp(otp); for (String otpAjax : otps)
-		 * { System.out.println(otpAjax + " " + otp); if (otpAjax != null &&
-		 * !"".equals(otpAjax)) { if (otpAjax.equals(otp)) {
-		 * System.out.println("OTP MATCHED."); return ""; }
-		 * 
-		 * } else { System.out.println("OTP NOT MATCHED."); return "*otp not matched"; }
-		 * }
-		 */
+	public String otpAjax(int otp) {
 
 		List<VendorEntity> all = this.repository.findAll();
 
 		for (VendorEntity vendorEntity : all) {
 			System.out.println(vendorEntity.getOtp() + " " + otp);
-			if (vendorEntity.getOtp() != null && !"".equals(vendorEntity.getOtp())) {
-				if (vendorEntity.getOtp().equals(otp)) {
-
+			if (vendorEntity.getOtp() != 0) {
+				if (vendorEntity.getOtp() == otp) {
 					System.out.println("OTP MATCH.");
+					
 					return "";
 				}
 			} else {
@@ -136,4 +127,5 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 
 		return null;
 	}
+	*/
 }

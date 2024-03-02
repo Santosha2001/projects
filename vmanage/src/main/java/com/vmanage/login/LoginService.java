@@ -2,7 +2,9 @@ package com.vmanage.login;
 
 public interface LoginService {
 
-	void sendOtp(String entity);
+	void sendOtp(String email);
 
-	String verifyOtp(String otp);
+	 Integer verifyOtp(Integer otp, String email);
+
+	
 }

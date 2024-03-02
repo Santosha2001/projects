@@ -36,7 +36,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 			transaction.commit();
 
 		} catch (PersistenceException e) {
-			System.err.println("PersistenceException: " + e.getMessage());
+			System.err.println("PersistenceException: in save " + e.getMessage());
 			transaction.rollback();
 
 		} finally {
@@ -82,7 +82,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 			list = query.getResultList();
 
 		} catch (PersistenceException e) {
-			System.err.println("PersistenceException: " + e.getMessage());
+			System.err.println("PersistenceException: in findAll " + e.getMessage());
 
 		} finally {
 			entityManager.close();
@@ -92,7 +92,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 
 	/* UPDATED OTP BY EMAIL */
 	@Override
-	public void updateOtpByEmail(String otp, String email) {
+	public void updateOtpByEmail(Integer otp, String email) {
 		EntityManager entityManager = factory.createEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
 
@@ -108,7 +108,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 			transaction.commit();
 
 		} catch (PersistenceException e) {
-			System.err.println("PersistenceException: " + e.getMessage());
+			System.err.println("PersistenceException: in updateOtpByEmail " + e.getMessage());
 			transaction.rollback();
 
 		} finally {
@@ -129,7 +129,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 			entity = (VendorEntity) query2.getSingleResult();
 
 		} catch (Exception e) {
-			System.err.println("PersistenceException: " + e.getMessage());
+			System.err.println("PersistenceException: in findByEmail " + e.getMessage());
 
 		} finally {
 			entityManager.close();
@@ -138,24 +138,21 @@ public class VendorRepositoryImpl implements VendorRepository {
 	}
 
 	/* FIND ALL OTP's FROM THE DATABSE */
-	@Override
-	public List<String> findOtp(String otp) {
 
-		EntityManager entityManager = factory.createEntityManager();
-		List<String> list = new ArrayList<String>();
-
-		try {
-			Query query = entityManager.createNamedQuery("findOtp");
-			list = query.getResultList();
-
-		} catch (PersistenceException e) {
-			System.err.println("PersistenceException: " + e.getMessage());
-
-		} finally {
-			entityManager.close();
-		}
-		return list;
-	}
+	/*
+	 * @Override public List<int[]> findOtp(int otp) {
+	 * 
+	 * EntityManager entityManager = factory.createEntityManager(); List<int[]> list
+	 * = new ArrayList<int[]>();
+	 * 
+	 * try { Query query = entityManager.createNamedQuery("findOtp"); list =
+	 * query.getResultList();
+	 * 
+	 * } catch (PersistenceException e) {
+	 * System.err.println("PersistenceException: in findOtp " + e.getMessage());
+	 * 
+	 * } finally { entityManager.close(); } return list; }
+	 */
 
 	/* UPDATE OTP GENERATED TIME BY EMAIL */
 	@Override
@@ -181,5 +178,29 @@ public class VendorRepositoryImpl implements VendorRepository {
 			entityManager.close();
 		}
 	}
+
+	/* FIND OTP BY EMAIL */
+	/*
+	@Override
+	public Integer findOtpByEmail(Integer otp, String email) {
+
+		EntityManager entityManager = factory.createEntityManager();
+		System.out.println("EntityManager");
+
+		try {
+			Query query = entityManager.createNamedQuery("findOtpByEmail");
+			query.setParameter("mail", email);
+			query.getSingleResult();
+
+		} catch (PersistenceException e) {
+			System.out.println("PersistenceException: in findOtpByEmail " + e.getMessage());
+		} finally {
+			entityManager.close();
+			System.out.println("EntityManager closed.");
+		}
+		return otp;
+
+	}
+	*/
 
 }

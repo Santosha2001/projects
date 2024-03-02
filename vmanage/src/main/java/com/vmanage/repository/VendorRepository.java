@@ -15,9 +15,9 @@ public interface VendorRepository {
 
 	VendorEntity findByEmail(String email);
 
-	void updateOtpByEmail(String otp, String email);
-
-	List<String> findOtp(String otp);
+	void updateOtpByEmail(Integer otp, String email);
 
 	void updatedOtpGeneratedTime(LocalDateTime otpGeneratedTime, String email);
+
+	//Integer findOtpByEmail(Integer otp, String email);
 }
