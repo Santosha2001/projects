@@ -53,26 +53,47 @@ public class LoginServiceImpl implements LoginService {
 		}
 	}
 
+	
+
 	/* VERIFY OTP */
 	
+	/*
 	@Override
-	public Integer verifyOtp(Integer otp, String email) {
+	public Integer verifyOtp(Integer otp) {
 
 		List<VendorEntity> list = this.repository.findAll();
 		for (VendorEntity vendorEntity : list) {
 			System.out.println(vendorEntity.getOtp() + " " + otp);
 
-			if (vendorEntity.getVendorEmail()!=null && vendorEntity.getVendorEmail().equalsIgnoreCase(email)) {
 				if (vendorEntity.getOtp() != null  && vendorEntity.getOtp().equals(otp)) {
 					
 					System.out.println("otp matched.");
-				}
+				
 			} else {
 				System.out.println("otp not matched.");
 			}
 		}
 		return otp;
 	}
-	
+	*/
+
+	@Override
+	public Integer findOtp(Integer otp, String email) {
+		
+		Integer otpByEmail = this.repository.findOtpByEmail(email);
+		
+		System.out.println("email " + email);
+		System.out.println("otp " + otp);
+		
+		if (email != null) {
+			if (otpByEmail != null && !"".equals(otpByEmail) && otpByEmail.equals(otp)) {
+				System.out.println("otp matches.");
+			}
+		} else {
+			System.out.println("otp not matches.");
+		}
+		
+		return otpByEmail;
+	}
 
 }

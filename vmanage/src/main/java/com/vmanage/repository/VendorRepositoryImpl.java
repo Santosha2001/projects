@@ -180,27 +180,33 @@ public class VendorRepositoryImpl implements VendorRepository {
 	}
 
 	/* FIND OTP BY EMAIL */
-	/*
 	@Override
-	public Integer findOtpByEmail(Integer otp, String email) {
-
+	public Integer findOtpByEmail(String email) {
+		
 		EntityManager entityManager = factory.createEntityManager();
 		System.out.println("EntityManager");
-
+		Integer result = null;
+		
 		try {
 			Query query = entityManager.createNamedQuery("findOtpByEmail");
-			query.setParameter("mail", email);
-			query.getSingleResult();
-
+			result = (Integer) query.setParameter("mail", email).getSingleResult();
+			System.out.println("result: " + result);
+			
 		} catch (PersistenceException e) {
 			System.out.println("PersistenceException: in findOtpByEmail " + e.getMessage());
-		} finally {
+		}
+		finally {
 			entityManager.close();
 			System.out.println("EntityManager closed.");
 		}
-		return otp;
-
+		
+		
+		return result;
 	}
-	*/
+
+	
+
+	
+	
 
 }

@@ -1,5 +1,7 @@
 package com.vmanage.resource;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,44 +35,45 @@ public class LoginController {
 
 			return "loginSuccess";
 		}
-		
+
 		return "login";
 	}
 
 	/* VERIFY OTP */
-	@PostMapping(value = "/otpVerify")
-	public String verifyOtp(@RequestParam Integer otp, String email, Model model) {
 
-		
-		Integer verifyOtp = this.loginService.verifyOtp(otp, email);
-		if (email != null && verifyOtp!=null && verifyOtp.equals(otp)) {
-			System.out.println("OTP MATCHED.");
-			model.addAttribute("otpMatched", "Login Success.");
-			
-			return "loginSuccess";
-		} 
-		
-		System.out.println("OTP NOT MATCHED.");
-		model.addAttribute("otpNotMatched", "Login Failed.");
-		
-		return "login";
-		
-		
-		/*
-		Integer verofyOTP = this.loginService.verofyOTP(otp, email);
-		
-		if (verofyOTP!=null && !"".equals(verofyOTP) && verofyOTP.equals(otp)) {
-			System.out.println("OTP MATCH");
-			
-			model.addAttribute("otpMatched", "Login Success.");
-			
-			return "loginSuccess";
+	@PostMapping(value = "/otpVerify")
+	public String verifyOtp(@RequestParam Integer otp, @RequestParam String email, Model model) {
+
+		Integer otp2 = this.loginService.findOtp(otp, email);
+
+		System.out.println("EMAIL: " + email);
+		System.out.println("OTP: " + otp);
+
+		if (email != null) {
+			if (otp2 != null && !"".equals(otp2) && otp2.equals(otp)) {
+				System.out.println("OTP MATCHED.");
+				model.addAttribute("otpMatched", "Login Success.");
+
+				return "loginSuccess";
+			}
+		} else {
+			System.out.println("OTP NOT MATCHED.");
+			model.addAttribute("otpNotMatched", "Login Failed.");
 		}
-		
-		System.out.println("OTP NOT MATCHED.");
-		model.addAttribute("otpNotMatched", "Login Failed.");
-		
-		return "loginSuccess";
-		*/
+
+//		Integer verifyOtp = this.loginService.verifyOtp(otp);
+//		if ( verifyOtp!=null && verifyOtp.equals(otp)) {
+//			System.out.println("OTP MATCHED.");
+//			model.addAttribute("otpMatched", "Login Success.");
+//			
+//			return "loginSuccess";
+//		} 
+//		
+//		System.out.println("OTP NOT MATCHED.");
+//		model.addAttribute("otpNotMatched", "Login Failed.");
+
+		return "login";
+
 	}
+
 }

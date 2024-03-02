@@ -19,5 +19,7 @@ public interface VendorRepository {
 
 	void updatedOtpGeneratedTime(LocalDateTime otpGeneratedTime, String email);
 
-	//Integer findOtpByEmail(Integer otp, String email);
+	Integer findOtpByEmail(String email);
+	
+	
 }
