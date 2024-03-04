@@ -27,6 +27,8 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired
 	private VendorRepository repository;
 
+	private int wrongOTPCount = 0;
+
 	/* SEND OTP TO MAIL */
 	@Override
 	public void sendOtp(String email) {
@@ -67,10 +69,16 @@ public class LoginServiceImpl implements LoginService {
 			if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
 					&& Duration.between(byEmail.getOtpGenratedTime(), LocalDateTime.now()).getSeconds() < (1 * 60)) {
 				System.out.println("otp matched.");
+			} else {
+				System.out.println("otp not matched and otp expired.");
 			}
 
-		} else {
-			System.out.println("otp not matched and otp expired.");
+		} else if (!byEmail.getOtp().equals(otp)) {
+			wrongOTPCount++;
+			if (wrongOTPCount >= 3) {
+				System.out.println("wrong otp entered 3 times.");
+			}
+
 		}
 
 		return byEmail;

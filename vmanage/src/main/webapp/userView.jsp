@@ -92,7 +92,7 @@
 
 
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
-            <form action="${pageContext.request.contextPath}/otp/otpVerify?vendorEmail=${vendorEmail}" method="get">
+            <form action="${pageContext.request.contextPath}/otp/otpVerify?vendorEmail=${vendorEmail}" method="">
                 <!-- action="${pageContext.request.contextPath}/otp/otpVerify?otp=${otp}&email=${email}" -->
 
                 <h2 style="text-align: center; color: #29b03e; font-style: italic;">LOG IN</h2>

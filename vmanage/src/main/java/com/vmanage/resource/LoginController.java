@@ -21,6 +21,8 @@ public class LoginController {
 	@Autowired
 	private LoginService loginService;
 
+	private int wrongOTPCount = 0;
+
 	public LoginController() {
 		System.out.println("LoginController created.");
 	}
@@ -43,7 +45,6 @@ public class LoginController {
 	}
 
 	/* VERIFY OTP */
-
 	@GetMapping(value = "/otpVerify")
 	public String verifyOtp(@RequestParam Integer otp, @RequestParam String vendorEmail, Model model) {
 
@@ -55,6 +56,13 @@ public class LoginController {
 				model.addAttribute("otpMatched", "Login Success.");
 
 				return "userView";
+			} else if (!byEmail.getOtp().equals(otp)) {
+				wrongOTPCount++;
+				if (wrongOTPCount >= 3) {
+					System.out.println("wrong otp entered 3 times.");
+					model.addAttribute("wrongOTPMoreTimes", "Wrong OTP entered 3 times. Please Re-Login.");
+				}
+
 			}
 		}
 		System.out.println("OTP NOT MATCHED. AND EXPIRED");
