@@ -2,7 +2,6 @@ package com.vmanage.login;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class LoginServiceImpl implements LoginService {
 		VendorEntity byEmail = this.service.findByEmail(email);
 
 		if (byEmail.getVendorEmail().equalsIgnoreCase(email)) {
-			
+
 			Integer otp = this.otpGenerator.generateOtp();
 			System.out.println("OTP: " + otp);
 
@@ -54,49 +53,27 @@ public class LoginServiceImpl implements LoginService {
 		}
 	}
 
-	
-
 	/* VERIFY OTP */
-	
-	/*
 	@Override
-	public Integer verifyOtp(Integer otp) {
+	public VendorEntity verifyOtp(Integer otp, String email) {
 
-		List<VendorEntity> list = this.repository.findAll();
-		for (VendorEntity vendorEntity : list) {
-			System.out.println(vendorEntity.getOtp() + " " + otp);
+		VendorEntity byEmail = this.repository.findByEmail(email);
 
-				if (vendorEntity.getOtp() != null  && vendorEntity.getOtp().equals(otp)) {
-					
-					System.out.println("otp matched.");
-				
-			} else {
-				System.out.println("otp not matched.");
+		System.out.println("EMAIL: " + email);
+		System.out.println("OTP: " + otp);
+
+		if (byEmail != null && !"".equals(byEmail.getVendorEmail())
+				&& byEmail.getVendorEmail().equalsIgnoreCase(email)) {
+			if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
+					&& Duration.between(byEmail.getOtpGenratedTime(), LocalDateTime.now()).getSeconds() < (1 * 60)) {
+				System.out.println("otp matched.");
 			}
-		}
-		return otp;
-	}
-	*/
 
-	@Override
-	public Integer findOtp(Integer otp, String email) {
-		
-		Integer otpByEmail = this.repository.findOtpByEmail(email);
-		
-		//VendorEntity vendorEntity = new VendorEntity();
-		
-		System.out.println("email " + email);
-		System.out.println("otp " + otp);
-		
-		if (email != null) {
-			if (otpByEmail != null && !"".equals(otpByEmail) && otpByEmail.equals(otp)  ) {
-				System.out.println("otp matches.");
-			}
 		} else {
-			System.out.println("otp not matches.");
+			System.out.println("otp not matched and otp expired.");
 		}
-		
-		return otpByEmail;
+
+		return byEmail;
 	}
 
 }
