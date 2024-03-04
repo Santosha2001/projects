@@ -31,7 +31,6 @@ import lombok.RequiredArgsConstructor;
 @NamedQuery(name = "updateOtpByEmail", query = "UPDATE VendorEntity et SET et.otp=:otp WHERE "
 		+ "et.vendorEmail=:email")
 
-@NamedQuery(name = "findOtpByEmail", query = "SELECT et.otp FROM VendorEntity et WHERE et.vendorEmail=:mail")
 @NamedQuery(name = "updatedOtpGeneratedTime", query = "UPDATE VendorEntity et SET et.otpGenratedTime=:time "
 		+ "WHERE et.vendorEmail=:email")
 

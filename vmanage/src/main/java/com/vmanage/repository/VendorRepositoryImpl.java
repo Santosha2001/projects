@@ -44,7 +44,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 		}
 	}
 
-	/* IS EXIST */
+	/* IS EXIST GST, MOBILE, EMAIL, WEBSITE */
 	@Override
 	public VendorEntity isExistByGstOrNumberOrMailOrSite(String gst, Long number, String email, String website) {
 		EntityManager entityManager = factory.createEntityManager();
@@ -137,23 +137,6 @@ public class VendorRepositoryImpl implements VendorRepository {
 		return entity;
 	}
 
-	/* FIND ALL OTP's FROM THE DATABSE */
-
-	/*
-	 * @Override public List<int[]> findOtp(int otp) {
-	 * 
-	 * EntityManager entityManager = factory.createEntityManager(); List<int[]> list
-	 * = new ArrayList<int[]>();
-	 * 
-	 * try { Query query = entityManager.createNamedQuery("findOtp"); list =
-	 * query.getResultList();
-	 * 
-	 * } catch (PersistenceException e) {
-	 * System.err.println("PersistenceException: in findOtp " + e.getMessage());
-	 * 
-	 * } finally { entityManager.close(); } return list; }
-	 */
-
 	/* UPDATE OTP GENERATED TIME BY EMAIL */
 	@Override
 	public void updatedOtpGeneratedTime(LocalDateTime otpGeneratedTime, String email) {
@@ -178,35 +161,5 @@ public class VendorRepositoryImpl implements VendorRepository {
 			entityManager.close();
 		}
 	}
-
-	/* FIND OTP BY EMAIL */
-	@Override
-	public Integer findOtpByEmail(String email) {
-		
-		EntityManager entityManager = factory.createEntityManager();
-		System.out.println("EntityManager");
-		Integer result = null;
-		
-		try {
-			Query query = entityManager.createNamedQuery("findOtpByEmail");
-			result = (Integer) query.setParameter("mail", email).getSingleResult();
-			System.out.println("result: " + result);
-			
-		} catch (PersistenceException e) {
-			System.out.println("PersistenceException: in findOtpByEmail " + e.getMessage());
-		}
-		finally {
-			entityManager.close();
-			System.out.println("EntityManager closed.");
-		}
-		
-		
-		return result;
-	}
-
-	
-
-	
-	
 
 }
