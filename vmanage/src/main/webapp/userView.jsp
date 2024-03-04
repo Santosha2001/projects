@@ -75,13 +75,20 @@
                             </ul>
                         </li>
                     </ul>
+                    <!-- <span class="btn btn-outline-success" type="">${entity.getVendorNname()}</span> -->
+                    <!-- <ul class="d-flex">
+                        <li class="nav-item btn btn-outline-success">
+                            <a class="nav-link" href="#">${entity.getVendorNname()}</a>
+                        </li>
+                    </ul> -->
+                    <form class="d-flex">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                      </form>
                 </div>
             </div>
         </nav>
 
         <span style="justify-content: center; text-align: center; color: green;">${otpMatched}</span>
-
-        <span style="justify-content: center; text-align: center; color: red;">${otpNotMatched}</span>
 
 
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
@@ -121,34 +128,7 @@
             </div>
         </footer>
 
-        <!-- <script>
-            function otpVerify() {
-                const otp = document.getElementById("otp").value;
-                const logInBtn = document.getElementById("otpVerifyBtn");
 
-                if (otp != null && otp != "" && otp.length == 6) {
-                    document.getElementById("otpError").innerHTML = "";
-
-                    const xhtp = new XMLHttpRequest();
-                    xhtp.open("GET", "http://localhost:8080/vmanage/otpVerifyAjax/" + otp);
-
-                    xhtp.send();
-
-                    xhtp.onload = function () {
-                        document.getElementById("otpError").innerHTML = this.responseText;
-                    }
-
-                    logInBtn.removeAttribute('disabled');
-
-                } else if (otp == null || otp == "" || otp.includes('  ')) {
-                    document.getElementById("otpError").innerHTML = "*otp is in-valid.";
-                    logInBtn.setAttribute("disabled", "");
-                } else if (otp.length != 6) {
-                    document.getElementById("otpError").innerHTML = "*otp length is mismatch.";
-                    logInBtn.setAttribute("disabled", "");
-                }
-            }
-        </script> -->
     </body>
 
     </html>

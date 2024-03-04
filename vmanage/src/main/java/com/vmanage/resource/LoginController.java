@@ -5,10 +5,14 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vmanage.entities.VendorEntity;
 import com.vmanage.login.LoginService;
@@ -43,8 +47,10 @@ public class LoginController {
 
 	/* VERIFY OTP */
 
-	@PostMapping(value = "/otpVerify")
+	@GetMapping(value = "/otpVerify")	
 	public String verifyOtp(@RequestParam Integer otp, @RequestParam String vendorEmail, Model model) {
+		
+		// model.addAttribute("vendorEntity", entity);
 
 		Integer otp2 = this.loginService.findOtp(otp, vendorEmail);
 
@@ -56,12 +62,13 @@ public class LoginController {
 				System.out.println("OTP MATCHED.");
 				model.addAttribute("otpMatched", "Login Success.");
 
-				return "loginSuccess";
+				return "userView";
 			}
-		} else {
+		} 
 			System.out.println("OTP NOT MATCHED.");
 			model.addAttribute("otpNotMatched", "Login Failed.");
-		}
+			return "loginSuccess";
+		
 
 //		Integer verifyOtp = this.loginService.verifyOtp(otp);
 //		if ( verifyOtp!=null && verifyOtp.equals(otp)) {
@@ -74,7 +81,6 @@ public class LoginController {
 //		System.out.println("OTP NOT MATCHED.");
 //		model.addAttribute("otpNotMatched", "Login Failed.");
 
-		return "login";
 
 	}
 

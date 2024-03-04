@@ -1,5 +1,6 @@
 package com.vmanage.login;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -82,11 +83,13 @@ public class LoginServiceImpl implements LoginService {
 		
 		Integer otpByEmail = this.repository.findOtpByEmail(email);
 		
+		//VendorEntity vendorEntity = new VendorEntity();
+		
 		System.out.println("email " + email);
 		System.out.println("otp " + otp);
 		
 		if (email != null) {
-			if (otpByEmail != null && !"".equals(otpByEmail) && otpByEmail.equals(otp)) {
+			if (otpByEmail != null && !"".equals(otpByEmail) && otpByEmail.equals(otp)  ) {
 				System.out.println("otp matches.");
 			}
 		} else {
