@@ -2,6 +2,7 @@ package com.vmanage.entities;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,6 +35,8 @@ import lombok.RequiredArgsConstructor;
 @NamedQuery(name = "updatedOtpGeneratedTime", query = "UPDATE VendorEntity et SET et.otpGenratedTime=:time "
 		+ "WHERE et.vendorEmail=:email")
 
+@NamedQuery(name = "updateFailedAttemptCount", query = "UPDATE VendorEntity et SET et.failedAttempt=:failedOTP "
+		+ "WHERE et.vendorEmail=:email")
 public class VendorEntity {
 
 	@Id
@@ -106,4 +109,14 @@ public class VendorEntity {
 
 	@Column(name = "otp_generated_time")
 	private LocalDateTime otpGenratedTime;
+
+	@Column(name = "failed_attempt")
+	private int failedAttempt;
+
+	@Column(name = "account_non_locked")
+	private boolean accountNonLocked;
+
+	@Column(name = "account_lock_time")
+	private Date accountLockTime;
+
 }

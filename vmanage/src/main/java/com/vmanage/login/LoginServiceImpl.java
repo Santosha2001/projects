@@ -2,6 +2,7 @@ package com.vmanage.login;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,6 @@ public class LoginServiceImpl implements LoginService {
 
 	@Autowired
 	private VendorRepository repository;
-
-	private int wrongOTPCount = 0;
 
 	/* SEND OTP TO MAIL */
 	@Override
@@ -74,14 +73,75 @@ public class LoginServiceImpl implements LoginService {
 			}
 
 		} else if (!byEmail.getOtp().equals(otp)) {
-			wrongOTPCount++;
-			if (wrongOTPCount >= 3) {
-				System.out.println("wrong otp entered 3 times.");
-			}
+			
+				updateFailedAttemptCOunt(byEmail.getFailedAttempt(), email);
+				if (byEmail.getFailedAttempt()>=3) {
+					lockAccount(email);
+					System.out.println("account locked.");
+				}
+				
+				//System.out.println("failed count updated.");
+			
 
 		}
 
 		return byEmail;
 	}
+
+	@Override
+	public void updateFailedAttemptCOunt(int failedAttempt, String email) {
+		this.repository.updateFailedAttemptCount(failedAttempt + 1, email);
+		System.out.println("failed count updated.");
+	}
+
+	@Override
+	public void lockAccount(String email) {
+		
+		VendorEntity byEmail = this.repository.findByEmail(email);
+		byEmail.setAccountNonLocked(false);
+		byEmail.setAccountLockTime(new Date());
+		
+		//this.repository.save(byEmail);		
+	}
+
+	@Override
+	public void resetAttemptCount(String email) {
+		this.repository.updateFailedAttemptCount(0, email);
+		System.out.println("Failed attempt count reseted.");
+		
+	}
+	
+	private static final long lockDurationTime = 2 * 60 * 1000; // 300000
+	public static final long ATTEMPT_TIME =3;
+
+	@Override
+	public boolean unlockAccountTimeExpired(String email) {
+		
+		VendorEntity byEmail = this.repository.findByEmail(email);
+		
+		long accountLockTime = byEmail.getAccountLockTime().getTime();
+		long currentTime = System.currentTimeMillis();
+		
+		if (accountLockTime+lockDurationTime>currentTime) {
+			byEmail.setAccountNonLocked(true);
+			byEmail.setAccountLockTime(null);
+			byEmail.setFailedAttempt(0);
+		}
+		
+		return false;
+	}
+
+	/* INCREASE FAILED ATTEMPT COUNT */
+	
+
+	/* RESET ATTEMPT */
+	
+
+	/* LOCK THE USER IF CROSS MAXIMUN FAILED ATTEMPT */
+	
+
+	
+	/* UNLOCK ACCOUNT TIME EXPERIED */
+	
 
 }

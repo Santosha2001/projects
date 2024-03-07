@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.vmanage.entities.VendorEntity;
 import com.vmanage.login.LoginService;
+import com.vmanage.login.LoginServiceImpl;
 
 @Controller
 @RequestMapping("/otp")
@@ -20,8 +21,6 @@ public class LoginController {
 
 	@Autowired
 	private LoginService loginService;
-
-	private int wrongOTPCount = 0;
 
 	public LoginController() {
 		System.out.println("LoginController created.");
@@ -57,17 +56,24 @@ public class LoginController {
 
 				return "userView";
 			} else if (!byEmail.getOtp().equals(otp)) {
-				wrongOTPCount++;
-				if (wrongOTPCount >= 3) {
+				
+				this.loginService.updateFailedAttemptCOunt(byEmail.getFailedAttempt(), vendorEmail);
+				System.out.println("FAILED COUNT UPDATED.");
+				if (byEmail.getFailedAttempt()>=3) {
+					this.loginService.lockAccount(vendorEmail);
+					System.out.println("ACCOUNT LOCKED.");
+				}
+				
 					System.out.println("wrong otp entered 3 times.");
 					model.addAttribute("wrongOTPMoreTimes", "Wrong OTP entered 3 times. Please Re-Login.");
-				}
+				
 
 			}
 		}
 		System.out.println("OTP NOT MATCHED. AND EXPIRED");
 		model.addAttribute("otpNotMatched", "Login Failed.");
 		return "loginSuccess";
+
 
 	}
 

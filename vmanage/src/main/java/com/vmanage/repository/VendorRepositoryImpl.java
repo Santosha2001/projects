@@ -162,4 +162,36 @@ public class VendorRepositoryImpl implements VendorRepository {
 		}
 	}
 
+	/* UPDATE FAILED ATTEMPT CPUNT */
+	@Override
+	public void updateFailedAttemptCount(int failedCount, String email) {
+
+		EntityManager entityManager = factory.createEntityManager();
+		System.out.println("EntityManager");
+		EntityTransaction transaction = entityManager.getTransaction();
+		System.out.println("EntityTransaction");
+
+		try {
+			transaction.begin();
+			System.out.println("updateFailedAttemptCount");
+			Query query = entityManager.createNamedQuery("updateFailedAttemptCount");
+			query.setParameter("failedOTP", failedCount);
+			query.setParameter("email", email);
+			int update = query.executeUpdate();
+
+			System.out.println("update: " + update);
+
+			transaction.commit();
+
+		} catch (PersistenceException e) {
+			System.out.println("PersistenceException in updateFailedAttemptCount: " + e.getMessage());
+			transaction.rollback();
+
+		} finally {
+			entityManager.close();
+			System.out.println("EntityManager closed.");
+		}
+		
+	}
+
 }
