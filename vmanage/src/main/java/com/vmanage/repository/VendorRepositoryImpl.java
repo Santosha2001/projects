@@ -191,7 +191,36 @@ public class VendorRepositoryImpl implements VendorRepository {
 			entityManager.close();
 			System.out.println("EntityManager closed.");
 		}
-		
+
+	}
+
+	@Override
+	public void updateAccountLockTime(LocalDateTime accountLockTime, String email) {
+
+		EntityManager entityManager = factory.createEntityManager();
+
+		EntityTransaction transaction = entityManager.getTransaction();
+
+		try {
+			transaction.begin();
+			
+			Query query = entityManager.createNamedQuery("updateAccLockTime");
+			query.setParameter("lockTime", accountLockTime);
+			query.setParameter("email", email);
+
+			int executeUpdate = query.executeUpdate();
+			System.out.println("account lock: " + executeUpdate);
+
+			transaction.commit();
+
+		} catch (PersistenceException e) {
+			System.out.println("PersistenceException: in updateAccountLockTime " + e.getMessage());
+			transaction.rollback();
+		} finally {
+			entityManager.close();
+			System.out.println("EntityManager closed.");
+		}
+
 	}
 
 }

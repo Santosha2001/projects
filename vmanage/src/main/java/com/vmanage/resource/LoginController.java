@@ -48,32 +48,36 @@ public class LoginController {
 	public String verifyOtp(@RequestParam Integer otp, @RequestParam String vendorEmail, Model model) {
 
 		VendorEntity byEmail = this.loginService.verifyOtp(otp, vendorEmail);
+		
 		if (byEmail != null && byEmail.getVendorEmail().equalsIgnoreCase(vendorEmail)) {
+			
 			if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
 					&& Duration.between(byEmail.getOtpGenratedTime(), LocalDateTime.now()).getSeconds() < (1 * 60)) {
+				
 				System.out.println("OTP MATCHED.");
 				model.addAttribute("otpMatched", "Login Success.");
 
-				return "userView";
-			} else if (!byEmail.getOtp().equals(otp)) {
-				
-				this.loginService.updateFailedAttemptCOunt(byEmail.getFailedAttempt(), vendorEmail);
-				System.out.println("FAILED COUNT UPDATED.");
-				if (byEmail.getFailedAttempt()>=3) {
-					this.loginService.lockAccount(vendorEmail);
-					System.out.println("ACCOUNT LOCKED.");
+				loginService.resetAttemptCount(vendorEmail);
+
+			} else if (!byEmail.getOtp().equals(otp) && byEmail.isAccountNonLocked()) {
+				if (byEmail.getFailedAttempt() < LoginServiceImpl.ATTEMPT_TIME - 1) {
+					loginService.updateFailedAttemptCOunt(byEmail.getFailedAttempt(), vendorEmail);
+				} else if(byEmail.getFailedAttempt()<=LoginServiceImpl.ATTEMPT_TIME-1) {
+					loginService.lockAccount(vendorEmail);
+					System.out.println("LOCKED ACCOUNT.");
 				}
-				
-					System.out.println("wrong otp entered 3 times.");
-					model.addAttribute("wrongOTPMoreTimes", "Wrong OTP entered 3 times. Please Re-Login.");
-				
+			} else if (!byEmail.isAccountNonLocked()) {
+				if (loginService.unlockAccountTimeExpired(vendorEmail)) {
+					System.out.println("ACCOUNT IS UNLOCKED.");
+					loginService.resetAttemptCount(vendorEmail);
+				} else {
+					System.out.println("ACCOUNT IS LOCKED.");
+				}
 
 			}
 		}
-		System.out.println("OTP NOT MATCHED. AND EXPIRED");
-		model.addAttribute("otpNotMatched", "Login Failed.");
-		return "loginSuccess";
 
+		return "loginSuccess";
 
 	}
 

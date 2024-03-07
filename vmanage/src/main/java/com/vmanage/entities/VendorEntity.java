@@ -37,6 +37,8 @@ import lombok.RequiredArgsConstructor;
 
 @NamedQuery(name = "updateFailedAttemptCount", query = "UPDATE VendorEntity et SET et.failedAttempt=:failedOTP "
 		+ "WHERE et.vendorEmail=:email")
+@NamedQuery(name = "updateAccLockTime",query = "UPDATE VendorEntity et SET et.accountLockTime=:lockTime "
+		+ "WHERE et.vendorEmail=:email")
 public class VendorEntity {
 
 	@Id
@@ -117,6 +119,6 @@ public class VendorEntity {
 	private boolean accountNonLocked;
 
 	@Column(name = "account_lock_time")
-	private Date accountLockTime;
+	private LocalDateTime accountLockTime;
 
 }

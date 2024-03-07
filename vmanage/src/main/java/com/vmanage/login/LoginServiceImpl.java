@@ -65,23 +65,28 @@ public class LoginServiceImpl implements LoginService {
 
 		if (byEmail != null && !"".equals(byEmail.getVendorEmail())
 				&& byEmail.getVendorEmail().equalsIgnoreCase(email)) {
+			
 			if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
 					&& Duration.between(byEmail.getOtpGenratedTime(), LocalDateTime.now()).getSeconds() < (1 * 60)) {
 				System.out.println("otp matched.");
-			} else {
-				System.out.println("otp not matched and otp expired.");
-			}
-
-		} else if (!byEmail.getOtp().equals(otp)) {
-			
-				updateFailedAttemptCOunt(byEmail.getFailedAttempt(), email);
-				if (byEmail.getFailedAttempt()>=3) {
-					lockAccount(email);
-					System.out.println("account locked.");
-				}
 				
-				//System.out.println("failed count updated.");
-			
+				resetAttemptCount(email);
+			}
+			else if(!byEmail.getOtp().equals(otp) && byEmail.isAccountNonLocked()) {
+				
+				if (byEmail.getFailedAttempt()<ATTEMPT_TIME-1) {
+					updateFailedAttemptCOunt(byEmail.getFailedAttempt(), email);
+					
+				} else if(byEmail.getFailedAttempt()<=ATTEMPT_TIME-1) {
+					lockAccount(email);
+					System.out.println("account is locked.");
+				}
+			} else if (!byEmail.isAccountNonLocked()) {
+				if (unlockAccountTimeExpired(email)) {
+					System.out.println("account is unlocked, please login.");
+					resetAttemptCount(email);
+				} else System.out.println("account is locked, please try after some time.");
+			}	
 
 		}
 
@@ -99,9 +104,10 @@ public class LoginServiceImpl implements LoginService {
 		
 		VendorEntity byEmail = this.repository.findByEmail(email);
 		byEmail.setAccountNonLocked(false);
-		byEmail.setAccountLockTime(new Date());
+		byEmail.setAccountLockTime(LocalDateTime.now());
+		//accountLockTime(LocalDateTime.now(), email);
 		
-		//this.repository.save(byEmail);		
+//		this.repository.save(byEmail);		
 	}
 
 	@Override
@@ -111,7 +117,7 @@ public class LoginServiceImpl implements LoginService {
 		
 	}
 	
-	private static final long lockDurationTime = 2 * 60 * 1000; // 300000
+	private static final long lockDurationTime = 1 * 60 * 1000; // 300000
 	public static final long ATTEMPT_TIME =3;
 
 	@Override
@@ -119,17 +125,30 @@ public class LoginServiceImpl implements LoginService {
 		
 		VendorEntity byEmail = this.repository.findByEmail(email);
 		
-		long accountLockTime = byEmail.getAccountLockTime().getTime();
+		int accountLockTime = byEmail.getAccountLockTime().getSecond();
 		long currentTime = System.currentTimeMillis();
 		
 		if (accountLockTime+lockDurationTime>currentTime) {
 			byEmail.setAccountNonLocked(true);
 			byEmail.setAccountLockTime(null);
 			byEmail.setFailedAttempt(0);
+			
+//			this.repository.save(byEmail);		
+
+			System.out.println("account non locked.");
+			return true;
 		}
 		
 		return false;
 	}
+
+	/*
+	@Override
+	public void accountLockTime(LocalDateTime accountLocakTime, String email) {
+		this.repository.updateAccountLockTime(accountLocakTime, email);
+		System.out.println("account lock time updated.");
+	}
+	*/
 
 	/* INCREASE FAILED ATTEMPT COUNT */
 	
@@ -142,6 +161,8 @@ public class LoginServiceImpl implements LoginService {
 
 	
 	/* UNLOCK ACCOUNT TIME EXPERIED */
+	
+	
 	
 
 }
