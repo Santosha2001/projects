@@ -49,32 +49,56 @@ public class LoginController {
 
 		VendorEntity byEmail = this.loginService.verifyOtp(otp, vendorEmail);
 		
+		LocalDateTime otpGenratedTime = byEmail.getOtpGenratedTime();
+		LocalDateTime currentDate = LocalDateTime.now();
+		
+		LocalDateTime accountLockTime = byEmail.getAccountLockTime();
+		
 		if (byEmail != null && byEmail.getVendorEmail().equalsIgnoreCase(vendorEmail)) {
 			
 			if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
-					&& Duration.between(byEmail.getOtpGenratedTime(), LocalDateTime.now()).getSeconds() < (1 * 60)) {
+					&& Duration.between(otpGenratedTime, currentDate).getSeconds() < (5 * 60)) {
+				System.out.println("OTP IS VALID.");
+				model.addAttribute("otpMatched", "LOGIN SUCCESS.");
+				return "userView";
 				
-				System.out.println("OTP MATCHED.");
-				model.addAttribute("otpMatched", "Login Success.");
-
-				loginService.resetAttemptCount(vendorEmail);
-
-			} else if (!byEmail.getOtp().equals(otp) && byEmail.isAccountNonLocked()) {
-				if (byEmail.getFailedAttempt() < LoginServiceImpl.ATTEMPT_TIME - 1) {
-					loginService.updateFailedAttemptCOunt(byEmail.getFailedAttempt(), vendorEmail);
-				} else if(byEmail.getFailedAttempt()<=LoginServiceImpl.ATTEMPT_TIME-1) {
-					loginService.lockAccount(vendorEmail);
-					System.out.println("LOCKED ACCOUNT.");
-				}
-			} else if (!byEmail.isAccountNonLocked()) {
-				if (loginService.unlockAccountTimeExpired(vendorEmail)) {
-					System.out.println("ACCOUNT IS UNLOCKED.");
-					loginService.resetAttemptCount(vendorEmail);
-				} else {
-					System.out.println("ACCOUNT IS LOCKED.");
-				}
-
+			} else if(byEmail.getOtp() != null && byEmail.getOtp().equals(otp) &&
+					Duration.between(otpGenratedTime, currentDate).getSeconds()>(5*60)) {
+				System.out.println("OTP EXPIRED.");
+				loginService.expireOTPAndResetAttempt(null, 0, vendorEmail);
+				model.addAttribute("otpNotInTime", "LOGIN EXPIRED, DUE TO NOT IN TIME.");
+				
 			}
+			else if (!byEmail.getOtp().equals(otp)) {
+				
+				if (byEmail.getFailedAttempt() < LoginServiceImpl.ATTEMPT_TIME - 1) {
+					loginService.updateFailedAttemptCount(byEmail.getFailedAttempt(), vendorEmail);
+					
+				} else if(byEmail.getFailedAttempt()==LoginServiceImpl.ATTEMPT_TIME-1) {
+					loginService.updateFailedAttemptCount(byEmail.getFailedAttempt(), vendorEmail);
+					loginService.accountLockTime(LocalDateTime.now(), vendorEmail);
+					
+				}
+				else  {
+					loginService.expireOTPAndResetAttempt(null, 0, vendorEmail);
+					System.out.println("ACCOUNT EXPIRED.");
+					
+					if(Duration.between(accountLockTime, currentDate).getSeconds()>(1*60)) {
+						System.out.println("ACCOUNT IS UNLOCKED.");
+						
+						loginService.expireOTPAndResetAttempt(null, 0, vendorEmail);
+						System.out.println("OTP EXPERIED AND ATTEMPT RESETED..");
+						model.addAttribute("unlockedAccount", "ACCOUNT WILL UNLOCKED AFTER 1 MINUTE");
+						
+						return "loginSuccess";
+
+						
+					} 
+					model.addAttribute("accountExpired", "ACCOUNT EXPIRED.");
+					
+				}
+			} 
+			
 		}
 
 		return "loginSuccess";

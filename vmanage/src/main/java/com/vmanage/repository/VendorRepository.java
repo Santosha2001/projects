@@ -22,5 +22,7 @@ public interface VendorRepository {
 	void updateFailedAttemptCount(int failedCount, String email);
 	
 	void updateAccountLockTime(LocalDateTime accountLockTime, String email);
+	
+	void expireOTPAndAttempt(Integer OTP, int resetAttempt,  String email);
 
 }

@@ -79,11 +79,11 @@
             </div>
         </nav>
 
-        <span style="justify-content: center; text-align: center; color: green;">${otpMatched}</span>
+        <span style="justify-content: center; text-align: center; color: red;">${otpNotInTime}</span>
 
-        <span style="justify-content: center; text-align: center; color: red;">${otpNotMatched}</span>
+        <span style="justify-content: center; text-align: center; color: red;">${unlockedAccount}</span>
 
-        <span style="justify-content: center; text-align: center; color: red;">${wrongOTPMoreTimes}</span>
+        <span style="justify-content: center; text-align: center; color: red;">${accountExpired}</span>
 
 
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">

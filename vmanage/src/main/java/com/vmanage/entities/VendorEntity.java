@@ -2,7 +2,6 @@ package com.vmanage.entities;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,8 +36,11 @@ import lombok.RequiredArgsConstructor;
 
 @NamedQuery(name = "updateFailedAttemptCount", query = "UPDATE VendorEntity et SET et.failedAttempt=:failedOTP "
 		+ "WHERE et.vendorEmail=:email")
-@NamedQuery(name = "updateAccLockTime",query = "UPDATE VendorEntity et SET et.accountLockTime=:lockTime "
+@NamedQuery(name = "updateAccLockTime", query = "UPDATE VendorEntity et SET et.accountLockTime=:lockTime "
 		+ "WHERE et.vendorEmail=:email")
+
+@NamedQuery(name = "expireOTPAndResetAttempt", query = "UPDATE VendorEntity et SET et.otp=:otp, "
+		+ "et.failedAttempt=:resetAttempt WHERE et.vendorEmail=:email")
 public class VendorEntity {
 
 	@Id

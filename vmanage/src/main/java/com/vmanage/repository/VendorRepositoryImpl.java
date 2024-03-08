@@ -101,10 +101,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 			Query query = entityManager.createNamedQuery("updateOtpByEmail");
 			query.setParameter("otp", otp);
 			query.setParameter("email", email);
-
-			int result = query.executeUpdate();
-			System.out.println("result: " + result);
-
+			query.executeUpdate();
 			transaction.commit();
 
 		} catch (PersistenceException e) {
@@ -125,7 +122,6 @@ public class VendorRepositoryImpl implements VendorRepository {
 		try {
 			Query query = entityManager.createNamedQuery("findByEmail");
 			Query query2 = query.setParameter("email", email);
-
 			entity = (VendorEntity) query2.getSingleResult();
 
 		} catch (Exception e) {
@@ -141,22 +137,19 @@ public class VendorRepositoryImpl implements VendorRepository {
 	@Override
 	public void updatedOtpGeneratedTime(LocalDateTime otpGeneratedTime, String email) {
 		EntityManager entityManager = factory.createEntityManager();
-		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
-			transaction.begin();
+			entityManager.getTransaction().begin();
 			Query query = entityManager.createNamedQuery("updatedOtpGeneratedTime");
 			query.setParameter("time", otpGeneratedTime);
 			query.setParameter("email", email);
-
-			int executeUpdate = query.executeUpdate();
-			System.out.println("updated rows: " + executeUpdate);
-			transaction.commit();
+			query.executeUpdate();
+			entityManager.getTransaction().commit();
 
 		} catch (PersistenceException e) {
 			System.out.println("PersistenceException: in updatedOtpGeneratedTime " + e.getMessage());
 			e.printStackTrace();
-			transaction.rollback();
+			entityManager.getTransaction().rollback();
 		} finally {
 			entityManager.close();
 		}
@@ -165,62 +158,68 @@ public class VendorRepositoryImpl implements VendorRepository {
 	/* UPDATE FAILED ATTEMPT CPUNT */
 	@Override
 	public void updateFailedAttemptCount(int failedCount, String email) {
-
 		EntityManager entityManager = factory.createEntityManager();
-		System.out.println("EntityManager");
-		EntityTransaction transaction = entityManager.getTransaction();
-		System.out.println("EntityTransaction");
 
 		try {
-			transaction.begin();
-			System.out.println("updateFailedAttemptCount");
+			entityManager.getTransaction().begin();
 			Query query = entityManager.createNamedQuery("updateFailedAttemptCount");
 			query.setParameter("failedOTP", failedCount);
 			query.setParameter("email", email);
-			int update = query.executeUpdate();
-
-			System.out.println("update: " + update);
-
-			transaction.commit();
+			query.executeUpdate();
+			entityManager.getTransaction().commit();
 
 		} catch (PersistenceException e) {
 			System.out.println("PersistenceException in updateFailedAttemptCount: " + e.getMessage());
-			transaction.rollback();
+			entityManager.getTransaction().rollback();
 
 		} finally {
 			entityManager.close();
-			System.out.println("EntityManager closed.");
 		}
 
 	}
 
+	/* UPDATE ACCOUNT LOCK TIME */
 	@Override
 	public void updateAccountLockTime(LocalDateTime accountLockTime, String email) {
-
 		EntityManager entityManager = factory.createEntityManager();
 
-		EntityTransaction transaction = entityManager.getTransaction();
-
 		try {
-			transaction.begin();
-			
+			entityManager.getTransaction().begin();
 			Query query = entityManager.createNamedQuery("updateAccLockTime");
 			query.setParameter("lockTime", accountLockTime);
 			query.setParameter("email", email);
-
-			int executeUpdate = query.executeUpdate();
-			System.out.println("account lock: " + executeUpdate);
-
-			transaction.commit();
+			query.executeUpdate();
+			entityManager.getTransaction().commit();
 
 		} catch (PersistenceException e) {
 			System.out.println("PersistenceException: in updateAccountLockTime " + e.getMessage());
-			transaction.rollback();
+			entityManager.getTransaction().rollback();
+
 		} finally {
 			entityManager.close();
-			System.out.println("EntityManager closed.");
 		}
+	}
 
+	/* EXPERING OTP, RESETING FAILED ATTEMPTS */
+	@Override
+	public void expireOTPAndAttempt(Integer OTP, int resetAttempt, String email) {
+		EntityManager entityManager = factory.createEntityManager();
+
+		try {
+			entityManager.getTransaction().begin();
+			Query query = entityManager.createNamedQuery("expireOTPAndResetAttempt");
+			query.setParameter("otp", OTP);
+			query.setParameter("resetAttempt", resetAttempt);
+			query.setParameter("email", email);
+			query.executeUpdate();
+			entityManager.getTransaction().commit();
+
+		} catch (PersistenceException e) {
+			System.out.println("expireOTPAndAttempt " + e.getMessage());
+			entityManager.getTransaction().rollback();
+		} finally {
+			entityManager.close();
+		}
 	}
 
 }

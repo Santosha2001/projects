@@ -91,34 +91,6 @@
         <span style="justify-content: center; text-align: center; color: green;">${otpMatched}</span>
 
 
-        <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
-            <form action="${pageContext.request.contextPath}/otp/otpVerify?vendorEmail=${vendorEmail}" method="">
-                <!-- action="${pageContext.request.contextPath}/otp/otpVerify?otp=${otp}&email=${email}" -->
-
-                <h2 style="text-align: center; color: #29b03e; font-style: italic;">LOG IN</h2>
-
-                <!-- EMAIL ADDRESS FOR LOG IN-->
-                <div class="form-group mt-5">
-                    <input type="email" class="form-control" id="vendorEmail" name="vendorEmail"
-                        placeholder="Email address" value="${mail}" onblur="loginMail()" readonly />
-                </div>
-                <span id="emailError" style="color: red;"></span>
-
-                <!-- VERIFY OTP -->
-                <div class="form-group mt-3">
-                    <input type="number" class="form-control" id="otp" name="otp" placeholder="Enter OTP" value=""
-                        onchange="otpVerify()" />
-                </div>
-                <span id="otpError" style="color: red;"></span>
-
-
-                <button type="submit" class="btn form-control btn-secondary btn-sm mt-4 mb-2" id="otpVerifyBtn">Log
-                    In</button>
-
-
-            </form>
-        </div>
-
         <!-- footer -->
         <footer class="bg-dark py-1 mt-5 footer-1 fixed-bottom">
             <div class="container text-light text-center">
