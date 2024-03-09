@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.vmanage.email.EmailSender;
 import com.vmanage.entities.VendorEntity;
 import com.vmanage.repository.VendorRepository;
+import com.vmanage.util.EmailSender;
 
 @Service
 public class VendorServiceImpl implements VendorService {
@@ -60,7 +60,7 @@ public class VendorServiceImpl implements VendorService {
 
 		String subject = "Welcome, " + username + " Your account created.";
 		String text = "Congragulations, your account created. Login for more information.";
-		String from = "santosha7022@outlook.com";
+		String from = "santosha5856@gmail.com";
 		String to = email;
 
 		boolean sender = this.emailSender.emailSender(to, from, subject, text);

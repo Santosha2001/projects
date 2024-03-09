@@ -2,16 +2,15 @@ package com.vmanage.login;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.vmanage.email.EmailSender;
 import com.vmanage.entities.VendorEntity;
-import com.vmanage.otp.OtpGenerator;
 import com.vmanage.repository.VendorRepository;
 import com.vmanage.service.VendorService;
+import com.vmanage.util.EmailSender;
+import com.vmanage.util.OtpGenerator;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -39,7 +38,7 @@ public class LoginServiceImpl implements LoginService {
 			Integer otp = this.otpGenerator.generateOtp();
 			System.out.println("OTP: " + otp);
 
-			boolean emailSender2 = this.emailSender.emailSender(email, "santosha7022@outlook.com", "One Time Password",
+			boolean emailSender2 = this.emailSender.emailSender(email, "santosha5856@gmail.com", "One Time Password",
 					"Your OTP for login is " + otp + ". Don't share with anyone.");
 
 			this.service.updateOtpGeneratedTime(LocalDateTime.now(), email);

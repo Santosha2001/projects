@@ -1,4 +1,4 @@
-package com.vmanage.otp;
+package com.vmanage.util;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;

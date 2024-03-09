@@ -1,4 +1,4 @@
-package com.vmanage.resource;
+package com.vmanage.restcontrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

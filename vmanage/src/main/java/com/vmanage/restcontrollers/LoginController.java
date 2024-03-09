@@ -1,4 +1,4 @@
-package com.vmanage.resource;
+package com.vmanage.restcontrollers;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
