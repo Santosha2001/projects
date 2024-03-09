@@ -17,8 +17,7 @@
 		<hibernate.core.version>5.6.15.Final</hibernate.core.version>
 		<spring.orm.version>5.3.24</spring.orm.version>
 		<mysql.version>8.0.32</mysql.version>
-		<jakartha.mail.api.version>2.1.2</jakartha.mail.api.version>
-		<jakartha.mail>2.0.1</jakartha.mail>
+		<mail.version>1.4.7</mail.version>
 	</properties>
 
 	<dependencies>
@@ -84,34 +83,12 @@
 			<version>${mysql.version}</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/jakarta.mail/jakarta.mail-api -->
-		<!--<dependency>
-			<groupId>jakarta.mail</groupId>
-			<artifactId>jakarta.mail-api</artifactId>
-			<version>${jakartha.mail.api.version}</version>
-		</dependency>-->
-
-		<!-- https://mvnrepository.com/artifact/com.sun.mail/jakarta.mail -->
-		<!--<dependency>
-			<groupId>com.sun.mail</groupId>
-			<artifactId>jakarta.mail</artifactId>
-			<version>${jakartha.mail}</version>
-		</dependency>-->
-		
-		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
-<!--<dependency>
-    <groupId>javax.mail</groupId>
-    <artifactId>javax.mail-api</artifactId>
-    <version>1.6.2</version>
-</dependency>-->
-
-<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
-<dependency>
-    <groupId>javax.mail</groupId>
-    <artifactId>mail</artifactId>
-    <version>1.4.7</version>
-</dependency>
-
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>${mail.version}</version>
+		</dependency>
 
 
 	</dependencies>
