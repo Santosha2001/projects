@@ -79,7 +79,13 @@
             </div>
         </nav>
 
-        <span style="justify-content: center; text-align: center; color: red;">${otpNotMatched}</span>
+        <div class="container d-flex justify-content-center p-3 mt-2 mb-3">
+            <span style="color:red">
+                <c:forEach var="objectErrors" items="${error}">
+                    ${otpNotMatched}<br>
+                </c:forEach>
+            </span>
+        </div>
 
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
             <form action="${pageContext.request.contextPath}/otp/sendOTP?email=${email}" method="post">

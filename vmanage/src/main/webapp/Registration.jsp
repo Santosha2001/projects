@@ -37,6 +37,11 @@
                     -webkit-appearance: none;
                     margin: 0;
                 }
+                .formheading{
+                    text-align: center;
+                    color: rgb(165, 41, 41);
+                    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                }
             </style>
 
         </head>
@@ -80,16 +85,30 @@
                 </div>
             </nav>
 
-            <span style="color:red">
-                <c:forEach var="objectErrors" items="${error}">
-                    ${objectErrors.defaultMessage}<br>
-                </c:forEach>
-            </span>
-            <span style="color:red">
-                <h3>${uniqueError}</h3>
-            </span>
+            <!-- default error messages from the backend java -->
+            <div class="container d-flex justify-content-center p-3 mt-2 mb-3">
+                <span style="color:red">
+                    <c:forEach var="objectErrors" items="${error}">
+                        ${objectErrors.defaultMessage}<br>
+                    </c:forEach>
+                </span>
+            </div>
 
-            <span style="justify-content: center; color: green;">${noErrors}</span>
+            <!-- field existing error -->
+            <div class="container d-flex justify-content-center p-3 mt-2 mb-3">
+                <span style="color:red">
+                    <h3>${uniqueError}</h3>
+                </span>
+            </div>
+
+            <!-- no error message -->
+            <div class="container d-flex justify-content-center p-3 mt-2 mb-3">
+                <span style="justify-content: center; color: green;">${noErrors}</span>
+            </div>
+
+            <div class="formheading">
+                <h2>Vendor Registration</h2>
+            </div>
 
             <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
                 <form action="register" method="post">
@@ -97,8 +116,7 @@
                     <div class="form-group mt-1">
                         <label for="vendorNname">Vendor name</label>
                         <input type="text" class="form-control" id="vendorNname" name="vendorNname"
-                            value="${vendorEntity.getVendorNname()}" maxlength="20" 
-                            onblur="validateName()" required />
+                            value="${vendorEntity.getVendorNname()}" maxlength="20" onblur="validateName()" required />
                     </div>
                     <span id="nameError" style="color: red;"></span>
 
@@ -106,8 +124,8 @@
                     <div class="form-group mt-3">
                         <label for="vendorLocation">Vendor Location</label>
                         <input type="text" class="form-control" id="vendorLocation" name="vendorLocation"
-                            value="${vendorEntity.getVendorLocation()}" maxlength="20" 
-                            onblur="validateLocation()" required />
+                            value="${vendorEntity.getVendorLocation()}" maxlength="20" onblur="validateLocation()"
+                            required />
                     </div>
                     <span id="locationError" style="color: red;"></span>
 
@@ -115,8 +133,8 @@
                     <div class="form-group mt-3">
                         <label for="vendorGSTNumber">GST Number</label>
                         <input type="text" class="form-control" id="vendorGSTNumber" name="vendorGSTNumber"
-                            placeholder="" value="${vendorEntity.getVendorGSTNumber()}" 
-                            maxlength="15" onblur="gstAjax()" required />
+                            placeholder="" value="${vendorEntity.getVendorGSTNumber()}" maxlength="15"
+                            onblur="gstAjax()" required />
                     </div>
                     <span id="gstError" style="color: red;"></span>
 
@@ -132,22 +150,27 @@
                     <div class="form-group mt-3">
                         <label for="ownerName">Company Owner Name</label>
                         <input type="text" class="form-control" id="ownerName" name="ownerName"
-                            value="${vendorEntity.getOwnerName()}" maxlength="20" 
-                            onblur="validateOwnerName()" required />
+                            value="${vendorEntity.getOwnerName()}" maxlength="20" onblur="validateOwnerName()"
+                            required />
                     </div>
                     <span id="ownerError" style="color: red;"></span>
 
                     <!-- SERVICE TYPE -->
                     <div class="form-group mt-3">
                         <label for="serviceType">Service Type</label>
-                        <select class="form-select form-select-sm form-control" name="serviceType" 
-                                id="serviceType" onclick="validateType()" required>
+                        <select class="form-select form-select-sm form-control" name="serviceType" id="serviceType"
+                            onclick="validateType()" required>
                             <option value="">Select option</option>
-                            <option value="Water" <c:if test="${vendorEntity.getServiceType()=='Water'}"> selected="selected"</c:if>>Water</option>
-                            <option value="Milk" <c:if test="${vendorEntity.getServiceType()=='Milk'}"> selected="selected"</c:if>>Milk</option>
-                            <option value="Food" <c:if test="${vendorEntity.getServiceType()=='Food'}"> selected="selected"</c:if>>Food</option>
-                            <option value="Internet" <c:if test="${vendorEntity.getServiceType()=='Internet'}"> selected="selected"</c:if>>Internet</option>
-                            <option value="Laptop" <c:if test="${vendorEntity.getServiceType()=='Laptop'}"> selected="selected"</c:if>>Laptop</option>
+                            <option value="Water" <c:if test="${vendorEntity.getServiceType()=='Water'}">
+                                selected="selected"</c:if>>Water</option>
+                            <option value="Milk" <c:if test="${vendorEntity.getServiceType()=='Milk'}">
+                                selected="selected"</c:if>>Milk</option>
+                            <option value="Food" <c:if test="${vendorEntity.getServiceType()=='Food'}">
+                                selected="selected"</c:if>>Food</option>
+                            <option value="Internet" <c:if test="${vendorEntity.getServiceType()=='Internet'}">
+                                selected="selected"</c:if>>Internet</option>
+                            <option value="Laptop" <c:if test="${vendorEntity.getServiceType()=='Laptop'}">
+                                selected="selected"</c:if>>Laptop</option>
                         </select>
                     </div>
                     <span id="serviceError" style="color: red;"></span>
@@ -157,7 +180,7 @@
                         <label for="contactNumber">Contect Number</label>
                         <input type="number" class="form-control" id="contactNumber" name="contactNumber"
                             value="${vendorEntity.getContactNumber()}" onblur="numberAjax()" />
-                             <!-- [0-9]{3}-[0-9]{3}-[0-9]{4} -->
+                        <!-- [0-9]{3}-[0-9]{3}-[0-9]{4} -->
                     </div>
                     <span id="numberError" style="color: red;"></span>
 
@@ -172,8 +195,8 @@
                     <div class="form-group mt-3">
                         <label for="vendorEmail">Email address</label>
                         <input type="email" class="form-control" id="vendorEmail" name="vendorEmail"
-                            value="${vendorEntity.getVendorEmail()}" onblur="uniqueMail()"
-                            maxlength="30" minlength="5" required />
+                            value="${vendorEntity.getVendorEmail()}" onblur="uniqueMail()" maxlength="30" minlength="5"
+                            required />
                     </div>
                     <span id="emailError" style="color: red;"></span>
 
@@ -185,7 +208,8 @@
                     </div>
                     <span id="websiteError" style="color: red;"></span>
 
-                    <button type="submit" class="btn btn-primary form-control mt-3" id="registerButton">Register</button>
+                    <button type="submit" class="btn btn-primary form-control mt-3"
+                        id="registerButton">Register</button>
                 </form>
             </div>
 
@@ -208,7 +232,7 @@
                     if (name == null || name == "") {
                         document.getElementById("nameError").innerHTML = "*name can't be blank.";
                         btn.setAttribute("disabled", "");
-                    } else if(name.includes('  ')) {
+                    } else if (name.includes('  ')) {
                         document.getElementById("nameError").innerHTML = "*name can't be empty.";
                         btn.setAttribute("disabled", "");
                     } else if (name.match(/[0-9]/)) {
@@ -223,7 +247,7 @@
                     }
                 }
 
-                
+
                 // location validate
                 function validateLocation() {
                     const location = document.getElementById("vendorLocation").value;
@@ -232,7 +256,7 @@
                     if (location == null || location == "") {
                         document.getElementById("locationError").innerHTML = "*location can't be blank.";
                         btn.setAttribute("disabled", "");
-                    } else if(location.includes('  ')) {
+                    } else if (location.includes('  ')) {
                         document.getElementById("locationError").innerHTML = "*location can't be empty.";
                         btn.setAttribute("disabled", "");
                     } else if (location.match(/[0-9]/)) {
@@ -262,10 +286,10 @@
                         document.getElementById("gstError").innerHTML = "";
 
                         const xhttp = new XMLHttpRequest();
-                        xhttp.open("GET","http://localhost:8080/vmanage/gstAjax/" + gst);
+                        xhttp.open("GET", "http://localhost:8080/vmanage/gstAjax/" + gst);
                         xhttp.send();
 
-                        xhttp.onload = function() {
+                        xhttp.onload = function () {
                             document.getElementById("gstError").innerHTML = this.responseText;
                         }
 
@@ -285,7 +309,7 @@
                         btn.setAttribute("disabled", "");
                     }
                 }
-                
+
                 /*
                 function gstAjax() {
                     console.log("runnig gst ajax.");
@@ -327,7 +351,7 @@
                     if (owner == null || owner == "") {
                         document.getElementById("ownerError").innerHTML = "*owner name can't be blank.";
                         btn.setAttribute("disabled", "");
-                    } else if(owner.includes('  ')) {
+                    } else if (owner.includes('  ')) {
                         document.getElementById("ownerError").innerHTML = "*owner name can't be empty.";
                         btn.setAttribute("disabled", "");
                     } else if (owner.match(/[0-9]/)) {
@@ -359,7 +383,7 @@
 
 
                 // contact number validation ajax
-                function numberAjax(){
+                function numberAjax() {
                     const mobile = document.getElementById("contactNumber").value;
                     const btn = document.getElementById("registerButton");
                     var mobileNumberRegex = /^[6-9]{1}[0-9]{9}$/;
@@ -369,10 +393,10 @@
                         document.getElementById("numberError").innerHTML = "";
 
                         const xhttp = new XMLHttpRequest();
-                        xhttp.open("GET","http://localhost:8080/vmanage/mobileAjax/" + mobile);
+                        xhttp.open("GET", "http://localhost:8080/vmanage/mobileAjax/" + mobile);
                         xhttp.send();
 
-                        xhttp.onload = function() {
+                        xhttp.onload = function () {
                             document.getElementById("numberError").innerHTML = this.responseText;
                         }
                         btn.removeAttribute("disabled");
@@ -394,7 +418,7 @@
 
 
                 // email ajax
-                function uniqueMail(){
+                function uniqueMail() {
                     var gmail = document.getElementById("vendorEmail").value;
                     const btn = document.getElementById("registerButton");
                     // const regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
@@ -409,41 +433,41 @@
                         xhttp.open("GET", "http://localhost:8080/vmanage/emailAjax/" + gmail);
                         xhttp.send();
 
-                        xhttp.onload = function() {
+                        xhttp.onload = function () {
                             document.getElementById("emailError").innerHTML = this.responseText;
                         }
 
-                        document.getElementById("emailError").innerHTML = "";                        
+                        document.getElementById("emailError").innerHTML = "";
                         btn.removeAttribute("disabled");
 
-                    } else if(gmail == null || gmail == "" || gmail.includes("  ")) {
+                    } else if (gmail == null || gmail == "" || gmail.includes("  ")) {
                         document.getElementById("emailError").innerHTML = "*email can't be blank.";
                         btn.setAttribute("disabled", "");
-                    }  else if (gmail.length < 5 || gmail.length > 30) {
+                    } else if (gmail.length < 5 || gmail.length > 30) {
                         document.getElementById("emailError").innerHTML = "*email should be in 5-30 character.";
                         btn.setAttribute("disabled", "");
-                    } else if (result == false){
+                    } else if (result == false) {
                         document.getElementById("emailError").innerHTML = "*email should be in format.";
                         btn.setAttribute("disabled", "");
                     }
                 }
 
-                
 
-                
-            
+
+
+
                 // website ajax
                 function websiteAjax() {
                     console.log("running website ajax.")
                     const site = document.getElementById("website").value;
                     console.log(site);
-                    if (site.length != null && site.length != "" && site.length > 10 && site.length <30) {
+                    if (site.length != null && site.length != "" && site.length > 10 && site.length < 30) {
                         document.getElementById("websiteError").innerHTML = "";
 
                         const xhttp = new XMLHttpRequest();
                         xhttp.open("GET", "http://localhost:8080/vmanage/siteAjax/" + site);
                         xhttp.send();
-                        xhttp.onload = function() {
+                        xhttp.onload = function () {
                             document.getElementById("websiteError").innerHTML = this.responseText;
                         }
                     } else {

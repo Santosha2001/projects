@@ -17,6 +17,15 @@
 
         <!-- <link rel="stylesheet" href="custom.css"> -->
         <!-- <script src="ajax.js"></script> -->
+        <style type="text/css">
+            body {
+                background-image: url("https://www.google.com/url?sa=i&url=https%3A%2F%2Fhappay.com%2Fblog%2Fvendor-management%2F&psig=AOvVaw107Y2EUINC40mL_ONPgPnA&ust=1710086432910000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCLDunMjG54QDFQAAAAAdAAAAABAE");
+            }
+
+            .border {
+                height: 50vh;
+            }
+        </style>
 
     </head>
 
@@ -60,9 +69,8 @@
             </div>
         </nav>
 
-        <div class="card mt-5" style="width: 18rem;">
-            <img src="vendor.jfif" class="card-img-top" alt="...">
-            <div class="card-body">
+        <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
+            <div class="">
                 <p class="card-text">"Vendor Management Project" serves as a comprehensive platform designed to
                     streamline and optimize the process of managing vendors for various services within an organization.
                     This project aims to enhance efficiency, transparency, and accountability in vendor-related
@@ -71,7 +79,7 @@
             </div>
         </div>
 
-        <footer class="bg-dark py-1 mt-5 footer-1">
+        <footer class="bg-dark py-1 mt-5 footer-1 fixed-bottom">
             <div class="container text-light text-center">
                 <p class="display-5 mb-3">Vendor Management</p>
                 <small class="text-white-50">&copy; Copyright by X-Workz. All

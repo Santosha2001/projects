@@ -79,12 +79,29 @@
             </div>
         </nav>
 
-        <span style="justify-content: center; text-align: center; color: red;">${otpNotInTime}</span>
+        <div class="container d-flex justify-content-center p-3 mt-2 mb-3">
+            <span style="color:red">
+                <c:forEach var="objectErrors" items="${error}">
+                    ${otpNotInTime}<br>
+                </c:forEach>
+            </span>
+        </div>
 
-        <span style="justify-content: center; text-align: center; color: red;">${unlockedAccount}</span>
+        <div class="container d-flex justify-content-center p-3 mt-2 mb-3">
+            <span style="color:red">
+                <c:forEach var="objectErrors" items="${error}">
+                    ${unlockedAccount}<br>
+                </c:forEach>
+            </span>
+        </div>
 
-        <span style="justify-content: center; text-align: center; color: red;">${accountExpired}</span>
-
+        <div class="container d-flex justify-content-center p-3 mt-2 mb-3">
+            <span style="color:red">
+                <c:forEach var="objectErrors" items="${error}">
+                    ${accountExpired}<br>
+                </c:forEach>
+            </span>
+        </div>
 
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
             <form action="${pageContext.request.contextPath}/otp/otpVerify?vendorEmail=${vendorEmail}" method="get">
@@ -109,7 +126,6 @@
 
                 <button type="submit" class="btn form-control btn-secondary btn-sm mt-4 mb-2" id="otpVerifyBtn">Log
                     In</button>
-
 
             </form>
         </div>
