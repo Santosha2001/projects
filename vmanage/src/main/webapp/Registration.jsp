@@ -42,6 +42,17 @@
                     color: rgb(165, 41, 41);
                     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 }
+
+                .success{
+                    color: rgb(8, 200, 8);
+                    justify-items: center;
+                    text-align: center;
+                }
+                .error{
+                    color: red;
+                    justify-items: center;
+                    text-align: center;
+                }
             </style>
 
         </head>
@@ -66,6 +77,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="login.jsp">Log In</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="AdminLogin.jsp">Admin LogIn</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
@@ -85,26 +99,23 @@
                 </div>
             </nav>
 
-            <!-- default error messages from the backend java -->
-            <div class="container d-flex justify-content-center p-3 mt-2 mb-3">
-                <span style="color:red">
-                    <c:forEach var="objectErrors" items="${error}">
-                        ${objectErrors.defaultMessage}<br>
-                    </c:forEach>
-                </span>
-            </div>
-
+            <!-- default error messages from the backend java -->   
+            <span class="error">
+                <c:forEach var="objectErrors" items="${error}">
+                    <h3>${objectErrors.defaultMessage}</h3><br>
+                </c:forEach>
+            </span>
+           
             <!-- field existing error -->
-            <div class="container d-flex justify-content-center p-3 mt-2 mb-3">
-                <span style="color:red">
-                    <h3>${uniqueError}</h3>
-                </span>
-            </div>
+            <span class="error">
+                <h3>${uniqueError}</h3>
+            </span>
+            
 
             <!-- no error message -->
-            <div class="container d-flex justify-content-center p-3 mt-2 mb-3">
-                <span style="justify-content: center; color: green;">${noErrors}</span>
-            </div>
+            <span class="success">
+                <h3>${noErrors}</h3>
+            </span>
 
             <div class="formheading">
                 <h2>Vendor Registration</h2>

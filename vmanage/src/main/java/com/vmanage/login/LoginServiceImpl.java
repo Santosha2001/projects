@@ -27,6 +27,8 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired
 	private VendorRepository repository;
 
+	public static final long ATTEMPT_TIME = 2;
+
 	/* SEND OTP TO MAIL */
 	@Override
 	public void sendOtp(String email) {
@@ -58,46 +60,45 @@ public class LoginServiceImpl implements LoginService {
 	public VendorEntity verifyOtp(Integer otp, String email) {
 
 		VendorEntity byEmail = this.repository.findByEmail(email);
-		
+
 		LocalDateTime otpGenratedTime = byEmail.getOtpGenratedTime();
-		LocalDateTime currentTime = LocalDateTime.now();	
+		LocalDateTime currentTime = LocalDateTime.now();
 		LocalDateTime accountLockTime = byEmail.getAccountLockTime();
-		
+
 		System.out.println("EMAIL: " + email);
 		System.out.println("OTP: " + otp);
 
 		if (byEmail != null && !"".equals(byEmail.getVendorEmail())
 				&& byEmail.getVendorEmail().equalsIgnoreCase(email)) {
-			
+
 			if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
 					&& Duration.between(otpGenratedTime, currentTime).getSeconds() < (5 * 60)) {
 				System.out.println("otp valid.");
-				
-				// resetAttemptCount(email);
-			} else if(byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
-					&& Duration.between(otpGenratedTime, currentTime).getSeconds()>(5*60)) {
+
+			} else if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
+					&& Duration.between(otpGenratedTime, currentTime).getSeconds() > (5 * 60)) {
 				System.out.println("otp expired.");
 				expireOTPAndResetAttempt(null, 0, email);
-				
-			} else if(!byEmail.getOtp().equals(otp)) {
-				
-				if (byEmail.getFailedAttempt()<ATTEMPT_TIME-1) {
+
+			} else if (!byEmail.getOtp().equals(otp)) {
+
+				if (byEmail.getFailedAttempt() < ATTEMPT_TIME - 1) {
 					updateFailedAttemptCount(byEmail.getFailedAttempt(), email);
-					
-				} else if(byEmail.getFailedAttempt()==ATTEMPT_TIME-1) {
+
+				} else if (byEmail.getFailedAttempt() == ATTEMPT_TIME - 1) {
 					updateFailedAttemptCount(byEmail.getFailedAttempt(), email);
 					accountLockTime(LocalDateTime.now(), email);
-					
+
 				} else {
 					expireOTPAndResetAttempt(null, 0, email);
 					System.out.println("account is expired.");
-	
-					if (Duration.between(accountLockTime, currentTime).getSeconds()>(1*60)) {
+
+					if (Duration.between(accountLockTime, currentTime).getSeconds() > (1 * 60)) {
 						unlockAccountTimeExpired(email);
 						System.out.println("account will unlocked after 1 minute.");
-					} 
+					}
 				}
-			} 	
+			}
 
 		}
 
@@ -108,70 +109,29 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public void updateFailedAttemptCount(int failedAttempt, String email) {
 		this.repository.updateFailedAttemptCount(failedAttempt + 1, email);
-		System.out.println("failed count updated: "+failedAttempt);
+		System.out.println("failed count updated: " + failedAttempt);
 	}
-
-	/* LOCK THE USER IF CROSS MAXIMUN FAILED ATTEMPT */
-	@Override
-	public void lockAccount(String email) {
-		
-		VendorEntity byEmail = this.repository.findByEmail(email);
-		byEmail.setAccountNonLocked(false);
-		//byEmail.setAccountLockTime(LocalDateTime.now());
-		
-		accountLockTime(LocalDateTime.now(), email);
-		
-//		System.out.println("setAccountLockTime(): "+byEmail.getAccountLockTime());
-		
-//		this.repository.save(byEmail);		
-	}
-
-	/* RESET ATTEMPT */
-	/*
-	@Override
-	public void resetAttemptCount(String email) {
-		
-		VendorEntity byEmail = this.repository.findByEmail(email);
-		
-		byEmail.setFailedAttempt(0);
-		byEmail.setAccountLockTime(null);
-		System.out.println("Failed attempt count reseted.");
-		
-//		this.repository.save(byEmail);
-				
-	}
-	*/
-	
-	public static final long ATTEMPT_TIME =3;
 
 	/* UNLOCK ACCOUNT TIME EXPERIED */
 	@Override
 	public boolean unlockAccountTimeExpired(String email) {
 		VendorEntity byEmail = this.repository.findByEmail(email);
-		
-	 LocalDateTime accountLockTime = byEmail.getAccountLockTime();
-	 
-//		long currentTime = System.currentTimeMillis();
-	 
-	 LocalDateTime currentTime=LocalDateTime.now();
 
-		if (Duration.between(accountLockTime, currentTime).getSeconds()>(1*60)) {
+		LocalDateTime accountLockTime = byEmail.getAccountLockTime();
+		LocalDateTime currentTime = LocalDateTime.now();
+
+		if (Duration.between(accountLockTime, currentTime).getSeconds() > (1 * 60)) {
 			byEmail.setAccountNonLocked(true);
 			byEmail.setAccountLockTime(null);
 			byEmail.setFailedAttempt(0);
-			
-			// resetAttemptCount(email);
-			
-//			this.repository.save(byEmail);		
 
 			System.out.println("account non locked.");
 			return true;
 		}
-		
+
 		return false;
 	}
 
-	
 	@Override
 	public void accountLockTime(LocalDateTime accountLocakTime, String email) {
 		this.repository.updateAccountLockTime(accountLocakTime, email);
@@ -179,26 +139,10 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public void expireOTPAndResetAttempt(Integer OTP,int resetAttempt, String email) {
-		
+	public void expireOTPAndResetAttempt(Integer OTP, int resetAttempt, String email) {
+
 		this.repository.expireOTPAndAttempt(OTP, resetAttempt, email);
-		
+
 	}
-	
-
-	
-	
-
-	
-	
-
-	
-	
-
-	
-	
-	
-	
-	
 
 }

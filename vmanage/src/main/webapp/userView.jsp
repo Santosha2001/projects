@@ -88,8 +88,7 @@
             </div>
         </nav>
 
-        <span style="justify-content: center; text-align: center; color: green;">${otpMatched}</span>
-
+        <span class="container d-flex justify-content-center" style="color: green;">${otpMatched}</span>
 
         <!-- footer -->
         <footer class="bg-dark py-1 mt-5 footer-1 fixed-bottom">

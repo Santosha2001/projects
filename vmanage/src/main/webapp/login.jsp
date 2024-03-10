@@ -60,6 +60,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Log In</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="AdminLogin.jsp">Admin LogIn</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
@@ -79,13 +82,9 @@
             </div>
         </nav>
 
-        <div class="container d-flex justify-content-center p-3 mt-2 mb-3">
-            <span style="color:red">
-                <c:forEach var="objectErrors" items="${error}">
-                    ${otpNotMatched}<br>
-                </c:forEach>
-            </span>
-        </div>
+        <span class="container d-flex justify-content-center p-3 mt-2 mb-3" style="color:red">
+            <h3>${otpNotMatched}</h3><br>
+        </span>
 
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
             <form action="${pageContext.request.contextPath}/otp/sendOTP?email=${email}" method="post">
@@ -108,7 +107,7 @@
         </div>
 
         <!-- footer -->
-        <footer class="bg-dark py-1 mt-5 footer-1 fixed-bottom">
+        <footer class="bg-dark py-1 mt-5 footer-1 ">
             <div class="container text-light text-center">
                 <p class="display-5 mb-3">Vendor Management</p>
                 <small class="text-white-50">&copy; Copyright by X-Workz. All

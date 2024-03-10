@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login page</title>
+        <title>Admin Login page</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -35,11 +35,6 @@
                 -webkit-appearance: none;
                 margin: 0;
             }
-
-            .otpExpire {
-                text-decoration: none;
-                /* font-size: medium; */
-            }
         </style>
 
     </head>
@@ -63,7 +58,10 @@
                             <a class="nav-link" href="Registration.jsp">Register here</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Log In</a>
+                            <a class="nav-link" href="login.jsp">Log In</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Admin LogIn</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -85,48 +83,35 @@
         </nav>
 
 
-        <span class="container d-flex justify-content-center" style="color:red">
-            <h3>${otpNotInTime}</h3>
-        </span>
-
-        <span class="container d-flex justify-content-center" style="color:red">
-            <h3>${unlockedAccount}</h3>
-        </span>
-
-        <span class="container d-flex justify-content-center" style="color:red">
-            <h4 class="otpExpire">${otpExpired}</h4>
-        </span>
-
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
-            <form action="${pageContext.request.contextPath}/otp/otpVerify?vendorEmail=${vendorEmail}" method="get">
-                <!-- action="${pageContext.request.contextPath}/otp/otpVerify?otp=${otp}&email=${email}" -->
+            <form action="${pageContext.request.contextPath}/otp/adminLogin" method="get">
+                <!-- action="${pageContext.request.contextPath}/otp/sendOTP?email=${email}" -->
 
-                <h2 style="text-align: center; color: #29b03e; font-style: italic;">LOG IN</h2>
+                <h2 style="text-align: center; color: #29b03e; font-style: italic;">ADMIN LOG IN</h2>
 
-                <!-- EMAIL ADDRESS FOR LOG IN-->
+                <!-- ADMIN FOR LOG IN-->
                 <div class="form-group mt-5">
-                    <input type="email" class="form-control" id="vendorEmail" name="vendorEmail"
-                        placeholder="Email address" value="${mail}" onblur="loginMail()" />
+                    <input type="text" class="form-control" id="adminName" name="adminName" placeholder="Admin Name"
+                        value="" />
                 </div>
-                <span id="emailError" style="color: red;"></span>
+                <span id="nameError" style="color: red;"></span>
 
-                <!-- VERIFY OTP -->
-                <div class="form-group mt-3">
-                    <input type="number" class="form-control" id="otp" name="otp" placeholder="Enter OTP" value=""
-                        onchange="otpVerify()" />
+                <!-- ADMIN PASSWORD FOR LOG IN-->
+                <div class="form-group mt-5">
+                    <input type="password" class="form-control" id="adminPassword" name="adminPassword"
+                        placeholder="Enter Password" value="" />
                 </div>
-                <span class="container d-flex" style="color:red">
-                    <h5>${wrongOTP}</h5>
-                </span>
+                <span id="passwordError" style="color: red;"></span>
 
-                <button type="submit" class="btn form-control btn-secondary btn-sm mt-4 mb-2" id="otpVerifyBtn">Log
-                    In</button>
+                <!-- GENERATE OTP -->
+                <button type="submit" class="btn form-control btn-primary btn-sm mt-4 mb-2"
+                    id="">LOGIN</button>
 
             </form>
         </div>
 
         <!-- footer -->
-        <footer class="bg-dark py-1 mt-5 footer-1">
+        <footer class="bg-dark py-1 mt-5 footer-1 ">
             <div class="container text-light text-center">
                 <p class="display-5 mb-3">Vendor Management</p>
                 <small class="text-white-50">&copy; Copyright by X-Workz. All

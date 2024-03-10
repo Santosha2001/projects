@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.vmanage.entities.AdminEntity;
 import com.vmanage.entities.VendorEntity;
 import com.vmanage.login.LoginService;
 import com.vmanage.login.LoginServiceImpl;
@@ -48,61 +49,86 @@ public class LoginController {
 	public String verifyOtp(@RequestParam Integer otp, @RequestParam String vendorEmail, Model model) {
 
 		VendorEntity byEmail = this.loginService.verifyOtp(otp, vendorEmail);
-		
+
 		LocalDateTime otpGenratedTime = byEmail.getOtpGenratedTime();
 		LocalDateTime currentDate = LocalDateTime.now();
-		
+
 		LocalDateTime accountLockTime = byEmail.getAccountLockTime();
 		
+
 		if (byEmail != null && byEmail.getVendorEmail().equalsIgnoreCase(vendorEmail)) {
-			
+
 			if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
 					&& Duration.between(otpGenratedTime, currentDate).getSeconds() < (5 * 60)) {
 				System.out.println("OTP IS VALID.");
 				model.addAttribute("otpMatched", "LOGIN SUCCESS.");
 				return "userView";
-				
-			} else if(byEmail.getOtp() != null && byEmail.getOtp().equals(otp) &&
-					Duration.between(otpGenratedTime, currentDate).getSeconds()>(5*60)) {
+
+			} else if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
+					&& Duration.between(otpGenratedTime, currentDate).getSeconds() > (5 * 60)) {
 				System.out.println("OTP EXPIRED.");
 				loginService.expireOTPAndResetAttempt(null, 0, vendorEmail);
-				model.addAttribute("otpNotInTime", "LOGIN EXPIRED, DUE TO NOT IN TIME.");
+				model.addAttribute("otpNotInTime", "LOGIN EXPIRED, DUE TO OTP NOT IN TIME.");
 				
-			}
-			else if (!byEmail.getOtp().equals(otp)) {
-				
+				return "loginSuccess";
+
+			} else if (!byEmail.getOtp().equals(otp)) {
+
 				if (byEmail.getFailedAttempt() < LoginServiceImpl.ATTEMPT_TIME - 1) {
 					loginService.updateFailedAttemptCount(byEmail.getFailedAttempt(), vendorEmail);
+					model.addAttribute("wrongOTP", "*Wrong OTP");
 					
-				} else if(byEmail.getFailedAttempt()==LoginServiceImpl.ATTEMPT_TIME-1) {
+
+				} else if (byEmail.getFailedAttempt() == LoginServiceImpl.ATTEMPT_TIME - 1) {
 					loginService.updateFailedAttemptCount(byEmail.getFailedAttempt(), vendorEmail);
 					loginService.accountLockTime(LocalDateTime.now(), vendorEmail);
+					model.addAttribute("wrongOTP", "*Wrong OTP");
 					
-				}
-				else  {
+					
+
+				} else {
 					loginService.expireOTPAndResetAttempt(null, 0, vendorEmail);
-					System.out.println("ACCOUNT EXPIRED.");
-					
-					if(Duration.between(accountLockTime, currentDate).getSeconds()>(1*60)) {
+					System.out.println("OTP EXPIRED.");
+
+					if (Duration.between(accountLockTime, currentDate).getSeconds() > (1 * 60)) {
 						System.out.println("ACCOUNT IS UNLOCKED.");
-						
+
 						loginService.expireOTPAndResetAttempt(null, 0, vendorEmail);
 						System.out.println("OTP EXPERIED AND ATTEMPT RESETED..");
 						model.addAttribute("unlockedAccount", "ACCOUNT WILL UNLOCKED AFTER 1 MINUTE");
-						
-						return "loginSuccess";
 
 						
-					} 
-					model.addAttribute("accountExpired", "ACCOUNT EXPIRED.");
-					
+
+					}
+					model.addAttribute("otpExpired", "OTP EXPIRED. PLEASE REGENERATE OTP.");
+
 				}
-			} 
-			
+			}
+
 		}
 
 		return "loginSuccess";
 
+	}
+
+	/* ADMIN LOGIN */
+	@GetMapping(value = "/adminLogin")
+	public String adminLogin(@RequestParam String adminName, @RequestParam String adminPassword) {
+		System.out.println("adminName : " + adminName);
+		System.out.println("adminPassword : " + adminPassword);
+
+		AdminEntity adminEntity = new AdminEntity();
+		if (adminEntity != null && !"".equals(adminEntity)) {
+			if (adminEntity.getAdminName().equalsIgnoreCase(adminName)
+					&& adminEntity.getAdminPassword().equalsIgnoreCase(adminPassword)) {
+				System.out.println("ADMIN LOGIN SUCCESS.");
+
+				return "AdminLoginSuccess";
+			}
+		}
+		System.out.println("FAILED TO LOGIN.");
+
+		return "AdminLogin";
 	}
 
 }
