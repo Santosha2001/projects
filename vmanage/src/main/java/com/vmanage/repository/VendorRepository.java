@@ -3,6 +3,7 @@ package com.vmanage.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.vmanage.entities.AdminEntity;
 import com.vmanage.entities.VendorEntity;
 
 public interface VendorRepository {
@@ -20,9 +21,11 @@ public interface VendorRepository {
 	void updatedOtpGeneratedTime(LocalDateTime otpGeneratedTime, String email);
 
 	void updateFailedAttemptCount(int failedCount, String email);
-	
+
 	void updateAccountLockTime(LocalDateTime accountLockTime, String email);
-	
-	void expireOTPAndAttempt(Integer OTP, int resetAttempt,  String email);
+
+	void expireOTPAndAttempt(Integer OTP, int resetAttempt, String email);
+
+	List<AdminEntity> findAllAdmins();
 
 }

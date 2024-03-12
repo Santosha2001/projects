@@ -2,10 +2,12 @@ package com.vmanage.login;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.vmanage.entities.AdminEntity;
 import com.vmanage.entities.VendorEntity;
 import com.vmanage.repository.VendorRepository;
 import com.vmanage.service.VendorService;
@@ -143,6 +145,23 @@ public class LoginServiceImpl implements LoginService {
 
 		this.repository.expireOTPAndAttempt(OTP, resetAttempt, email);
 
+	}
+
+	/* FIND ADMIN BY NAME AND PASSWORD */
+	@Override
+	public AdminEntity findAdminByNameAndPassword(String name, String password) {
+		List<AdminEntity> allAdmins = this.repository.findAllAdmins();
+		for (AdminEntity adminEntity : allAdmins) {
+			if (adminEntity != null && !"".equals(adminEntity)) {
+				if (adminEntity.getAdminName().equalsIgnoreCase(name)
+						&& adminEntity.getAdminPassword().equalsIgnoreCase(password)) {
+					System.out.println("Admin login success.");
+					return adminEntity;
+				}
+			}
+		}
+
+		return null;
 	}
 
 }

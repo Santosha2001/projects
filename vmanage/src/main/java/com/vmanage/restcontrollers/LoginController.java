@@ -54,7 +54,6 @@ public class LoginController {
 		LocalDateTime currentDate = LocalDateTime.now();
 
 		LocalDateTime accountLockTime = byEmail.getAccountLockTime();
-		
 
 		if (byEmail != null && byEmail.getVendorEmail().equalsIgnoreCase(vendorEmail)) {
 
@@ -69,7 +68,7 @@ public class LoginController {
 				System.out.println("OTP EXPIRED.");
 				loginService.expireOTPAndResetAttempt(null, 0, vendorEmail);
 				model.addAttribute("otpNotInTime", "LOGIN EXPIRED, DUE TO OTP NOT IN TIME.");
-				
+
 				return "loginSuccess";
 
 			} else if (!byEmail.getOtp().equals(otp)) {
@@ -77,14 +76,11 @@ public class LoginController {
 				if (byEmail.getFailedAttempt() < LoginServiceImpl.ATTEMPT_TIME - 1) {
 					loginService.updateFailedAttemptCount(byEmail.getFailedAttempt(), vendorEmail);
 					model.addAttribute("wrongOTP", "*Wrong OTP");
-					
 
 				} else if (byEmail.getFailedAttempt() == LoginServiceImpl.ATTEMPT_TIME - 1) {
 					loginService.updateFailedAttemptCount(byEmail.getFailedAttempt(), vendorEmail);
 					loginService.accountLockTime(LocalDateTime.now(), vendorEmail);
 					model.addAttribute("wrongOTP", "*Wrong OTP");
-					
-					
 
 				} else {
 					loginService.expireOTPAndResetAttempt(null, 0, vendorEmail);
@@ -96,8 +92,6 @@ public class LoginController {
 						loginService.expireOTPAndResetAttempt(null, 0, vendorEmail);
 						System.out.println("OTP EXPERIED AND ATTEMPT RESETED..");
 						model.addAttribute("unlockedAccount", "ACCOUNT WILL UNLOCKED AFTER 1 MINUTE");
-
-						
 
 					}
 					model.addAttribute("otpExpired", "OTP EXPIRED. PLEASE REGENERATE OTP.");
@@ -113,21 +107,22 @@ public class LoginController {
 
 	/* ADMIN LOGIN */
 	@GetMapping(value = "/adminLogin")
-	public String adminLogin(@RequestParam String adminName, @RequestParam String adminPassword) {
+	public String adminLogin(@RequestParam String adminName, @RequestParam String adminPassword, Model model) {
 		System.out.println("adminName : " + adminName);
 		System.out.println("adminPassword : " + adminPassword);
 
-		AdminEntity adminEntity = new AdminEntity();
-		if (adminEntity != null && !"".equals(adminEntity)) {
-			if (adminEntity.getAdminName().equalsIgnoreCase(adminName)
-					&& adminEntity.getAdminPassword().equalsIgnoreCase(adminPassword)) {
-				System.out.println("ADMIN LOGIN SUCCESS.");
-
+		AdminEntity byNameAndPassword = this.loginService.findAdminByNameAndPassword(adminName, adminPassword);
+		if (byNameAndPassword != null && !"".equals(byNameAndPassword)) {
+			if (byNameAndPassword.getAdminName().equalsIgnoreCase(adminName)
+					&& byNameAndPassword.getAdminPassword().equalsIgnoreCase(adminPassword)) {
+				System.out.println("Admin login success.");
+				model.addAttribute("adminLoginSuccess", "Admin Login Success.");
 				return "AdminLoginSuccess";
 			}
-		}
-		System.out.println("FAILED TO LOGIN.");
 
+		}
+		System.out.println("Admin login failed.");
+		model.addAttribute("adminLoginFail", "Admin Login Failed.");
 		return "AdminLogin";
 	}
 

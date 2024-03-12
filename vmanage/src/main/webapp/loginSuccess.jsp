@@ -115,9 +115,7 @@
                     <input type="number" class="form-control" id="otp" name="otp" placeholder="Enter OTP" value=""
                         onchange="otpVerify()" />
                 </div>
-                <span class="container d-flex" style="color:red">
-                    <h5>${wrongOTP}</h5>
-                </span>
+                <span class="container d-flex" style="color:red">${wrongOTP}</span>
 
                 <button type="submit" class="btn form-control btn-secondary btn-sm mt-4 mb-2" id="otpVerifyBtn">Log
                     In</button>

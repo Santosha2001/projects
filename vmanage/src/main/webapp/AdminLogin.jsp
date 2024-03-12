@@ -82,6 +82,8 @@
             </div>
         </nav>
 
+        <span class="container d-flex justify-content-center" style="color: red;">${adminLoginFail}</span>
+
 
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
             <form action="${pageContext.request.contextPath}/otp/adminLogin" method="get">
