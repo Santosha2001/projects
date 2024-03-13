@@ -39,10 +39,9 @@ public class LoginController {
 		vendorEmail = vendorEmail.replace(",", "");
 		System.out.println("sendung otp  to email : " + vendorEmail);
 
-		if (vendorEmail != null && !vendorEmail.isEmpty()) {
-			this.loginService.sendOtp(vendorEmail);
+		boolean sendOtp = this.loginService.sendOtp(vendorEmail);
+		if (sendOtp) {
 			model.addAttribute("mail", vendorEmail);
-
 			return "loginSuccess";
 		}
 
@@ -50,63 +49,18 @@ public class LoginController {
 	}
 
 	/* VERIFY OTP */
-	@GetMapping(value = "/otpVerify")
+	@PostMapping(value = "/otpVerify")
 	public String verifyOtp(@RequestParam Integer otp, @RequestParam String vendorEmail, Model model) {
 
-		VendorEntity byEmail = this.loginService.verifyOtp(otp, vendorEmail);
-
-		LocalDateTime otpGenratedTime = byEmail.getOtpGenratedTime();
-		LocalDateTime currentDate = LocalDateTime.now();
-
-		LocalDateTime accountLockTime = byEmail.getAccountLockTime();
-
-		if (byEmail != null && byEmail.getVendorEmail().equalsIgnoreCase(vendorEmail)) {
-
-			if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
-					&& Duration.between(otpGenratedTime, currentDate).getSeconds() < (5 * 60)) {
-				System.out.println("OTP IS VALID.");
-				model.addAttribute("otpMatched", "LOGIN SUCCESS.");
-				return "userView";
-
-			} else if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
-					&& Duration.between(otpGenratedTime, currentDate).getSeconds() > (5 * 60)) {
-				System.out.println("OTP EXPIRED.");
-				loginService.expireOTPAndResetAttempt(null, 0, vendorEmail);
-				model.addAttribute("otpNotInTime", "LOGIN EXPIRED, DUE TO OTP NOT IN TIME.");
-
-				return "loginSuccess";
-
-			} else if (!byEmail.getOtp().equals(otp)) {
-
-				if (byEmail.getFailedAttempt() < LoginServiceImpl.ATTEMPT_TIME - 1) {
-					loginService.updateFailedAttemptCount(byEmail.getFailedAttempt(), vendorEmail);
-					model.addAttribute("wrongOTP", "*Wrong OTP");
-
-				} else if (byEmail.getFailedAttempt() == LoginServiceImpl.ATTEMPT_TIME - 1) {
-					loginService.updateFailedAttemptCount(byEmail.getFailedAttempt(), vendorEmail);
-					loginService.accountLockTime(LocalDateTime.now(), vendorEmail);
-					model.addAttribute("wrongOTP", "*Wrong OTP");
-
-				} else {
-					loginService.expireOTPAndResetAttempt(null, 0, vendorEmail);
-					System.out.println("OTP EXPIRED.");
-
-					if (Duration.between(accountLockTime, currentDate).getSeconds() > (1 * 60)) {
-						System.out.println("ACCOUNT IS UNLOCKED.");
-
-						loginService.expireOTPAndResetAttempt(null, 0, vendorEmail);
-						System.out.println("OTP EXPERIED AND ATTEMPT RESETED..");
-						model.addAttribute("unlockedAccount", "ACCOUNT WILL UNLOCKED AFTER 1 MINUTE");
-
-					}
-					model.addAttribute("otpExpired", "OTP EXPIRED. PLEASE REGENERATE OTP.");
-
-				}
-			}
-
+		boolean verifyOtp = loginService.verifyOtp(otp, vendorEmail);
+		if (verifyOtp) {
+			model.addAttribute("otpMatched", "LOGIN SUCCESS.");
+			return "userView";
+		} else {
+			// model.addAttribute("wrongOTP", "*Wrong OTP");
+			model.addAttribute("otpExpired", "OTP EXPIRED. PLEASE REGENERATE OTP.");
+			return "loginSuccess";
 		}
-
-		return "loginSuccess";
 
 	}
 

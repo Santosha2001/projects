@@ -7,9 +7,9 @@ import com.vmanage.entities.VendorEntity;
 
 public interface LoginService {
 
-	void sendOtp(String email);
+	boolean sendOtp(String email);
 
-	VendorEntity verifyOtp(Integer otp, String email);
+	boolean verifyOtp(Integer otp, String email);
 
 	void updateFailedAttemptCount(int failedAttempt, String email);
 

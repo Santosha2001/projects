@@ -33,7 +33,7 @@ public class LoginServiceImpl implements LoginService {
 
 	/* SEND OTP TO MAIL */
 	@Override
-	public void sendOtp(String email) {
+	public boolean sendOtp(String email) {
 
 		VendorEntity byEmail = this.service.findByEmail(email);
 
@@ -49,17 +49,20 @@ public class LoginServiceImpl implements LoginService {
 
 			if (emailSender2) {
 				this.service.updateOtpByEmail(otp, email);
-
 				System.out.println("otp sent to mail.");
+				
+				return true;
 			} else {
 				System.err.println("otp not sent.");
+				return false;
 			}
 		}
+		return false;
 	}
 
 	/* VERIFY OTP */
 	@Override
-	public VendorEntity verifyOtp(Integer otp, String email) {
+	public boolean verifyOtp(Integer otp, String email) {
 
 		VendorEntity byEmail = this.repository.findByEmail(email);
 
@@ -70,17 +73,20 @@ public class LoginServiceImpl implements LoginService {
 		System.out.println("EMAIL: " + email);
 		System.out.println("OTP: " + otp);
 
-		if (byEmail != null && !"".equals(byEmail.getVendorEmail())
-				&& byEmail.getVendorEmail().equalsIgnoreCase(email)) {
+		if ( byEmail.getVendorEmail().equalsIgnoreCase(email)) {
 
 			if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
 					&& Duration.between(otpGenratedTime, currentTime).getSeconds() < (5 * 60)) {
 				System.out.println("otp valid.");
 
+				return true;
+
 			} else if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
 					&& Duration.between(otpGenratedTime, currentTime).getSeconds() > (5 * 60)) {
 				System.out.println("otp expired.");
 				expireOTPAndResetAttempt(null, 0, email);
+
+				return false;
 
 			} else if (!byEmail.getOtp().equals(otp)) {
 
@@ -99,12 +105,14 @@ public class LoginServiceImpl implements LoginService {
 						unlockAccountTimeExpired(email);
 						System.out.println("account will unlocked after 1 minute.");
 					}
+					return false;
 				}
 			}
+			return true;
 
 		}
 
-		return byEmail;
+		return false;
 	}
 
 	/* INCREASE FAILED ATTEMPT COUNT */
@@ -146,11 +154,11 @@ public class LoginServiceImpl implements LoginService {
 		this.repository.expireOTPAndAttempt(OTP, resetAttempt, email);
 
 	}
-	
+
 	/* FIND ADMIN BY NAME AND PASSWORD */
 	@Override
 	public boolean findAdminByNameAndPassword(String name, String password) {
-		
+
 		List<AdminEntity> allAdmins = this.repository.findAllAdmins();
 		for (AdminEntity adminEntity : allAdmins) {
 			if (adminEntity != null) {
