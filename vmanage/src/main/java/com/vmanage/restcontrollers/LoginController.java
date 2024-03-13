@@ -50,8 +50,10 @@ public class LoginController {
 
 	/* VERIFY OTP */
 	@PostMapping(value = "/otpVerify")
-	public String verifyOtp(@RequestParam Integer otp, @RequestParam String vendorEmail, Model model) {
+	public String verifyOtp( @RequestParam String vendorEmail,@RequestParam Integer otp, Model model) {
 
+		
+		System.out.println(otp+" "+vendorEmail);
 		boolean verifyOtp = loginService.verifyOtp(otp, vendorEmail);
 		if (verifyOtp) {
 			model.addAttribute("otpMatched", "LOGIN SUCCESS.");

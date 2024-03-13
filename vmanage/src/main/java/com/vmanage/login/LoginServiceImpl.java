@@ -73,7 +73,7 @@ public class LoginServiceImpl implements LoginService {
 		System.out.println("EMAIL: " + email);
 		System.out.println("OTP: " + otp);
 
-		if ( byEmail.getVendorEmail().equalsIgnoreCase(email)) {
+		if (byEmail.getVendorEmail()!=null && byEmail.getVendorEmail().equalsIgnoreCase(email)) {
 
 			if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
 					&& Duration.between(otpGenratedTime, currentTime).getSeconds() < (5 * 60)) {
