@@ -149,19 +149,20 @@ public class LoginServiceImpl implements LoginService {
 	
 	/* FIND ADMIN BY NAME AND PASSWORD */
 	@Override
-	public AdminEntity findAdminByNameAndPassword(String name, String password) {
+	public boolean findAdminByNameAndPassword(String name, String password) {
+		
 		List<AdminEntity> allAdmins = this.repository.findAllAdmins();
 		for (AdminEntity adminEntity : allAdmins) {
-			if (adminEntity != null && !"".equals(adminEntity)) {
+			if (adminEntity != null) {
 				if (adminEntity.getAdminName().equalsIgnoreCase(name)
 						&& adminEntity.getAdminPassword().equalsIgnoreCase(password)) {
 					System.out.println("Admin login success.");
-					return adminEntity;
+					return true;
 				}
 			}
 		}
 
-		return null;
+		return false;
 	}
 
 }

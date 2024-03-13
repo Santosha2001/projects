@@ -19,6 +19,6 @@ public interface LoginService {
 
 	void expireOTPAndResetAttempt(Integer OTP, int resetAttempt, String email);
 
-	AdminEntity findAdminByNameAndPassword(String name, String password);
+	boolean findAdminByNameAndPassword(String name, String password);
 
 }

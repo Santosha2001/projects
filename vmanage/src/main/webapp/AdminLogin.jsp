@@ -86,7 +86,7 @@
 
 
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
-            <form action="x" method="get">
+            <form action="${pageContext.request.contextPath}/otp/adminLogin" method="post">
                 <!-- action="${pageContext.request.contextPath}/otp/sendOTP?email=${email}" -->
 
                 <h2 style="text-align: center; color: #29b03e; font-style: italic;">ADMIN LOG IN</h2>

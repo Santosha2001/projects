@@ -111,23 +111,19 @@ public class LoginController {
 	}
 
 	/* ADMIN LOGIN */
-	@GetMapping(value = "/adminLogin")
+	@PostMapping(value = "/adminLogin")
 	public String adminLogin(@RequestParam String adminName, @RequestParam String adminPassword, Model model) {
 		System.out.println("adminName : " + adminName);
 		System.out.println("adminPassword : " + adminPassword);
 
-		AdminEntity byNameAndPassword = this.loginService.findAdminByNameAndPassword(adminName, adminPassword);
-		if (byNameAndPassword != null && !"".equals(byNameAndPassword)) {
-			if (byNameAndPassword.getAdminName().equalsIgnoreCase(adminName)
-					&& byNameAndPassword.getAdminPassword().equalsIgnoreCase(adminPassword)) {
-				System.out.println("Admin login success.");
-				// model.addAttribute("adminLoginSuccess", "Admin Login Success.");
-				List<VendorEntity> vendorList = this.repository.findAll();
-				model.addAttribute("vendorsList", vendorList);
-				vendorList.forEach(System.out::println);
+		boolean byNameAndPassword = loginService.findAdminByNameAndPassword(adminName, adminPassword);
+		if (byNameAndPassword) {
 
-				return "AdminLoginSuccess";
-			}
+			List<VendorEntity> vendorList = this.repository.findAll();
+			model.addAttribute("vendorsList", vendorList);
+			vendorList.forEach(System.out::println);
+
+			return "AdminLoginSuccess";
 		}
 
 		System.out.println("Admin login failed.");
