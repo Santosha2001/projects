@@ -246,4 +246,29 @@ public class VendorRepositoryImpl implements VendorRepository {
 		return adminEntities;
 	}
 
+	/* APPROVE STATUS */
+	@Override
+	public VendorEntity approveStatus(String status, String email) {
+		EntityManager entityManager = factory.createEntityManager();
+		VendorEntity entity=new VendorEntity();
+		try {
+			entityManager.getTransaction().begin();
+			Query query = entityManager.createNamedQuery("approveStatus");
+			query.setParameter("approve", status);
+			query.setParameter("email", email);
+
+			query.executeUpdate();
+			entityManager.getTransaction().commit();
+			
+			return entity;
+
+		} catch (PersistenceException e) {
+			System.out.println("PersistenceException: in approveStatus " + e.getMessage());
+			entityManager.getTransaction().rollback();
+		} finally {
+			entityManager.close();
+		}
+		return null;
+	}
+
 }

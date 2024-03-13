@@ -86,32 +86,55 @@
 
 
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
-            <form action="x" method="get">
-                <!-- action="${pageContext.request.contextPath}/otp/sendOTP?email=${email}" -->
-
-                <h2 style="text-align: center; color: #29b03e; font-style: italic;">ADMIN LOG IN</h2>
-
-                <!-- ADMIN FOR LOG IN-->
-                <div class="form-group mt-5">
-                    <input type="text" class="form-control" id="adminName" name="adminName" placeholder="Admin Name"
-                        value="" />
+            <form action="" method="post">
+                <!-- VENDOR NAME -->
+                <div class="form-group mt-1">
+                    <label for="vendorNname">Vendor name</label>
+                    <input type="text" class="form-control" id="vendorNname" name="vendorNname"
+                        value="${vendorEntity.getVendorNname()}" maxlength="20" onblur="validateName()" required />
                 </div>
-                <span id="nameError" style="color: red;"></span>
+               
 
-                <!-- ADMIN PASSWORD FOR LOG IN-->
-                <div class="form-group mt-5">
-                    <input type="password" class="form-control" id="adminPassword" name="adminPassword"
-                        placeholder="Enter Password" value="" />
+               <!-- EMAIL ADDRESS -->
+               <div class="form-group mt-3">
+                <label for="vendorEmail">Email address</label>
+                <input type="email" class="form-control" id="vendorEmail" name="vendorEmail"
+                    value="${vendorEntity.getVendorEmail()}" onblur="uniqueMail()" maxlength="30" minlength="5"
+                    required />
+                 </div>
+           
+
+                <!-- GST NUMBER -->
+                <div class="form-group mt-3">
+                    <label for="vendorGSTNumber">GST Number</label>
+                    <input type="text" class="form-control" id="vendorGSTNumber" name="vendorGSTNumber"
+                        placeholder="" value="${vendorEntity.getVendorGSTNumber()}" maxlength="15"
+                        onblur="gstAjax()" required />
                 </div>
-                <span id="passwordError" style="color: red;"></span>
+                
 
-                <!-- GENERATE OTP -->
-                <button type="submit" class="btn form-control btn-primary btn-sm mt-4 mb-2"
-                    id="">LOGIN</button>
+                <!-- CONTACT NUMBER -->
+                <div class="form-group mt-3">
+                    <label for="contactNumber">Contect Number</label>
+                    <input type="number" class="form-control" id="contactNumber" name="contactNumber"
+                        value="${vendorEntity.getContactNumber()}" onblur="numberAjax()" />
+                    <!-- [0-9]{3}-[0-9]{3}-[0-9]{4} -->
+                </div>
+               
+                
 
+                <!-- OWNER NAME -->
+                <div class="form-group mt-3">
+                    <label for="ownerName">Company Owner Name</label>
+                    <input type="text" class="form-control" id="ownerName" name="ownerName"
+                        value="${vendorEntity.getOwnerName()}" maxlength="20" onblur="validateOwnerName()"
+                        required />
+                </div>        
+
+                <button type="submit" class="btn btn-primary form-control mt-3"
+                    id="registerButton">Register</button>
             </form>
         </div>
-
         <!-- footer -->
         <footer class="bg-dark py-1 mt-5 footer-1 ">
             <div class="container text-light text-center">

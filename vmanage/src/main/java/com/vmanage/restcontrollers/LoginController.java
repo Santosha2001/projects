@@ -2,6 +2,7 @@ package com.vmanage.restcontrollers;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import com.vmanage.entities.AdminEntity;
 import com.vmanage.entities.VendorEntity;
 import com.vmanage.login.LoginService;
 import com.vmanage.login.LoginServiceImpl;
+import com.vmanage.repository.VendorRepository;
 
 @Controller
 @RequestMapping("/otp")
@@ -22,6 +24,9 @@ public class LoginController {
 
 	@Autowired
 	private LoginService loginService;
+
+	@Autowired
+	private VendorRepository repository;
 
 	public LoginController() {
 		System.out.println("LoginController created.");
@@ -116,11 +121,15 @@ public class LoginController {
 			if (byNameAndPassword.getAdminName().equalsIgnoreCase(adminName)
 					&& byNameAndPassword.getAdminPassword().equalsIgnoreCase(adminPassword)) {
 				System.out.println("Admin login success.");
-				model.addAttribute("adminLoginSuccess", "Admin Login Success.");
+				// model.addAttribute("adminLoginSuccess", "Admin Login Success.");
+				List<VendorEntity> vendorList = this.repository.findAll();
+				model.addAttribute("vendorsList", vendorList);
+				vendorList.forEach(System.out::println);
+
 				return "AdminLoginSuccess";
 			}
-
 		}
+
 		System.out.println("Admin login failed.");
 		model.addAttribute("adminLoginFail", "Admin Login Failed.");
 		return "AdminLogin";

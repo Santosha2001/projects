@@ -41,6 +41,9 @@ import lombok.RequiredArgsConstructor;
 
 @NamedQuery(name = "expireOTPAndResetAttempt", query = "UPDATE VendorEntity et SET et.otp=:otp, "
 		+ "et.failedAttempt=:resetAttempt WHERE et.vendorEmail=:email")
+
+@NamedQuery(name = "approveStatus", query = "UPDATE VendorEntity et SET et.applyStatus=:approve "
+		+ "WHERE et.vendorEmail=:email")
 public class VendorEntity {
 
 	@Id
@@ -122,5 +125,8 @@ public class VendorEntity {
 
 	@Column(name = "account_lock_time")
 	private LocalDateTime accountLockTime;
+
+	@Column(name = "apply_status")
+	private String applyStatus;
 
 }

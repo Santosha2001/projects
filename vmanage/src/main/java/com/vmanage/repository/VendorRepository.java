@@ -28,4 +28,5 @@ public interface VendorRepository {
 
 	List<AdminEntity> findAllAdmins();
 
+	VendorEntity approveStatus(String status, String email);
 }

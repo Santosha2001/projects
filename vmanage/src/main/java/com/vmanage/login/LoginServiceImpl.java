@@ -146,7 +146,7 @@ public class LoginServiceImpl implements LoginService {
 		this.repository.expireOTPAndAttempt(OTP, resetAttempt, email);
 
 	}
-
+	
 	/* FIND ADMIN BY NAME AND PASSWORD */
 	@Override
 	public AdminEntity findAdminByNameAndPassword(String name, String password) {
