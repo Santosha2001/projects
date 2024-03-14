@@ -28,7 +28,8 @@ public class VendorServiceImpl implements VendorService {
 	public VendorEntity save(VendorEntity entity) {
 		entity.setCreatedBy(entity.getOwnerName());
 		entity.setCreatedDate(LocalDate.now());
-
+		entity.setApplyStatus("PENDING");
+		
 		this.repository.save(entity);
 		return entity;
 	}

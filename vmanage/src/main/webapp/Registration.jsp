@@ -353,6 +353,21 @@
                 }
                 */
 
+                //start date validation
+                function dateValidate() {
+                    let date = document.getElementById("companyStartDate").value;
+                    let btn = document.getElementById("registerButton");
+
+                    if (date == null || date == "") {
+                        document.getElementById("startDateError").innerHTML = "*owner name can't be blank.";
+                        btn.setAttribute("disabled", "");
+                    } else {
+                        document.getElementById("startDateError").innerHTML = "";
+                        btn.removeAttribute("disabled");
+                    }
+
+                }
+
 
                 // owner name validate
                 function validateOwnerName() {

@@ -133,7 +133,7 @@
                                 <td>${user.getContactNumber()}</td>
                                 <td>${user.getOwnerName()}</td>
                                 <td>
-                                    <a href="StatusApproved.jsp" target="_blank"
+                                    <a href="approve?email=${user.getVendorEmail()}" 
                                         rel="noopener noreferrer">${user.getApplyStatus()}
                                     </a>
                                 </td>

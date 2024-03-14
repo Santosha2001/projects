@@ -17,9 +17,10 @@ import com.vmanage.entities.VendorEntity;
 import com.vmanage.login.LoginService;
 import com.vmanage.login.LoginServiceImpl;
 import com.vmanage.repository.VendorRepository;
+import com.vmanage.service.VendorService;
 
 @Controller
-@RequestMapping("/otp")
+@RequestMapping("/")
 public class LoginController {
 
 	@Autowired
@@ -27,6 +28,9 @@ public class LoginController {
 
 	@Autowired
 	private VendorRepository repository;
+	
+	@Autowired
+	private VendorService service;
 
 	public LoginController() {
 		System.out.println("LoginController created.");
@@ -85,6 +89,19 @@ public class LoginController {
 		System.out.println("Admin login failed.");
 		model.addAttribute("adminLoginFail", "Admin Login Failed.");
 		return "AdminLogin";
+	}
+	
+	@GetMapping("/approve")
+	public String verify(@RequestParam String email, Model model) {
+		
+		
+		System.out.println(email);
+		
+		VendorEntity vendorEntity = service.findByEmail(email);
+		
+		model.addAttribute("vendorEntity", vendorEntity);
+		
+		return "StatusApproved";
 	}
 
 }

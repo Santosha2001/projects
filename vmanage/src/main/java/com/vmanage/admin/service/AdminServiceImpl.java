@@ -14,11 +14,17 @@ public class AdminServiceImpl implements AdminService {
 	
 	
 	@Override
-	public void statusApprove(String status, String email) {
+	public void statusApprove(String email) {
 		
 		VendorEntity byEmail = this.repository.findByEmail(email);
+		if (byEmail!=null) {
+			if (byEmail.getVendorEmail().equalsIgnoreCase(email)) {
+				
+				byEmail.setApplyStatus("APPROVED");
+			}
+		}
 		
-		byEmail.setApplyStatus("APPROVED");
+		
 
 	}
 
