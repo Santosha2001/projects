@@ -23,18 +23,18 @@ public class VendorServiceImpl implements VendorService {
 		System.out.println("VendorServiceImpl created.");
 	}
 
-	/* SAVE ENTITY SERVICE */
+	/* SAVE ENTITY */
 	@Override
 	public VendorEntity save(VendorEntity entity) {
 		entity.setCreatedBy(entity.getOwnerName());
 		entity.setCreatedDate(LocalDate.now());
 		entity.setApplyStatus("PENDING");
-		
+
 		this.repository.save(entity);
 		return entity;
 	}
 
-	/* ENTITY EXIST SERVICE */
+	/* ENTITY EXISTENCE CHECK */
 	@Override
 	public String isExistByGstOrNumberOrMailOrSite(String gst, Long number, String email, String website) {
 
@@ -49,12 +49,12 @@ public class VendorServiceImpl implements VendorService {
 			} else if (entity.getWebsite().equals(website)) {
 				return "Website already exist";
 			}
-			System.out.println("Details not present save it.");
+			System.out.println("Details not present save.");
 		}
 		return null;
 	}
 
-	/* SAEND MAIL SERVICE */
+	/* SAEND MAIL */
 	@Override
 	public boolean sendEmail(String email, String username) {
 		System.out.println("Sending email.");
@@ -88,9 +88,9 @@ public class VendorServiceImpl implements VendorService {
 	public void updateOtpByEmail(Integer otp, String email) {
 
 		this.repository.updateOtpByEmail(otp, email);
-		
+
 	}
-	
+
 	/* UPDATE OTP GENERATED TIME */
 	@Override
 	public void updateOtpGeneratedTime(LocalDateTime otpGeneratedTime, String email) {

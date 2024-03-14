@@ -13,7 +13,6 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.vmanage.entities.AdminEntity;
 import com.vmanage.entities.VendorEntity;
 
 @Repository
@@ -222,53 +221,6 @@ public class VendorRepositoryImpl implements VendorRepository {
 		} finally {
 			entityManager.close();
 		}
-	}
-
-	/* FIND ALL ADMINS */
-	@Override
-	public List<AdminEntity> findAllAdmins() {
-
-		EntityManager entityManager = factory.createEntityManager();
-		List<AdminEntity> adminEntities = new ArrayList<AdminEntity>();
-
-		try {
-			entityManager.getTransaction().begin();
-			adminEntities = entityManager.createNamedQuery("findAllAdmins").getResultList();
-			entityManager.getTransaction().commit();
-
-		} catch (PersistenceException e) {
-			System.out.println("PersistenceException: in admin findAll " + e.getMessage());
-			entityManager.getTransaction().rollback();
-		} finally {
-			entityManager.close();
-		}
-
-		return adminEntities;
-	}
-
-	/* APPROVE STATUS */
-	@Override
-	public VendorEntity approveStatus(String status, String email) {
-		EntityManager entityManager = factory.createEntityManager();
-		VendorEntity entity=new VendorEntity();
-		try {
-			entityManager.getTransaction().begin();
-			Query query = entityManager.createNamedQuery("approveStatus");
-			query.setParameter("approve", status);
-			query.setParameter("email", email);
-
-			query.executeUpdate();
-			entityManager.getTransaction().commit();
-			
-			return entity;
-
-		} catch (PersistenceException e) {
-			System.out.println("PersistenceException: in approveStatus " + e.getMessage());
-			entityManager.getTransaction().rollback();
-		} finally {
-			entityManager.close();
-		}
-		return null;
 	}
 
 }

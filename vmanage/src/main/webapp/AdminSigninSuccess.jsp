@@ -108,7 +108,7 @@
                 </div>
             </nav>
 
-            <span class="container d-flex justify-content-center" style="color: green;">${adminLoginSuccess}</span></br>
+            <!-- <span class="container d-flex justify-content-center" style="color: green;">${adminLoginSuccess}</span></br> -->
 
             <h1>User List - Admin Page</h1>
             <div class="table-size table-responsive-md">

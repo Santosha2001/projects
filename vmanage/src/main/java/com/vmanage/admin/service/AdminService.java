@@ -2,5 +2,7 @@ package com.vmanage.admin.service;
 
 public interface AdminService {
 
-	void statusApprove(String email);
+	boolean findAdminByNameAndPassword(String name, String password);
+	
+	boolean approveStatus(String email);
 }

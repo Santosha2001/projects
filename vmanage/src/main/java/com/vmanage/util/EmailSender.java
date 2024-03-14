@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class EmailSender {
 
 	public EmailSender() {
-		System.out.println("Email sending.");
+		System.out.println("EmailSender created.");
 	}
 
 	public boolean emailSender(String to, String from, String subject, String text) {

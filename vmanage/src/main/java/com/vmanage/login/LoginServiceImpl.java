@@ -2,12 +2,10 @@ package com.vmanage.login;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.vmanage.entities.AdminEntity;
 import com.vmanage.entities.VendorEntity;
 import com.vmanage.repository.VendorRepository;
 import com.vmanage.service.VendorService;
@@ -29,7 +27,7 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired
 	private VendorRepository repository;
 
-	public static final long ATTEMPT_TIME = 2;
+	public static final long ATTEMPT_TIME = 3;
 
 	/* SEND OTP TO MAIL */
 	@Override
@@ -39,10 +37,10 @@ public class LoginServiceImpl implements LoginService {
 
 		if (byEmail.getVendorEmail().equalsIgnoreCase(email)) {
 
-			Integer otp = this.otpGenerator.generateOtp();
+			Integer otp = otpGenerator.generateOtp();
 			System.out.println("OTP: " + otp);
 
-			boolean emailSender2 = this.emailSender.emailSender(email, "santosha5856@gmail.com", "One Time Password",
+			boolean emailSender2 = emailSender.emailSender(email, "santosha5856@gmail.com", "One Time Password",
 					"Your OTP for login is " + otp + ". Don't share with anyone.");
 
 			this.service.updateOtpGeneratedTime(LocalDateTime.now(), email);
@@ -50,7 +48,7 @@ public class LoginServiceImpl implements LoginService {
 			if (emailSender2) {
 				this.service.updateOtpByEmail(otp, email);
 				System.out.println("otp sent to mail.");
-				
+
 				return true;
 			} else {
 				System.err.println("otp not sent.");
@@ -70,10 +68,7 @@ public class LoginServiceImpl implements LoginService {
 		LocalDateTime currentTime = LocalDateTime.now();
 		LocalDateTime accountLockTime = byEmail.getAccountLockTime();
 
-		System.out.println("EMAIL: " + email);
-		System.out.println("OTP: " + otp);
-
-		if (byEmail.getVendorEmail()!=null && byEmail.getVendorEmail().equalsIgnoreCase(email)) {
+		if (byEmail.getVendorEmail() != null && byEmail.getVendorEmail().equalsIgnoreCase(email)) {
 
 			if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
 					&& Duration.between(otpGenratedTime, currentTime).getSeconds() < (5 * 60)) {
@@ -153,24 +148,6 @@ public class LoginServiceImpl implements LoginService {
 
 		this.repository.expireOTPAndAttempt(OTP, resetAttempt, email);
 
-	}
-
-	/* FIND ADMIN BY NAME AND PASSWORD */
-	@Override
-	public boolean findAdminByNameAndPassword(String name, String password) {
-
-		List<AdminEntity> allAdmins = this.repository.findAllAdmins();
-		for (AdminEntity adminEntity : allAdmins) {
-			if (adminEntity != null) {
-				if (adminEntity.getAdminName().equalsIgnoreCase(name)
-						&& adminEntity.getAdminPassword().equalsIgnoreCase(password)) {
-					System.out.println("Admin login success.");
-					return true;
-				}
-			}
-		}
-
-		return false;
 	}
 
 }

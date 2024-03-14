@@ -12,5 +12,4 @@ public interface VendorAjaxService {
 
 	String emailLogInAjax(String email);
 
-	//String otpAjax(int otp);
 }

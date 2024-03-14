@@ -27,7 +27,7 @@ public class VendorAjaxRestController {
 	@GetMapping(value = "/gstAjax/{gst}")
 	public String gstAjax(@PathVariable String gst) {
 		String byGstAjax = this.ajaxService.findByGstAjax(gst);
-		System.out.println("Running gst ajax: " + gst);
+		System.out.println("gst ajax: " + gst);
 		return byGstAjax;
 	}
 
@@ -35,7 +35,7 @@ public class VendorAjaxRestController {
 	@GetMapping(value = "/mobileAjax/{mobile}")
 	public String mobileAjax(@PathVariable Long mobile) {
 		String byMobileAjax = this.ajaxService.findByMobileAjax(mobile);
-		System.out.println("Contact number ajax: " + mobile);
+		System.out.println("number ajax: " + mobile);
 		return byMobileAjax;
 	}
 
@@ -43,7 +43,7 @@ public class VendorAjaxRestController {
 	@GetMapping(value = "/emailAjax/{email:.+}")
 	public String emailAjax(@PathVariable String email) {
 		String byEmail = this.ajaxService.findByEmail(email);
-		System.out.println("Email ajax: " + email);
+		System.out.println("ajax: " + email);
 		return byEmail;
 	}
 
@@ -63,15 +63,4 @@ public class VendorAjaxRestController {
 		return emailLogInAjax;
 	}
 
-	/* OTP VERIFY AJAX FOR LOGIN */
-	/*
-	@GetMapping(value = "/otpVerifyAjax/{otp}")
-	public String otpVerifyAjax(@PathVariable String otp) {
-
-		String verifyOtp = this.ajaxService.otpAjax(otp);
-		System.out.println("OTP AJAX: " + otp);
-
-		return verifyOtp;
-	}
-	*/
 }
