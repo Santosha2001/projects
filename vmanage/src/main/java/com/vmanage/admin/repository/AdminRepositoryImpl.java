@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -38,6 +39,29 @@ public class AdminRepositoryImpl implements AdminRepository {
 		}
 
 		return adminEntities;
+	}
+
+	/* UPDATE VENDOR STATUS */
+	@Override
+	public void updateStatusByEmail(String status, String email) {
+
+		EntityManager entityManager = factory.createEntityManager();
+		try {
+			entityManager.getTransaction().begin();
+			Query query = entityManager.createNamedQuery("updateStatusByEmail");
+			query.setParameter("status", status);
+			query.setParameter("email", email);
+			query.executeUpdate();
+
+			entityManager.getTransaction().commit();
+
+		} catch (PersistenceException e) {
+			System.out.println("PersistenceException: in updateStatusByEmail " + e.getMessage());
+			entityManager.getTransaction().rollback();
+		} finally {
+			entityManager.close();
+		}
+
 	}
 
 }

@@ -7,17 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.vmanage.admin.repository.AdminRepository;
 import com.vmanage.entities.AdminEntity;
-import com.vmanage.entities.VendorEntity;
-import com.vmanage.repository.VendorRepository;
 
 @Service
 public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private AdminRepository repository;
-	
-	@Autowired
-	private VendorRepository vendorRepository;
 
 	/* FIND ADMIN BY NAME AND PASSWORD */
 	@Override
@@ -37,24 +32,13 @@ public class AdminServiceImpl implements AdminService {
 		return false;
 	}
 
+	/* APPROVE VENDOR STATUS BY ADMIN */
 	@Override
 	public boolean approveStatus(String email) {
-		
-		VendorEntity byEmail = vendorRepository.findByEmail(email);
-		
-		if (byEmail.getVendorEmail().equalsIgnoreCase(email)) {
-			byEmail.setApplyStatus("APPROVED");
-			
-			vendorRepository.save(byEmail);
-			System.out.println(byEmail);
-			System.out.println("status updated.");
-			
-			return true;
-		}
-		
-		return false;
+
+		repository.updateStatusByEmail("APPROVED", email);
+
+		return true;
 	}
-	
-	
 
 }

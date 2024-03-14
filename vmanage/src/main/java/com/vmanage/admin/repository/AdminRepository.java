@@ -7,4 +7,6 @@ import com.vmanage.entities.AdminEntity;
 public interface AdminRepository {
 
 	List<AdminEntity> findAllAdmins();
+
+	void updateStatusByEmail(String status, String email);
 }

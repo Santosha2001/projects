@@ -17,22 +17,22 @@ import com.vmanage.service.VendorService;
 @Controller
 @RequestMapping("/")
 public class AdminController {
-	
+
 	@Autowired
 	private AdminService adminService;
-	
+
 	@Autowired
 	private VendorRepository repository;
-	
+
 	@Autowired
 	private VendorService service;
 
 	public AdminController() {
 		System.out.println("AdminController created.");
 	}
-	
+
 	/* ADMIN LOGIN */
-	
+
 	@PostMapping(value = "/adminLogin")
 	public String adminLogin(@RequestParam String adminName, @RequestParam String adminPassword, Model model) {
 		System.out.println("adminName : " + adminName);
@@ -52,20 +52,32 @@ public class AdminController {
 		model.addAttribute("adminLoginFail", "Admin Login Failed.");
 		return "AdminLogin";
 	}
-	
-	
-	
+
 	@GetMapping("/approve")
 	public String approveStatus(@RequestParam String email, Model model) {
 
 		System.out.println(email);
-		
 
 		VendorEntity vendorEntity = service.findByEmail(email);
-
 		model.addAttribute("vendorEntity", vendorEntity);
 
 		return "StatusApproved";
 	}
-	
+
+	@PostMapping("/statusUpdate")
+	public String updateStatus(@RequestParam String vendorEmail, Model model) {
+		System.out.println("email " + vendorEmail);
+
+		boolean approveStatus = adminService.approveStatus(vendorEmail);
+		if (approveStatus) {
+			System.out.println("status updated.");
+			model.addAttribute("updated.", "Status updated.");
+
+			return "StatusSuccess";
+		}
+		model.addAttribute("notUpdated", "Status update failed.");
+		return "StatusApproved";
+
+	}
+
 }

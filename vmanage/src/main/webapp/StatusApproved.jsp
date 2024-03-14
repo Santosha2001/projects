@@ -86,7 +86,8 @@
 
 
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
-            <form action="statusUpdate?email=${email}" method="get">
+            <form action="statusUpdate" method="post">
+                <!-- statusUpdate?email=${email} -->
                 <!-- VENDOR NAME -->
                 <div class="form-group mt-1">
                     <label for="vendorNname">Vendor name</label>
