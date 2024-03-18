@@ -1,5 +1,7 @@
 package com.vmanage.admin.repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +64,26 @@ public class AdminRepositoryImpl implements AdminRepository {
 			entityManager.close();
 		}
 
+	}
+
+	@Override
+	public void updateUpdatedDateAndUpdatedBy(String updatedBy, LocalDate updatedDate, String email) {
+		EntityManager entityManager = factory.createEntityManager();
+		try {
+			entityManager.getTransaction().begin();
+			Query query = entityManager.createNamedQuery("updateUpdatedDateAndUpdatedBy");
+			query.setParameter("updatedBy", updatedBy);
+			query.setParameter("updateDate", updatedDate);
+			query.setParameter("email", email);
+			int update = query.executeUpdate();
+			System.out.println("update: " + update);
+
+		} catch (PersistenceException e) {
+			System.out.println("PersistenceException: in updateUpdatedDateAndUpdatedBy " + e.getMessage());
+			entityManager.getTransaction().rollback();
+		} finally {
+			entityManager.close();
+		}
 	}
 
 }

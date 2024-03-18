@@ -44,7 +44,8 @@ import lombok.RequiredArgsConstructor;
 
 @NamedQuery(name = "updateStatusByEmail", query = "UPDATE VendorEntity et SET et.applyStatus=:status "
 		+ "WHERE et.vendorEmail=:email")
-
+@NamedQuery(name = "updateUpdatedDateAndUpdatedBy", query = "UPDATE VendorEntity et SET et.updatedBy=:updatedBy, "
+		+ "et.updatedDate=:updateDate WHERE et.vendorEmail=:email")
 public class VendorEntity {
 
 	@Id

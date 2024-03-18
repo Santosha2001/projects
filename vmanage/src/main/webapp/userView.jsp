@@ -35,6 +35,12 @@
                 -webkit-appearance: none;
                 margin: 0;
             }
+
+            .name{
+                color: white;
+                font-style: oblique;
+                font-size: medium;
+            }
         </style>
 
     </head>
@@ -82,8 +88,11 @@
                         </li>
                     </ul> -->
                     <form class="d-flex">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                      </form>
+                        <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
+                        <li class="">
+                            <p class="name">${vendorEntity.getVendorNname()}</p>
+                        </li>
+                    </form>
                 </div>
             </div>
         </nav>
