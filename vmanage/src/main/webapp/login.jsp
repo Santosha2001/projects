@@ -14,26 +14,50 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
             crossorigin="anonymous"></script>
-
-        <!-- <link rel="stylesheet" href="custom.css"> -->
-        <!-- <script src="ajax.js"></script> -->
-
         <style>
-            /* form outer border */
-            .border {
-                width: 35vw;
+            * {
+                margin: 0;
+                padding: 0;
             }
+
+            body {
+                background-color: #93a4ae45;
+            }
+
+            .nav-link {
+                color: #91eded;
+            }
+
+            .nav-link:hover {
+                color: #dd7be4;
+            }
+
+
 
             /* form input */
             .form-control {
                 width: 30vw;
                 border-color: rgb(35, 34, 34);
+                align-items: center;
             }
 
             input::-webkit-outer-spin-button,
             input::-webkit-inner-spin-button {
                 -webkit-appearance: none;
                 margin: 0;
+            }
+
+            .border {
+                background-color: #c0eef2;
+                border-radius: 15px;
+                height: 52.8vh;
+                width: 35vw;
+                display: flex;
+                align-items: center;
+
+                justify-content: center;
+                margin-top: 10vh;
+                margin-bottom: 10.3vh;
             }
         </style>
 
@@ -50,9 +74,11 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <!-- <ul class="navbar-nav me-auto mb-2 mb-lg-0"> -->
+                    <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                    <!-- <ul class="navbar-nav mr-auto mb-2 mb-lg-0 text-uppercase"> -->
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="index.jsp">Home</a>
+                            <a class="nav-link" aria-current="page" href="index.jsp">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="Registration.jsp">Register here</a>
@@ -82,12 +108,12 @@
             </div>
         </nav>
 
-        <span class="container d-flex justify-content-center p-3 mt-2 mb-3" style="color:red">
-            <h3>${otpNotMatched}</h3><br>
+        <span class="container d-flex justify-content-center" style="color:red">
+            ${otpExpired}
         </span>
 
-        <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
-            <form action="sendOTP" method="post">
+        <div class="container login-box border  border-dark">
+            <form action="generateOTP" method="post">
                 <!-- action="${pageContext.request.contextPath}/otp/sendOTP?email=${email}" -->
 
                 <h2 style="text-align: center; color: #29b03e; font-style: italic;">LOG IN</h2>
@@ -97,7 +123,7 @@
                     <input type="email" class="form-control" id="vendorEmail" name="vendorEmail"
                         placeholder="Email address" value="${mail}" onblur="loginMail()" required />
                 </div>
-                <span id="emailError" style="color: red;"></span>
+                <span id="emailError" style="color: #f42323;"></span>
 
                 <!-- GENERATE OTP -->
                 <button type="submit" class="btn form-control btn-primary btn-sm mt-4 mb-2" id="generateOTP">Generate
@@ -107,10 +133,10 @@
         </div>
 
         <!-- footer -->
-        <footer class="bg-dark py-1 mt-5 footer-1 ">
+        <footer class="bg-dark py-1 mt-5 footer-1">
             <div class="container text-light text-center">
-                <p class="display-5 mb-3">Vendor Management</p>
-                <small class="text-white-50">&copy; Copyright by X-Workz. All
+                <p class="display">Vendor Management</p>
+                <small class="text-white-60">&copy; Copyright by X-Workz. All
                     rights reserved.</small>
             </div>
         </footer>

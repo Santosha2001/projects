@@ -15,18 +15,38 @@
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
             crossorigin="anonymous"></script>
 
-        <!-- <link rel="stylesheet" href="custom.css"> -->
-        <!-- <script src="ajax.js"></script> -->
-
         <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                background-color: #93a4ae45;
+            }
+
+            .nav-link {
+                color: #91eded;
+            }
+
+            .nav-link:hover {
+                color: #dd7be4;
+            }
+
             /* form outer border */
             .border {
-                width: 35vw;
+                background-color: #c0eef2;
+                border-radius: 20px;
+                height: 59.7vh;
+                /* width: 35vw; */
+                width: 30vw;
+                text-align: justify;
+                /* align-items: center; */
             }
 
             /* form input */
             .form-control {
-                width: 30vw;
+                width: 25vw;
                 border-color: rgb(35, 34, 34);
             }
 
@@ -38,7 +58,6 @@
 
             .otpExpire {
                 text-decoration: none;
-                /* font-size: medium; */
             }
         </style>
 
@@ -57,13 +76,16 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="index.jsp">Home</a>
+                            <a class="nav-link" aria-current="page" href="index.jsp">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="Registration.jsp">Register here</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Log In</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="AdminLogin.jsp">Admin LogIn</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -93,9 +115,6 @@
             <h3>${unlockedAccount}</h3>
         </span>
 
-        <span class="container d-flex justify-content-center" style="color:red">
-            <h4 class="otpExpire">${otpExpired}</h4>
-        </span>
 
         <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
             <form action="otpVerify" method="post">
@@ -106,18 +125,18 @@
                 <!-- EMAIL ADDRESS FOR LOG IN-->
                 <div class="form-group mt-5">
                     <input type="email" class="form-control" id="vendorEmail" name="vendorEmail"
-                        placeholder="Email address" value="${mail}" onblur="loginMail()" />
+                        placeholder="Email address" value="${mail}" onblur="emailCheck()" />
                 </div>
                 <span id="emailError" style="color: red;"></span>
 
                 <!-- VERIFY OTP -->
                 <div class="form-group mt-3">
-                    <input type="number" class="form-control" id="otp" name="otp" placeholder="Enter OTP" value=""
-                        onchange="otpVerify()" />
+                    <input type="number" class="form-control" id="otp" name="otp" placeholder="Enter OTP"
+                        onchange="otpVerify()" required />
                 </div>
-                <span class="container d-flex" style="color:red">${wrongOTP}</span>
+                <span class="container d-flex" id="otpError" style="color:red">${wrongOTP}</span>
 
-                <button type="submit" class="btn form-control btn-secondary btn-sm mt-4 mb-2" id="otpVerifyBtn">Log
+                <button type="submit" class="btn form-control btn-primary btn-sm mt-4 mb-2" id="otpVerifyBtn">Log
                     In</button>
 
             </form>
@@ -126,11 +145,41 @@
         <!-- footer -->
         <footer class="bg-dark py-1 mt-5 footer-1">
             <div class="container text-light text-center">
-                <p class="display-5 mb-3">Vendor Management</p>
-                <small class="text-white-50">&copy; Copyright by X-Workz. All
+                <p class="display">Vendor Management</p>
+                <small class="text-white-60">&copy; Copyright by X-Workz. All
                     rights reserved.</small>
             </div>
         </footer>
+
+        <script>
+            function emailCheck() {
+                var gmail = document.getElementById("vendorEmail").value;
+                const btn = document.getElementById("otpVerifyBtn");
+
+                if (gmail != null && gmail != "") {
+                    console.log("email is valid.");
+                    document.getElementById("emailError").innerHTML = "";
+                    btn.removeAttribute("disabled");
+
+                } else if (gmail == null || gmail == "" || gmail.includes("  ")) {
+                    document.getElementById("emailError").innerHTML = "*email can't be blank.";
+                    btn.setAttribute("disabled", "");
+                }
+            }
+
+            function otpVerify() {
+                let otp = document.getElementById("otp").value;
+                const btn = document.getElementById("otpVerifyBtn");
+
+                if (otp != null && otp != "") {
+                    document.getElementById("otpError").innerHTML = "";
+                    btn.removeAttribute("disabled");
+                } else if (otp == null || otp == "" || otp.includes(' ')) {
+                    document.getElementById("otpError").innerHTML = "*otp can't empty.";
+                    btn.setAttribute("disabled", "");
+                }
+            }
+        </script>
 
     </body>
 

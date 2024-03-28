@@ -17,19 +17,27 @@
                 integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
                 crossorigin="anonymous"></script>
 
-            <!-- <link rel="stylesheet" href="custom.css"> -->
-            <!-- <script src="ajax.js"></script> -->
-
             <style>
-                /* form outer border */
-                .border {
-                    width: 40vw;
+                * {
+                    margin: 0;
+                    padding: 0;
                 }
 
-                /* form input */
-                .form-control {
-                    width: 35vw;
-                    border-color: rgb(35, 34, 34);
+                body {
+                    background-color: #93a4ae45;
+                }
+
+                .nav-link {
+                    color: #91eded;
+                }
+
+                .nav-link:hover {
+                    color: #dd7be4;
+                }
+
+                .border {
+                    width: 40vw;
+                    background-color: #c0eef2;
                 }
 
                 input::-webkit-outer-spin-button,
@@ -37,21 +45,33 @@
                     -webkit-appearance: none;
                     margin: 0;
                 }
-                .formheading{
+
+                .formheading {
                     text-align: center;
                     color: rgb(165, 41, 41);
                     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 }
 
-                .success{
+                .success {
                     color: rgb(8, 200, 8);
                     justify-items: center;
                     text-align: center;
                 }
-                .error{
+
+                .error {
                     color: red;
                     justify-items: center;
                     text-align: center;
+                }
+
+                .form-group {
+                    font-size: 1rem;
+                    position: relative;
+                }
+
+                .form-control {
+                    width: 35vw;
+                    border-color: rgb(35, 34, 34);
                 }
             </style>
 
@@ -69,7 +89,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="index.jsp">Home</a>
+                                <a class="nav-link " aria-current="page" href="index.jsp">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Register here</a>
@@ -99,18 +119,17 @@
                 </div>
             </nav>
 
-            <!-- default error messages from the backend java -->   
+            <!-- default error messages from the backend java -->
             <span class="error">
                 <c:forEach var="objectErrors" items="${error}">
                     <h3>${objectErrors.defaultMessage}</h3><br>
                 </c:forEach>
             </span>
-           
+
             <!-- field existing error -->
             <span class="error">
                 <h3>${uniqueError}</h3>
             </span>
-            
 
             <!-- no error message -->
             <span class="success">
@@ -123,9 +142,10 @@
 
             <div class="container d-flex justify-content-center p-3 border  border-dark mt-2 mb-3">
                 <form action="register" method="post">
+
                     <!-- VENDOR NAME -->
                     <div class="form-group mt-1">
-                        <label for="vendorNname">Vendor name</label>
+                        <label class="label" for="vendorNname">Vendor name</label>
                         <input type="text" class="form-control" id="vendorNname" name="vendorNname"
                             value="${vendorEntity.getVendorNname()}" maxlength="20" onblur="validateName()" required />
                     </div>
@@ -133,7 +153,7 @@
 
                     <!-- VENDOR LOCATION -->
                     <div class="form-group mt-3">
-                        <label for="vendorLocation">Vendor Location</label>
+                        <label class="label" for="vendorLocation">Vendor Location</label>
                         <input type="text" class="form-control" id="vendorLocation" name="vendorLocation"
                             value="${vendorEntity.getVendorLocation()}" maxlength="20" onblur="validateLocation()"
                             required />
@@ -142,7 +162,7 @@
 
                     <!-- GST NUMBER -->
                     <div class="form-group mt-3">
-                        <label for="vendorGSTNumber">GST Number</label>
+                        <label class="label" for="vendorGSTNumber">GST Number</label>
                         <input type="text" class="form-control" id="vendorGSTNumber" name="vendorGSTNumber"
                             placeholder="" value="${vendorEntity.getVendorGSTNumber()}" maxlength="15"
                             onblur="gstAjax()" required />
@@ -151,7 +171,7 @@
 
                     <!-- COMPANY START DATE -->
                     <div class="form-group mt-3">
-                        <label for="companyStartDate">Company Start Date</label>
+                        <label class="label" for="companyStartDate">Company Start Date</label>
                         <input type="date" class="form-control" id="companyStartDate" name="companyStartDate"
                             placeholder="" value="${vendorEntity.getCompanyStartDate()}" />
                     </div>
@@ -159,7 +179,7 @@
 
                     <!-- OWNER NAME -->
                     <div class="form-group mt-3">
-                        <label for="ownerName">Company Owner Name</label>
+                        <label class="label" for="ownerName">Company Owner Name</label>
                         <input type="text" class="form-control" id="ownerName" name="ownerName"
                             value="${vendorEntity.getOwnerName()}" maxlength="20" onblur="validateOwnerName()"
                             required />
@@ -168,7 +188,7 @@
 
                     <!-- SERVICE TYPE -->
                     <div class="form-group mt-3">
-                        <label for="serviceType">Service Type</label>
+                        <label class="label" for="serviceType">Service Type</label>
                         <select class="form-select form-select-sm form-control" name="serviceType" id="serviceType"
                             onclick="validateType()" required>
                             <option value="">Select option</option>
@@ -188,7 +208,7 @@
 
                     <!-- CONTACT NUMBER -->
                     <div class="form-group mt-3">
-                        <label for="contactNumber">Contect Number</label>
+                        <label class="label" for="contactNumber">Contact Number</label>
                         <input type="number" class="form-control" id="contactNumber" name="contactNumber"
                             value="${vendorEntity.getContactNumber()}" onblur="numberAjax()" />
                         <!-- [0-9]{3}-[0-9]{3}-[0-9]{4} -->
@@ -197,14 +217,14 @@
 
                     <!-- ALTERNATE NUMBER -->
                     <div class="form-group mt-3">
-                        <label for="alternateContactNumber">Alternate Contact Number</label>
+                        <label class="label" for="alternateContactNumber">Alternate Contact Number</label>
                         <input type="number" class="form-control" id="alternateContactNumber"
                             name="alternateContactNumber" value="${vendorEntity.getAlternateContactNumber()}" />
                     </div>
 
                     <!-- EMAIL ADDRESS -->
                     <div class="form-group mt-3">
-                        <label for="vendorEmail">Email address</label>
+                        <label class="label" for="vendorEmail">Email address</label>
                         <input type="email" class="form-control" id="vendorEmail" name="vendorEmail"
                             value="${vendorEntity.getVendorEmail()}" onblur="uniqueMail()" maxlength="30" minlength="5"
                             required />
@@ -213,7 +233,7 @@
 
                     <!-- WEBSITE -->
                     <div class="form-group mt-3">
-                        <label for="website">Vendor Website</label>
+                        <label class="label" for="website">Vendor Website</label>
                         <input type="text" class="form-control" id="website" name="website"
                             value="${vendorEntity.getWebsite()}" onblur="websiteAjax()" required />
                     </div>
@@ -224,10 +244,11 @@
                 </form>
             </div>
 
+
             <footer class="bg-dark py-1 mt-5 footer-1">
                 <div class="container text-light text-center">
-                    <p class="display-5 mb-3">Vendor Management</p>
-                    <small class="text-white-50">&copy; Copyright by X-Workz. All
+                    <p class="display">Vendor Management</p>
+                    <small class="text-white-60">&copy; Copyright by X-Workz. All
                         rights reserved.</small>
                 </div>
             </footer>
@@ -477,10 +498,6 @@
                         btn.setAttribute("disabled", "");
                     }
                 }
-
-
-
-
 
                 // website ajax
                 function websiteAjax() {

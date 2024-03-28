@@ -15,11 +15,7 @@
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
             crossorigin="anonymous"></script>
 
-        <!-- <link rel="stylesheet" href="custom.css"> -->
-        <!-- <script src="ajax.js"></script> -->
-
         <style>
-            /* form outer border */
             .border {
                 width: 35vw;
             }
@@ -106,8 +102,7 @@
                 <span id="passwordError" style="color: red;"></span>
 
                 <!-- GENERATE OTP -->
-                <button type="submit" class="btn form-control btn-primary btn-sm mt-4 mb-2"
-                    id="">LOGIN</button>
+                <button type="submit" class="btn form-control btn-primary btn-sm mt-4 mb-2" id="">LOGIN</button>
 
             </form>
         </div>

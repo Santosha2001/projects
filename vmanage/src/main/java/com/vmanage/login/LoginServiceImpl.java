@@ -73,39 +73,42 @@ public class LoginServiceImpl implements LoginService {
 			if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
 					&& Duration.between(otpGenratedTime, currentTime).getSeconds() < (5 * 60)) {
 				System.out.println("otp valid.");
-
 				return true;
 
 			} else if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
 					&& Duration.between(otpGenratedTime, currentTime).getSeconds() > (5 * 60)) {
 				System.out.println("otp expired.");
 				expireOTPAndResetAttempt(null, 0, email);
-
 				return false;
 
 			} else if (!byEmail.getOtp().equals(otp)) {
 
-				if (byEmail.getFailedAttempt() < ATTEMPT_TIME - 1) {
-					updateFailedAttemptCount(byEmail.getFailedAttempt(), email);
-
-				} else if (byEmail.getFailedAttempt() == ATTEMPT_TIME - 1) {
-					updateFailedAttemptCount(byEmail.getFailedAttempt(), email);
-					accountLockTime(LocalDateTime.now(), email);
-
-				} else {
-					expireOTPAndResetAttempt(null, 0, email);
-					System.out.println("account is expired.");
-
-					if (Duration.between(accountLockTime, currentTime).getSeconds() > (1 * 60)) {
-						unlockAccountTimeExpired(email);
-						System.out.println("account will unlocked after 1 minute.");
-					}
-					return false;
-				}
+				return validateOTP(email, byEmail, currentTime, accountLockTime);
 			}
-
 		}
+		return false;
+	}
 
+	/* VERIFY OTP */
+	private boolean validateOTP(String email, VendorEntity byEmail, LocalDateTime currentTime,
+			LocalDateTime accountLockTime) {
+		if (byEmail.getFailedAttempt() < ATTEMPT_TIME - 1) {
+			updateFailedAttemptCount(byEmail.getFailedAttempt(), email);
+
+		} else if (byEmail.getFailedAttempt() == ATTEMPT_TIME - 1) {
+			updateFailedAttemptCount(byEmail.getFailedAttempt(), email);
+			accountLockTime(LocalDateTime.now(), email);
+
+		} else {
+			expireOTPAndResetAttempt(null, 0, email);
+			System.out.println("account is expired.");
+
+			if (Duration.between(accountLockTime, currentTime).getSeconds() > (1 * 60)) {
+				unlockAccountTimeExpired(email);
+				System.out.println("account will unlocked after 1 minute.");
+			}
+			return false;
+		}
 		return false;
 	}
 
@@ -120,7 +123,7 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public boolean unlockAccountTimeExpired(String email) {
 		VendorEntity byEmail = this.repository.findByEmail(email);
-
+		
 		LocalDateTime accountLockTime = byEmail.getAccountLockTime();
 		LocalDateTime currentTime = LocalDateTime.now();
 

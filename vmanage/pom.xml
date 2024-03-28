@@ -18,6 +18,7 @@
 		<spring.orm.version>5.3.24</spring.orm.version>
 		<mysql.version>8.0.32</mysql.version>
 		<mail.version>1.4.7</mail.version>
+		<jackson.version>1.9.10</jackson.version>
 	</properties>
 
 	<dependencies>
@@ -92,8 +93,21 @@
 		</dependency>
 
 
-	</dependencies>
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<!--<dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
+      <scope>provided</scope>
+    </dependency>-->
 
+		<!-- Jackson -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>

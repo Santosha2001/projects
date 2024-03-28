@@ -26,7 +26,7 @@ public class LoginController {
 	}
 
 	/* SENDING OTP TO EMAIL */
-	@PostMapping("/sendOTP")
+	@PostMapping("/generateOTP")
 	public String loginUsingOtp(@RequestParam String vendorEmail, Model model) {
 
 		System.out.println("otp sent to email : " + vendorEmail);
@@ -60,7 +60,7 @@ public class LoginController {
 				return "loginSuccess";
 			} else {
 				model.addAttribute("otpExpired", "OTP EXPIRED. PLEASE REGENERATE OTP.");
-				return "loginSuccess";
+				return "login";
 			}
 
 		}
