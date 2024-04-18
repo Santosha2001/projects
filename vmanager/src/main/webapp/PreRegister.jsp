@@ -106,16 +106,16 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 			<div class="col-md-5 offset-md-4">
 				<div class="card card-sh">
 					<div class="card-header text-center">
-						<p class="fs-3 text-uppercase">Login</p>
+						<p class="fs-3 text-uppercase">Register</p>
 					</div>
 
 					<div class="card-body">
-						<form action="generateOTP" method="post">
+						<form action="register-email-check" method="post">
 							<div class="mb-3">
 								<label class="form-label">Email Address</label> 
 								<input type="email" class="form-control" id="vendorEmail" 
 									name="vendorEmail" placeholder="Email address" 
-									value="${mail}" onblur="loginMail()" required />
+									onblur="loginMail()" required />
 									
 							<span id="emailError" style="color: #f42323;"></span>
 							</div>

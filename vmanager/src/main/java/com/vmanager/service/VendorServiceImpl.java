@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import com.vmanager.entities.VendorEntity;
 import com.vmanager.repository.VendorRepository;
@@ -39,6 +40,7 @@ public class VendorServiceImpl implements VendorService {
 	public String isExistByGstOrNumberOrMailOrSite(String gst, Long number, String email, String website) {
 
 		VendorEntity entity = repository.isExistByGstOrNumberOrMailOrSite(gst, number, email, website);
+
 		if (entity != null) {
 			if (entity.getVendorGSTNumber().equals(gst)) {
 				return "GST already exist.";
@@ -95,6 +97,42 @@ public class VendorServiceImpl implements VendorService {
 	@Override
 	public void updateOtpGeneratedTime(LocalDateTime otpGeneratedTime, String email) {
 		this.repository.updatedOtpGeneratedTime(LocalDateTime.now(), email);
+	}
+
+	@Override
+	public boolean detailsUpdated(String vendorName, String location, String ownerName, Long contact, String email,
+			int id) {
+
+		VendorEntity vendorEntity = this.repository.findById(id);
+
+		if (!ObjectUtils.isEmpty(vendorEntity.getId()) && vendorEntity.getId() == id
+				&& vendorEntity.getApplyStatus().equalsIgnoreCase("APPROVED")) {
+
+			repository.updateDetails(vendorName, location, ownerName, contact, email, id);
+
+			this.repository.updateUpdatedDate(vendorName, LocalDate.now(), id);
+
+			System.out.println("ID " + id + " details updated.");
+
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean deleteAccount(String email) {
+
+		VendorEntity entity = this.repository.findByEmail(email);
+
+		if (entity.getVendorEmail().equalsIgnoreCase(email)) {
+			this.repository.deleteAccount(email);
+			System.out.println("Account deleted.");
+
+			return true;
+		}
+
+		return false;
 	}
 
 }

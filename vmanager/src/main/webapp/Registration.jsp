@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 
@@ -40,6 +40,15 @@
 	height: 13vh;
 }
 
+.form-control{
+	margin-bottom: 10px;
+	border-width: 2px;
+}
+
+.form-label{
+	margin-bottom: 1px;
+}
+
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	-webkit-appearance: none;
 	margin: 0;
@@ -50,7 +59,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 
 <body>
 	<!-- NAVBAR START -->
-	<nav class="navbar navbar-expand-lg fixed-top navbar-dark">
+	<nav class="navbar navbar-expand-lg  navbar-dark">
 
 		<div class="container">
 			<img class="navbar-brand"
@@ -81,29 +90,32 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 						href="${pageContext.request.contextPath}/loadRegister"><i
 							class="fa-regular fa-address-card"></i> REGISTER</a></li>
 
-					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="AdminLogin.jsp"><i
-							class="fa-solid fa-user-plus"></i> ADMIN</a></li>
+					<%-- <li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="${pageContext.request.contextPath}/loadAdmin"><i
+							class="fa-solid fa-user-plus"></i> ADMIN</a></li> --%>
 				</ul>
 			</div>
 		</div>
 	</nav>
 	<!-- END NAVBAR -->
 
-	<!-- default error messages from the backend java -->
-	<span class="text-center text-danger"> <c:forEach
-			var="objectErrors" items="${error}">
-			<p>${objectErrors.defaultMessage}</p>
-			<br>
-		</c:forEach>
-	</span>
-
-	<!-- field existing error -->
-	<span class="text-center text-danger">
-		<p>${uniqueError}</p>
-	</span>
-
-
+<!-- default error messages from the backend java -->
+            <span class="error text-center text-danger">
+                <c:forEach var="objectErrors" items="${errors}">
+                    <h3>${objectErrors.defaultMessage}</h3><br>
+                </c:forEach>
+            </span>
+            
+             <!-- field existing error -->
+            <span class="error text-center text-danger">
+                <h3>${uniqueError}</h3>
+            </span>
+            
+             <!-- no error message -->
+            <span class="success text-center text-success">
+                <h3>${message}</h3>
+            </span>
+            
 	<div class="container mt-4 p-2">
 		<div class="row">
 
@@ -117,11 +129,24 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 				<div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
 					<div class="card-header">
 						<p class="fs-4 text-center register-text">REGISTER HERE</p>
-						
-						<% if (session.getAttribute("message") != null) { %>
+
+						<!-- default error messages from the backend java -->
+						<span class="text-center text-danger"> <c:forEach
+								var="objectErrors" items="${error}">
+								<p>${objectErrors.defaultMessage}</p>
+								<br>
+							</c:forEach>
+						</span>
+
+						<%-- <% if (session.getAttribute("message") != null) { %>
 						<div class="text-center text-success"><%= session.getAttribute("message") %></div>
 						<% session.removeAttribute("message"); %>
 						<% } %>
+
+						<% if (session.getAttribute("uniqueError") != null) { %>
+						<div class="text-center text-success"><%= session.getAttribute("uniqueError") %></div>
+						<% session.removeAttribute("uniqueError"); %>
+						<% } %> --%>
 					</div>
 
 					<div class="card-body">
@@ -149,16 +174,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 										onblur="validateLocation()" required /> <span
 										id="locationError" style="color: red;"></span>
 								</div>
-							</div>
-
-							<!-- EMAIL ADDRESS -->
-							<div class="mb-3">
-								<label class="form-label">Email</label> <input
-									class="form-control" type="email" id="vendorEmail"
-									name="vendorEmail" value="${vendorEntity.getVendorEmail()}"
-									onblur="uniqueMail()" maxlength="30" minlength="5" required />
-
-								<span id="emailError" style="color: red;"></span>
 							</div>
 
 							<div class="row">
@@ -236,28 +251,40 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 										class="form-control" type="number" id="alternateContactNumber"
 										name="alternateContactNumber"
 										value="${vendorEntity.getAlternateContactNumber()}" />
-
-
 								</div>
 							</div>
 
-							<!-- WEBSITE -->
-							<div class="mb-3">
-								<label class="form-label">Website</label> <input
-									class="form-control" type="text" id="website" name="website"
-									value="${vendorEntity.getWebsite()}" onblur="websiteAjax()"
-									required /> <span id="websiteError" style="color: red;"></span>
+							<div class="row">
+								<!-- EMAIL ADDRESS -->
+								<div class="col">
+									<label class="form-label">Email Address</label> <input
+										class="form-control" type="email" id="vendorEmail"
+										name="vendorEmail" value="${vendorEntity.getVendorEmail()}"
+										onblur="uniqueMail()" maxlength="30" minlength="5" required />
+
+									<span id="emailError" style="color: red;"></span>
+								</div>
+
+								<!-- WEBSITE -->
+								<div class="col">
+									<label class="form-label">Website</label> <input
+										class="form-control" type="text" id="website" name="website"
+										value="${vendorEntity.getWebsite()}" onblur="websiteAjax()"
+										required /> <span id="websiteError" style="color: red;"></span>
+								</div>
 							</div>
 
-							<button type="submit" class="btn bg-primary text-white col-md-12"
+
+							<button type="submit"
+								class="btn bg-primary text-white col-md-12 mt-3"
 								id="registerButton">Register</button>
 						</form>
 					</div>
 
 					<div class="card-footer text-center">
-
-						have an account ? <a href="login.jsp" class="text-decoration-none">Login
-						</a>
+						have an account ? <a
+							href="${pageContext.request.contextPath}/loadLoginPage"
+							class="text-decoration-none">Login here</a>
 					</div>
 				</div>
 			</div>
@@ -274,7 +301,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 
 	<!-- javascript -->
 	<script>
-
                 // name validate
                 function validateName() {
                     let name = document.getElementById("vendorNname").value;
@@ -337,12 +363,12 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
                         document.getElementById("gstError").innerHTML = "";
 
                         const xhttp = new XMLHttpRequest();
-                        xhttp.open("GET", "http://localhost:8080/vmanager/gstAjax/" + gst);
+                        xhttp.open("GET", "http://localhost:8082/vmanager/gstAjax/" + gst);
                         xhttp.send();
 
                         xhttp.onload = function () {
                             document.getElementById("gstError").innerHTML = this.responseText;
-                        } 
+                        }
 
                         document.getElementById("gstError").innerHTML = "";
                         btn.removeAttribute("disabled");
@@ -360,7 +386,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
                         btn.setAttribute("disabled", "");
                     }
                 }
- 
+
                 //start date validation
                 function dateValidate() {
                     let date = document.getElementById("companyStartDate").value;
@@ -428,12 +454,12 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
                         document.getElementById("numberError").innerHTML = "";
 
                         const xhttp = new XMLHttpRequest();
-                        xhttp.open("GET", "http://localhost:8080/vmanager/mobileAjax/" + mobile);
+                        xhttp.open("GET", "http://localhost:8082/vmanager/mobileAjax/" + mobile);
                         xhttp.send();
 
                         xhttp.onload = function () {
                             document.getElementById("numberError").innerHTML = this.responseText;
-                        } 
+                        }
                         btn.removeAttribute("disabled");
                     } else if (mobile == null || mobile == "") {
                         document.getElementById("numberError").innerHTML = "*number can't blank.";
@@ -465,12 +491,12 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
                         document.getElementById("emailError").innerHTML = "";
 
                         const xhttp = new XMLHttpRequest();
-                        xhttp.open("GET", "http://localhost:8080/vmanager/emailAjax/" + gmail);
+                        xhttp.open("GET", "http://localhost:8082/vmanager/emailAjax/" + gmail);
                         xhttp.send();
 
                         xhttp.onload = function () {
                             document.getElementById("emailError").innerHTML = this.responseText;
-                        } 
+                        }
 
                         document.getElementById("emailError").innerHTML = "";
                         btn.removeAttribute("disabled");
@@ -496,11 +522,11 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
                         document.getElementById("websiteError").innerHTML = "";
 
                         const xhttp = new XMLHttpRequest();
-                        xhttp.open("GET", "http://localhost:8080/vmanager/siteAjax/" + site);
+                        xhttp.open("GET", "http://localhost:8082/vmanager/siteAjax/" + site);
                         xhttp.send();
                         xhttp.onload = function () {
                             document.getElementById("websiteError").innerHTML = this.responseText;
-                        } 
+                        }
                     } else {
                         console.log("invalid website.")
                         document.getElementById("websiteError").innerHTML = "website is invalid.";

@@ -15,6 +15,7 @@ public class BeanConfiguration {
 
 	public BeanConfiguration() {
 		System.out.println("BeanConfiguration created.");
+
 	}
 
 	@Bean

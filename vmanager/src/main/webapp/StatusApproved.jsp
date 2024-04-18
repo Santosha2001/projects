@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - Vendor Management</title>
+<title>AdminDashBoard - Vendor Management</title>
 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -55,13 +55,16 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	border-width: 2px;
 }
 
+.my-btn{
+	width: 110px;
+}
 </style>
 
 </head>
 
 <body>
 	<!-- NAVBAR START -->
-	<nav class="navbar navbar-expand-lg navbar-dark">
+	<nav class="navbar navbar-expand-lg navbar-dark ">
 
 		<div class="container">
 			<img class="navbar-brand"
@@ -83,53 +86,68 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 				</ul>
 
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link active"
+				
+					<%-- <li class="nav-item"><a class="nav-link active"
 						aria-current="page"
 						href="${pageContext.request.contextPath}/loadLoginPage"><i
-							class="fa-solid fa-right-to-bracket"></i> LOGIN</a></li>
-					<li class="nav-item"><a class="nav-link active"
+							class="fa-solid fa-right-to-bracket"></i> LOGIN</a></li> --%>
+							
+					<%-- <li class="nav-item"><a class="nav-link active"
 						aria-current="page"
 						href="${pageContext.request.contextPath}/loadRegister"><i
-							class="fa-regular fa-address-card"></i> REGISTER</a></li>
+							class="fa-regular fa-address-card"></i> REGISTER</a></li> --%>
 
-					<%-- <li class="nav-item"><a class="nav-link active"
+					<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="${pageContext.request.contextPath}/loadAdmin"><i
-							class="fa-solid fa-user-plus"></i> ADMIN</a></li> --%>
+							class="fa-solid fa-user-plus"></i> ADMIN</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 	<!-- END NAVBAR -->
+	
 
-	<div class="container mt-3 p-5">
+	<div class="container mt-2 p-5">
 		<div class="row">
-			<div class="col-md-5 offset-md-4">
+			<div class="col-md-10 offset-md-1">
 				<div class="card card-sh">
 					<div class="card-header text-center">
-						<p class="fs-3 text-uppercase">Login</p>
+						<p class="fs-3 text-uppercase">Vendors</p>
+						
 					</div>
 
 					<div class="card-body">
-						<form action="generateOTP" method="post">
-							<div class="mb-3">
-								<label class="form-label">Email Address</label> 
-								<input type="email" class="form-control" id="vendorEmail" 
-									name="vendorEmail" placeholder="Email address" 
-									value="${mail}" onblur="loginMail()" required />
-									
-							<span id="emailError" style="color: #f42323;"></span>
-							</div>
-
-			
-							<button type="submit" class="btn bg-primary text-white col-md-12 mt-3">Generate
-								OTP</button>
-								
-							<div class="card-footer text-center">
-								don't have account ? <a
-								href="${pageContext.request.contextPath}/loadRegister"
-								class="text-decoration-none">Register here</a>
-					</div>
-						</form>
+						<div class="table-size table-responsive-md">
+		<table class="table table-bordered border-primary ">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th>GST</th>
+					<th>Mobile</th>
+					<th>Owner</th>
+					<th colspan="2">Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${vendorsList}" var="user">
+					<tr>
+						<td>${user.getVendorNname()}</td>
+						<td>${user.getVendorEmail()}</td>
+						<td>${user.getVendorGSTNumber()}</td>
+						<td>${user.getContactNumber()}</td>
+						<td>${user.getOwnerName()}</td>
+						<td><a href="${pageContext.request.contextPath}/approve?email=${user.getVendorEmail()}"
+							rel="noopener noreferrer" class="btn btn-sm btn-secondary text-dark my-btn">
+							<i class="fa-solid fa-square-check"></i> ${user.getApplyStatus()} </a></td>
+						
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+	
+	
 					</div>
 				</div>
 			</div>
@@ -137,47 +155,13 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	</div>
 
 
-	<footer class="py-1 mt-2 footer-1 ">
+	<footer class="py-1 footer-1" style="margin-top: 150px">
 		<div class="container text-light text-center">
 			<p class="display">Vendor Management</p>
 			<small class="text-white-60">&copy; Copyright by X-Workz. All
 				rights reserved.</small>
 		</div>
 	</footer>
-	
-	<script>
-			function loginMail() {
-				console.log("runnig email in login.")
-				const mail = document.getElementById("vendorEmail").value;
-				const btn = document.getElementById("generateOTP");
-				console.log(mail);
-
-				if (mail != null && mail != "" && mail.length > 5 && mail.length < 30) {
-					console.log("email exist.")
-					document.getElementById("emailError").innerHTML = "";
-
-					const xhtp = new XMLHttpRequest();
-					xhtp.open("GET", "http://localhost:8082/vmanager/mailLogInAjax/" + mail);
-
-					xhtp.send();
-
-					xhtp.onload = function () {
-						document.getElementById("emailError").innerHTML = this.responseText;
-					}
-
-					document.getElementById("emailError").innerHTML = "";
-					btn.removeAttribute('disabled');
-
-				} else if (mail == null || mail == "" || mail.includes("  ")) {
-					document.getElementById("emailError").innerHTML = "*email can't be blank.";
-					btn.setAttribute("disabled", "");
-				} else if (mail.length < 5 || mail.length > 30) {
-					document.getElementById("emailError").innerHTML = "*email should be in 5-30 character.";
-					btn.setAttribute("disabled", "");
-				}
-			}
-
-		</script>
 
 </body>
 

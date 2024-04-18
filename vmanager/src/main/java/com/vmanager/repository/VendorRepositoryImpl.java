@@ -1,5 +1,6 @@
 package com.vmanager.repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -217,6 +218,100 @@ public class VendorRepositoryImpl implements VendorRepository {
 
 		} catch (PersistenceException e) {
 			System.out.println("expireOTPAndAttempt " + e.getMessage());
+			entityManager.getTransaction().rollback();
+		} finally {
+			entityManager.close();
+		}
+	}
+
+	@Override
+	public void updateDetails(String vendorName, String location, String ownerName, Long contact, String email,
+			int id) {
+
+		EntityManager entityManager = factory.createEntityManager();
+		try {
+
+			entityManager.getTransaction().begin();
+			Query query = entityManager.createNamedQuery("updateDetails");
+			query.setParameter("vName", vendorName);
+			query.setParameter("location", location);
+			query.setParameter("vOwner", ownerName);
+			query.setParameter("number", contact);
+			query.setParameter("email", email);
+			query.setParameter("id", id);
+
+			int executeUpdate = query.executeUpdate();
+			System.out.println("executeUpdate: " + executeUpdate);
+
+			entityManager.getTransaction().commit();
+
+		} catch (PersistenceException e) {
+			System.out.println("PersistenceException in updateDetails: " + e.getMessage());
+			entityManager.getTransaction().rollback();
+		} finally {
+			entityManager.close();
+		}
+	}
+
+	@Override
+	public VendorEntity findById(int id) {
+		EntityManager entityManager = factory.createEntityManager();
+		VendorEntity entity = new VendorEntity();
+
+		try {
+			Query query = entityManager.createNamedQuery("findById");
+			Query query2 = query.setParameter("id", id);
+			entity = (VendorEntity) query2.getSingleResult();
+
+		} catch (Exception e) {
+			System.err.println("PersistenceException: in findById " + e.getMessage());
+
+		} finally {
+			entityManager.close();
+		}
+		return entity;
+	}
+
+	@Override
+	public void updateUpdatedDate(String updatedBy, LocalDate date, int id) {
+		EntityManager entityManager = factory.createEntityManager();
+
+		try {
+			entityManager.getTransaction().begin();
+			Query query = entityManager.createNamedQuery("updateUpdatedDate");
+			query.setParameter("by", updatedBy);
+			query.setParameter("date", date);
+			query.setParameter("id", id);
+
+			int update = query.executeUpdate();
+			System.out.println("date updated: " + update);
+			entityManager.getTransaction().commit();
+
+		} catch (PersistenceException e) {
+			System.out.println("PersistenceException in updateUpdatedDate: " + e.getMessage());
+			entityManager.getTransaction().rollback();
+		} finally {
+			entityManager.close();
+		}
+
+	}
+
+	// delete account
+	@Override
+	public void deleteAccount(String email) {
+
+		EntityManager entityManager = factory.createEntityManager();
+		try {
+			entityManager.getTransaction().begin();
+			Query query = entityManager.createNamedQuery("deleteAccount");
+			query.setParameter("email", email);
+			int delete = query.executeUpdate();
+			System.out.println("delete email: " + delete);
+
+			entityManager.getTransaction().commit();
+
+		} catch (PersistenceException e) {
+			System.out.println("PersistenceException in deleteAccount: " + e.getMessage());
 			entityManager.getTransaction().rollback();
 		} finally {
 			entityManager.close();

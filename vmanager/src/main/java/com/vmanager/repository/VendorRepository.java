@@ -1,5 +1,6 @@
 package com.vmanager.repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,4 +26,11 @@ public interface VendorRepository {
 
 	void expireOTPAndAttempt(Integer OTP, int resetAttempt, String email);
 
+	void updateDetails(String vendorName, String location, String ownerName, Long contact, String email, int id);
+
+	VendorEntity findById(int id);
+
+	void updateUpdatedDate(String updatedBy, LocalDate date, int id);
+
+	void deleteAccount(String email);
 }

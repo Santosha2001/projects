@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - Vendor Management</title>
+<title>Delete Account - Vendor Management</title>
 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -54,7 +54,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	margin-bottom: 10px;
 	border-width: 2px;
 }
-
 </style>
 
 </head>
@@ -92,43 +91,58 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 						href="${pageContext.request.contextPath}/loadRegister"><i
 							class="fa-regular fa-address-card"></i> REGISTER</a></li>
 
-					<%-- <li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="${pageContext.request.contextPath}/loadAdmin"><i
-							class="fa-solid fa-user-plus"></i> ADMIN</a></li> --%>
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="${pageContext.request.contextPath}/admin/loadAdmin"><i
+							class="fa-solid fa-user-plus"></i> ADMIN</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 	<!-- END NAVBAR -->
+	
+	<span class="container d-flex justify-content-center"
+		style="color: red">
+		<h3>${otpNotInTime}</h3>
+	</span>
 
-	<div class="container mt-3 p-5">
+	<span class="container d-flex justify-content-center"
+		style="color: red">
+		<h3>${unlockedAccount}</h3>
+	</span>
+
+	<div class="container mt-1 p-5">
 		<div class="row">
 			<div class="col-md-5 offset-md-4">
 				<div class="card card-sh">
 					<div class="card-header text-center">
-						<p class="fs-3 text-uppercase">Login</p>
+						<p class="fs-3 text-uppercase">Delete Account</p>
+						
+						<% if (session.getAttribute("message") != null) { %>
+							<div class="text-center text-success"><%= session.getAttribute("message") %></div>
+							<% session.removeAttribute("message"); %>
+						<% } %>
+						
+						<%-- <% if (session.getAttribute("message") == null) { %>
+							<div class="text-center text-danger"><%= session.getAttribute("message") %></div>
+							<% session.removeAttribute("message"); %>
+						<% } %> --%>
 					</div>
 
 					<div class="card-body">
-						<form action="generateOTP" method="post">
+						<form action="delete-account" method="post">
+							
 							<div class="mb-3">
 								<label class="form-label">Email Address</label> 
-								<input type="email" class="form-control" id="vendorEmail" 
-									name="vendorEmail" placeholder="Email address" 
-									value="${mail}" onblur="loginMail()" required />
+								<input type="email" class="form-control" id="vendorEmail"
+									name="vendorEmail" 
+									value="${email}" />
 									
-							<span id="emailError" style="color: #f42323;"></span>
+								<span id="emailError" style="color: red;"></span>
 							</div>
-
-			
-							<button type="submit" class="btn bg-primary text-white col-md-12 mt-3">Generate
-								OTP</button>
-								
-							<div class="card-footer text-center">
-								don't have account ? <a
-								href="${pageContext.request.contextPath}/loadRegister"
-								class="text-decoration-none">Register here</a>
-					</div>
+							
+							<button type="submit" id=""
+								class="btn form-control btn-primary btn-sm mt-4 mb-2">Delete</button>
+															
 						</form>
 					</div>
 				</div>
@@ -137,47 +151,13 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	</div>
 
 
-	<footer class="py-1 mt-2 footer-1 ">
+	<footer class="py-1 mt-2 footer-1">
 		<div class="container text-light text-center">
 			<p class="display">Vendor Management</p>
 			<small class="text-white-60">&copy; Copyright by X-Workz. All
 				rights reserved.</small>
 		</div>
 	</footer>
-	
-	<script>
-			function loginMail() {
-				console.log("runnig email in login.")
-				const mail = document.getElementById("vendorEmail").value;
-				const btn = document.getElementById("generateOTP");
-				console.log(mail);
-
-				if (mail != null && mail != "" && mail.length > 5 && mail.length < 30) {
-					console.log("email exist.")
-					document.getElementById("emailError").innerHTML = "";
-
-					const xhtp = new XMLHttpRequest();
-					xhtp.open("GET", "http://localhost:8082/vmanager/mailLogInAjax/" + mail);
-
-					xhtp.send();
-
-					xhtp.onload = function () {
-						document.getElementById("emailError").innerHTML = this.responseText;
-					}
-
-					document.getElementById("emailError").innerHTML = "";
-					btn.removeAttribute('disabled');
-
-				} else if (mail == null || mail == "" || mail.includes("  ")) {
-					document.getElementById("emailError").innerHTML = "*email can't be blank.";
-					btn.setAttribute("disabled", "");
-				} else if (mail.length < 5 || mail.length > 30) {
-					document.getElementById("emailError").innerHTML = "*email should be in 5-30 character.";
-					btn.setAttribute("disabled", "");
-				}
-			}
-
-		</script>
 
 </body>
 

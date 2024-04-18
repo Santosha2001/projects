@@ -92,9 +92,9 @@ body {
 						aria-current="page" href="${pageContext.request.contextPath}/loadRegister"><i
 							class="fa-regular fa-address-card"></i> REGISTER</a></li>
 
-					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="AdminLogin.jsp"><i
-							class="fa-solid fa-user-plus"></i> ADMIN</a></li>
+					<%-- <li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="${pageContext.request.contextPath}/loadAdmin"><i
+							class="fa-solid fa-user-plus"></i> ADMIN</a></li> --%>
 				</ul>
 			</div>
 		</div>

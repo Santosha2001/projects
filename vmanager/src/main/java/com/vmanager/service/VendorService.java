@@ -18,4 +18,7 @@ public interface VendorService {
 
 	void updateOtpGeneratedTime(LocalDateTime otpGeneratedTime, String email);
 
+	boolean detailsUpdated(String vendorName, String location, String ownerName, Long contact, String email, int id);
+
+	boolean deleteAccount(String email);
 }

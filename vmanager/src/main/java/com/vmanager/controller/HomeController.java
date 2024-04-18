@@ -2,7 +2,6 @@ package com.vmanager.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +48,7 @@ public class HomeController {
 
 	// user register handler
 	@PostMapping("/register")
-	public String register(@Valid VendorEntity vendorEntity, BindingResult bindingResult, HttpSession session,
-			Model model) {
+	public String register(@Valid VendorEntity vendorEntity, BindingResult bindingResult, Model model) {
 		System.out.println("VendorEntity has errors: " + bindingResult.hasErrors());
 
 		model.addAttribute("vendorEntity", vendorEntity);
@@ -59,7 +57,7 @@ public class HomeController {
 			List<ObjectError> objectErrors = bindingResult.getAllErrors();
 			objectErrors.forEach(a -> System.err.println(a.getObjectName() + " " + a.getDefaultMessage()));
 
-			model.addAttribute("error", objectErrors);
+			model.addAttribute("errors", objectErrors);
 
 			return "redirect:/loadRegister";
 
@@ -69,15 +67,19 @@ public class HomeController {
 			if (uniqueError != null) {
 
 				model.addAttribute("uniqueError", uniqueError);
+				System.out.println("vendorEntity not saved.");
 
 				return "redirect:/loadRegister";
-			}
-			this.service.save(vendorEntity);
-			this.service.sendEmail(vendorEntity.getVendorEmail(), vendorEntity.getOwnerName());
+			} else {
+				this.service.save(vendorEntity);
+				this.service.sendEmail(vendorEntity.getVendorEmail(), vendorEntity.getOwnerName());
 
-			session.setAttribute("message", "Registered successfully. Please Login.");
+				model.addAttribute("message", "Registered successfully. Please Login.");
+				// session.setAttribute("message", "Registered successfully. Please Login.");
+			}
 
 			return "redirect:/loadRegister";
 		}
 	}
+
 }

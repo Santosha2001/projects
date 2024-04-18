@@ -28,7 +28,7 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 			if (vendorEntity.getVendorGSTNumber().equalsIgnoreCase(gst)) {
 				System.out.println(("equal."));
 
-				return "GST exist";
+				return "*gst already exist";
 			} else {
 				System.out.println("gst not found.");
 			}
@@ -47,7 +47,7 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 			if (vendorEntity.getContactNumber().equals(mobile)) {
 				System.out.println(("equal."));
 
-				return "Contact number exist";
+				return "*number already exist";
 			} else {
 				System.out.println("contact not found.");
 			}
@@ -65,7 +65,7 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 			if (vendorEntity.getVendorEmail().equalsIgnoreCase(email)) {
 				System.out.println(("equal."));
 
-				return "Email exist.";
+				return "*email already exist.";
 			} else {
 				System.out.println("Email not exist.");
 			}
@@ -82,7 +82,7 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 
 			if (vendorEntity.getWebsite().equalsIgnoreCase(website)) {
 				System.out.println(("equal."));
-				return "Website exist.";
+				return "*website already exist.";
 			} else {
 				System.out.println("Website not exist.");
 			}
@@ -98,7 +98,7 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 			if (vendorEntity.getVendorEmail().equalsIgnoreCase(email)) {
 				return "";
 			} else {
-				return "Email not registered.";
+				return "*email not found.";
 			}
 		}
 		return null;

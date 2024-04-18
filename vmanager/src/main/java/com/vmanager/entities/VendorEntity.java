@@ -46,6 +46,17 @@ import lombok.RequiredArgsConstructor;
 		+ "WHERE et.vendorEmail=:email")
 @NamedQuery(name = "updateUpdatedDateAndUpdatedBy", query = "UPDATE VendorEntity et SET et.updatedBy=:updatedBy, "
 		+ "et.updatedDate=:updateDate WHERE et.vendorEmail=:email")
+
+@NamedQuery(name = "updateDetails", query = "UPDATE VendorEntity et SET et.vendorNname=:vName, "
+		+ "et.vendorLocation=:location, et.ownerName=:vOwner, et.contactNumber=:number, "
+		+ "et.vendorEmail=:email WHERE et.id=:id")
+
+@NamedQuery(name = "findById", query = "SELECT et FROM VendorEntity et WHERE et.id=:id")
+
+@NamedQuery(name = "updateUpdatedDate", query = "UPDATE VendorEntity et SET et.updatedBy=:by, et.updatedDate=:date WHERE et.id=:id")
+
+@NamedQuery(name = "deleteAccount", query = "DELETE FROM VendorEntity et WHERE et.vendorEmail=:email")
+
 public class VendorEntity {
 
 	@Id
@@ -81,7 +92,7 @@ public class VendorEntity {
 	@Column(name = "v_service_type")
 	private String serviceType;
 
-	@NotNull
+	@NotNull(message = "Number can't be empty.")
 	@Digits(integer = 10, fraction = 0)
 	@Column(name = "v_contact_number")
 	private Long contactNumber;
@@ -91,9 +102,9 @@ public class VendorEntity {
 	@Column(name = "v_alternate_number")
 	private Long alternateContactNumber;
 
-	@NotEmpty
+	@NotEmpty(message = "Email can't be empty.")
 	@Email
-	@Column(name = "v_email")
+	@Column(name = "v_email", unique = true)
 	private String vendorEmail;
 
 	@NotNull(message = "Website Type can't be empty")
