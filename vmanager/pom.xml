@@ -20,6 +20,8 @@
 		<mysql.version>8.0.32</mysql.version>
 		<mail.version>1.4.7</mail.version>
 		<jackson.version>1.9.10</jackson.version>
+		<file-upload>1.5</file-upload>
+		<file-commons-io>2.11.0</file-commons-io>
 	</properties>
 
 	<dependencies>
@@ -92,6 +94,21 @@
 			<artifactId>mail</artifactId>
 			<version>${mail.version}</version>
 		</dependency>
+
+		<!--
+		https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<!--<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>${file-upload}</version>
+		</dependency>-->
+
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<!--<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${file-commons-io}</version>
+		</dependency>-->
 
 	</dependencies>
 

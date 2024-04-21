@@ -138,21 +138,22 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 							</c:forEach>
 						</span>
 
-						<%-- <% if (session.getAttribute("message") != null) { %>
-						<div class="text-center text-success"><%= session.getAttribute("message") %></div>
-						<% session.removeAttribute("message"); %>
-						<% } %>
-
-						<% if (session.getAttribute("uniqueError") != null) { %>
-						<div class="text-center text-success"><%= session.getAttribute("uniqueError") %></div>
-						<% session.removeAttribute("uniqueError"); %>
-						<% } %> --%>
+						<% if (session.getAttribute("saveMsg") != null) { %>
+							<div class="text-center text-success fs-3"><%= session.getAttribute("saveMsg") %></div>
+						<% session.removeAttribute("saveMsg"); %>
+						<% }  %>
+						
+						<% if (session.getAttribute("unsaveMsg") != null) { %>
+							<div class="text-center text-danger fs-3"><%= session.getAttribute("unsaveMsg") %></div>
+						<% session.removeAttribute("unsaveMsg"); %>
+						<% }  %>
+						
 					</div>
 
 					<div class="card-body">
 
 						<!-- FORM -->
-						<form action="register" method="post" novalidate="novalidate">
+						<form action="register" method="post" >
 							<div class="row">
 
 								<!-- VENDOR NAME -->
@@ -163,7 +164,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 										maxlength="20" onblur="validateName()" required /> <span
 										id="nameError" style="color: red;"></span>
 								</div>
-
 
 								<!-- VENDOR LOATION -->
 								<div class="col">
@@ -260,7 +260,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 									<label class="form-label">Email Address</label> <input
 										class="form-control" type="email" id="vendorEmail"
 										name="vendorEmail" value="${vendorEntity.getVendorEmail()}"
-										onblur="uniqueMail()" maxlength="30" minlength="5" required />
+										onblur="uniqueMail()"  required />
 
 									<span id="emailError" style="color: red;"></span>
 								</div>

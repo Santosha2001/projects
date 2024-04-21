@@ -8,11 +8,11 @@ import com.vmanager.entities.VendorEntity;
 
 public interface VendorRepository {
 
-	void save(VendorEntity entity);
+	void saveVendor(VendorEntity entity);
 
 	VendorEntity isExistByGstOrNumberOrMailOrSite(String gst, Long number, String email, String website);
 
-	List<VendorEntity> findAll();
+	List<VendorEntity> findAllVendors();
 
 	VendorEntity findByEmail(String email);
 
@@ -26,11 +26,13 @@ public interface VendorRepository {
 
 	void expireOTPAndAttempt(Integer OTP, int resetAttempt, String email);
 
-	void updateDetails(String vendorName, String location, String ownerName, Long contact, String email, int id);
+	void updateVendorStatusByEmail(String status, String email);
+
+	void updateVendorDetails(String vendorName, String location, String ownerName, Long contact, String email);
 
 	VendorEntity findById(int id);
 
-	void updateUpdatedDate(String updatedBy, LocalDate date, int id);
+	void updateUpdatedDateAndUpdatedBy(String updatedBy, LocalDate date, String email);
 
-	void deleteAccount(String email);
+	void deleteVendorAccount(String email);
 }

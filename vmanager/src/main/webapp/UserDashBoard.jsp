@@ -229,10 +229,24 @@ td:first-child {
 	<!-- END NAVBAR -->
 
 				<div class="card-header text-center mt-2">
-						<% if (session.getAttribute("message") != null) { %>
-						<div class="text-center text-danger fs-4"><%= session.getAttribute("message") %></div>
-						<% session.removeAttribute("message"); %>
-						<% } %>
+					<% if (session.getAttribute("update-success") != null) { %>
+						<div class="text-center text-success fs-4"><%= session.getAttribute("update-success") %></div>
+					<% session.removeAttribute("update-success"); %>
+					<% } %>
+				</div>
+				
+				<div class="card-header text-center mt-2">
+					<% if (session.getAttribute("update-failed") != null) { %>
+						<div class="text-center text-danger fs-4"><%= session.getAttribute("update-failed") %></div>
+					<% session.removeAttribute("update-failed"); %>
+					<% } %>
+				</div>
+				
+				<div class="card-header text-centerr mt-3">
+					<% if (session.getAttribute("login-success") != null) { %>
+						<div class="text-center text-success fs-3"><%= session.getAttribute("login-success") %></div>
+					<% session.removeAttribute("login-success"); %>
+					<% } %>
 				</div>
 					
 				<div class="card ">

@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.vmanager.dto.VendorDTO;
 import com.vmanager.entities.VendorEntity;
 import com.vmanager.repository.VendorRepository;
-import com.vmanager.service.AdminService;
-import com.vmanager.service.VendorService;
+import com.vmanager.service.admin.AdminService;
+import com.vmanager.service.vendor.VendorService;
 
 @Controller
 public class AdminController {
@@ -47,15 +48,14 @@ public class AdminController {
 		boolean byNameAndPassword = adminService.findAdminByNameAndPassword(adminName, adminPassword);
 		if (byNameAndPassword) {
 
-			List<VendorEntity> vendorList = repository.findAll();
+			List<VendorEntity> vendorList = repository.findAllVendors();
 			model.addAttribute("vendorsList", vendorList);
 			vendorList.forEach(System.out::println);
 
 			return "AdminDashBoard";
 		}
 
-		System.out.println("Admin login failed.");
-		session.setAttribute("message", "Login failed.");
+		session.setAttribute("admin-login-failed", "Login failed.");
 		return "redirect:/loadAdmin";
 	}
 
@@ -64,27 +64,24 @@ public class AdminController {
 
 		System.out.println(email);
 
-		VendorEntity vendorEntity = service.findByEmail(email);
+		VendorDTO vendorEntity = service.findByEmail(email);
 		model.addAttribute("vendorEntity", vendorEntity);
 
 		return "StatusApprove";
 	}
 
 	@PostMapping("/statusUpdate")
-	public String updateStatus(@RequestParam String vendorEmail, HttpSession session, Model model) {
-		
-		boolean approveStatus = adminService.approveStatus(vendorEmail);
+	public String updateStatus(@RequestParam String vendorEmail, Model model) {
+
+		boolean approveStatus = service.approveVendorStatusByEmail(vendorEmail);
 		if (approveStatus) {
 			System.out.println("status updated.");
-			session.setAttribute("message", "Status approved");
 
-			// return "redirect:/approve/" + vendorEmail;
-			List<VendorEntity> vendorList = repository.findAll();
+			List<VendorEntity> vendorList = repository.findAllVendors();
 			model.addAttribute("vendorsList", vendorList);
 			return "StatusApproved";
 		}
-		session.setAttribute("message", "Status not approved");
-		// return "redirect:/approve" + vendorEmail;
+
 		return "StatusApprove";
 
 	}

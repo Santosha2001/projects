@@ -1,4 +1,4 @@
-package com.vmanager.service;
+package com.vmanager.service.admin;
 
 import java.util.List;
 
@@ -32,13 +32,6 @@ public class AdminServiceImpl implements AdminService {
 		return false;
 	}
 
-	/* APPROVE VENDOR STATUS BY ADMIN */
-	@Override
-	public boolean approveStatus(String email) {
-
-		adminRepository.updateStatusByEmail("APPROVED", email);
-
-		return true;
-	}
+	
 
 }

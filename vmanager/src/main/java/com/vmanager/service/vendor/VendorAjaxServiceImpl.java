@@ -1,4 +1,4 @@
-package com.vmanager.service;
+package com.vmanager.service.vendor;
 
 import java.util.List;
 
@@ -20,9 +20,9 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 
 	/* GST AJAX VALIDATON */
 	@Override
-	public String findByGstAjax(String gst) {
+	public String getVendorGST(String gst) {
 
-		List<VendorEntity> list = this.repository.findAll();
+		List<VendorEntity> list = this.repository.findAllVendors();
 		for (VendorEntity vendorEntity : list) {
 			System.out.println(vendorEntity.getVendorGSTNumber() + "  " + gst);
 			if (vendorEntity.getVendorGSTNumber().equalsIgnoreCase(gst)) {
@@ -38,9 +38,9 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 
 	/* MOBILE NUMBER AJAX VALIDATIOIN */
 	@Override
-	public String findByMobileAjax(Long mobile) {
+	public String getVendorMobile(Long mobile) {
 
-		List<VendorEntity> list = this.repository.findAll();
+		List<VendorEntity> list = this.repository.findAllVendors();
 
 		for (VendorEntity vendorEntity : list) {
 			System.out.println(vendorEntity.getContactNumber() + "  " + mobile);
@@ -57,8 +57,8 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 
 	/* EMAIL AJAX VALIDATION */
 	@Override
-	public String findByEmail(String email) {
-		List<VendorEntity> list = this.repository.findAll();
+	public String getVendorEmail(String email) {
+		List<VendorEntity> list = this.repository.findAllVendors();
 		for (VendorEntity vendorEntity : list) {
 			System.out.println(vendorEntity.getVendorEmail() + "  " + email);
 
@@ -75,8 +75,8 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 
 	/* WEBSITE AJAX VALIDATION */
 	@Override
-	public String findByWebsiteAjax(String website) {
-		List<VendorEntity> list = this.repository.findAll();
+	public String getVendorWebsite(String website) {
+		List<VendorEntity> list = this.repository.findAllVendors();
 		for (VendorEntity vendorEntity : list) {
 			System.out.println(vendorEntity.getWebsite() + "  " + website);
 
@@ -92,8 +92,9 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 
 	/* EMAIL AJAX VALIDATION WHILE LOGIN */
 	@Override
-	public String emailLogInAjax(String email) {
-		List<VendorEntity> list = this.repository.findAll();
+	public String getVendorLoginEmail(String email) {
+
+		List<VendorEntity> list = this.repository.findAllVendors();
 		for (VendorEntity vendorEntity : list) {
 			if (vendorEntity.getVendorEmail().equalsIgnoreCase(email)) {
 				return "";
@@ -101,6 +102,7 @@ public class VendorAjaxServiceImpl implements VendorAjaxService {
 				return "*email not found.";
 			}
 		}
+
 		return null;
 	}
 

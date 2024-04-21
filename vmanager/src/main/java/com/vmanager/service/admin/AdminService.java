@@ -1,8 +1,8 @@
-package com.vmanager.service;
+package com.vmanager.service.admin;
 
 public interface AdminService {
 
 	boolean findAdminByNameAndPassword(String name, String password);
 
-	boolean approveStatus(String email);
+	
 }

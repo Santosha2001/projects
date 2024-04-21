@@ -107,6 +107,14 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 				<div class="card card-sh">
 					<div class="card-header text-center">
 						<p class="fs-3 text-uppercase">Login</p>
+						
+						<div class="">
+							<% if (session.getAttribute("re-login") != null) { %>
+							<div class="text-center text-danger"><%= session.getAttribute("re-login") %></div>
+							<% session.removeAttribute("re-login"); %>
+							<% } %>
+						</div>
+						
 					</div>
 
 					<div class="card-body">
@@ -115,7 +123,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 								<label class="form-label">Email Address</label> 
 								<input type="email" class="form-control" id="vendorEmail" 
 									name="vendorEmail" placeholder="Email address" 
-									value="${mail}" onblur="loginMail()" required />
+									value="${mail}" onclick="loginMail()" required />
 									
 							<span id="emailError" style="color: #f42323;"></span>
 							</div>

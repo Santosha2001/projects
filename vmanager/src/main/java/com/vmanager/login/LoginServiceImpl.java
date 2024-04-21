@@ -3,12 +3,15 @@ package com.vmanager.login;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
+import com.vmanager.dto.VendorDTO;
 import com.vmanager.entities.VendorEntity;
 import com.vmanager.repository.VendorRepository;
-import com.vmanager.service.VendorService;
+import com.vmanager.service.vendor.VendorService;
 import com.vmanager.util.EmailSender;
 import com.vmanager.util.OtpGenerator;
 
@@ -33,11 +36,20 @@ public class LoginServiceImpl implements LoginService {
 		System.out.println("LoginServiceImpl.");
 	}
 
+	/* SEND OTP TO MAIL */
 	@Override
-	public boolean sendOtp(String email) {
+	public boolean sendOtpToVendorEmail(String email) {
 
-		VendorEntity byEmail = this.service.findByEmail(email);
-		if (byEmail.getVendorEmail().equalsIgnoreCase(email)) {
+		VendorDTO dto = new VendorDTO();
+		VendorEntity byEmail = this.repository.findByEmail(email);
+		System.out.println("bymail in sendOtp: " + byEmail);
+
+		if (ObjectUtils.isEmpty(byEmail)) {
+			return false;
+		} else if (byEmail.getVendorEmail().equalsIgnoreCase(email)) {
+			BeanUtils.copyProperties(byEmail, dto);
+
+			System.out.println("dto in send otp: " + dto);
 			Integer otp = otpGenerator.generateOtp();
 			System.out.println("OTP: " + otp);
 
@@ -60,18 +72,30 @@ public class LoginServiceImpl implements LoginService {
 		return false;
 	}
 
+	/* VERIFY OTP */
 	@Override
 	public boolean verifyOtp(Integer otp, String email) {
+
+		VendorDTO dto = new VendorDTO();
 		VendorEntity byEmail = this.repository.findByEmail(email);
 
 		LocalDateTime otpGenratedTime = byEmail.getOtpGenratedTime();
 		LocalDateTime currentTime = LocalDateTime.now();
 		LocalDateTime accountLockTime = byEmail.getAccountLockTime();
 
-		if (byEmail.getVendorEmail() != null && byEmail.getVendorEmail().equalsIgnoreCase(email)) {
+		System.out.println("byEmail in verifyOTP: " + byEmail);
 
+		if (ObjectUtils.isEmpty(byEmail)) {
+			return false;
+		}
+
+		else if (byEmail.getVendorEmail() != null && byEmail.getVendorEmail().equalsIgnoreCase(email)) {
+
+			BeanUtils.copyProperties(byEmail, dto);
+			System.out.println("dto in verifyOTP: " + dto);
 			if (byEmail.getOtp() != null && byEmail.getOtp().equals(otp)
 					&& Duration.between(otpGenratedTime, currentTime).getSeconds() < (5 * 60)) {
+
 				System.out.println("otp valid.");
 				return true;
 
@@ -93,18 +117,18 @@ public class LoginServiceImpl implements LoginService {
 	private boolean validateOTP(String email, VendorEntity byEmail, LocalDateTime currentTime,
 			LocalDateTime accountLockTime) {
 		if (byEmail.getFailedAttempt() < ATTEMPT_TIME - 1) {
-			updateFailedAttemptCount(byEmail.getFailedAttempt(), email);
+			updateVendorFailedAttemptCount(byEmail.getFailedAttempt(), email);
 
 		} else if (byEmail.getFailedAttempt() == ATTEMPT_TIME - 1) {
-			updateFailedAttemptCount(byEmail.getFailedAttempt(), email);
-			accountLockTime(LocalDateTime.now(), email);
+			updateVendorFailedAttemptCount(byEmail.getFailedAttempt(), email);
+			vendorAccountLockTime(LocalDateTime.now(), email);
 
 		} else {
 			expireOTPAndResetAttempt(null, 0, email);
 			System.out.println("account is expired.");
 
 			if (Duration.between(accountLockTime, currentTime).getSeconds() > (1 * 60)) {
-				unlockAccountTimeExpired(email);
+				unlockVendorAccountTimeExpired(email);
 				System.out.println("account will unlocked after 1 minute.");
 			}
 			return false;
@@ -113,14 +137,14 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public void updateFailedAttemptCount(int failedAttempt, String email) {
+	public void updateVendorFailedAttemptCount(int failedAttempt, String email) {
 		this.repository.updateFailedAttemptCount(failedAttempt + 1, email);
 		System.out.println("failed count updated: " + failedAttempt);
 
 	}
 
 	@Override
-	public boolean unlockAccountTimeExpired(String email) {
+	public boolean unlockVendorAccountTimeExpired(String email) {
 		VendorEntity byEmail = this.repository.findByEmail(email);
 
 		LocalDateTime accountLockTime = byEmail.getAccountLockTime();
@@ -139,7 +163,7 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public void accountLockTime(LocalDateTime accountLocakTime, String email) {
+	public void vendorAccountLockTime(LocalDateTime accountLocakTime, String email) {
 		this.repository.updateAccountLockTime(accountLocakTime, email);
 		System.out.println("account lock time updated.");
 

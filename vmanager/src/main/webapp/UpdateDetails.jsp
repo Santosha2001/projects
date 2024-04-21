@@ -99,16 +99,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 		</div>
 	</nav>
 	<!-- END NAVBAR -->
-	
-	<span class="container d-flex justify-content-center"
-		style="color: red">
-		<h3>${otpNotInTime}</h3>
-	</span>
-
-	<span class="container d-flex justify-content-center"
-		style="color: red">
-		<h3>${unlockedAccount}</h3>
-	</span>
 
 	<div class="container mt-1 p-5">
 		<div class="row">
@@ -116,75 +106,55 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 				<div class="card card-sh">
 					<div class="card-header text-center">
 						<p class="fs-3 text-uppercase">Update Details</p>
-						
-						<%-- <% if (session.getAttribute("message") != null) { %>
-							<div class="text-center text-success"><%= session.getAttribute("message") %></div>
-							<% session.removeAttribute("message"); %>
-						<% } %> --%>
-						
-						<%-- <% if (session.getAttribute("message") == null) { %>
-							<div class="text-center text-danger"><%= session.getAttribute("message") %></div>
-							<% session.removeAttribute("message"); %>
-						<% } %> --%>
+					
 					</div>
 
 					<div class="card-body">
 						<form action="update-details" method="post">
-						
-							<div class="mb-3">
-								<!-- <label class="form-label">Id</label> --> 
-								<input type="hidden" class="form-control" name="id" 
-									value="${vendorEntity.getId()}"  />
-							</div>
 							
 							<div class="mb-3">
 								<label class="form-label">Vendor name</label> 
 								<input type="text" class="form-control" id="vendorNname"
-									name="vendorNname"  
-									value="${vendorEntity.getVendorNname()}"  />
+									name="vendorNname" value="${vendorEntity.getVendorNname()}" 
+									maxlength="20" onblur="validateName()" required />
 									
-								<span id="emailError" style="color: red;"></span>
+								<span id="nameError" style="color: red;"></span>
 							</div>
 							
 							<div class="mb-3">
 								<label class="form-label">Vendor Location</label> 
 								<input type="text" class="form-control" id="vendorLocation"
-									name="vendorLocation"  
-									value="${vendorEntity.getVendorLocation()}" />
+									name="vendorLocation" value="${vendorEntity.getVendorLocation()}" 
+									onblur="validateLocation()" />
 									
-								<span id="emailError" style="color: red;"></span>
+								<span id="locationError" style="color: red;"></span>
 							</div>
 							
 							<div class="mb-3">
 								<label class="form-label">Owner name</label> 
 								<input type="text" class="form-control" id="ownerName"
-									name="ownerName" 
-									value="${vendorEntity.getOwnerName()}"  />
+									name="ownerName" value="${vendorEntity.getOwnerName()}" 
+									onblur="validateOwnerName()" />
 									
-								<span id="emailError" style="color: red;"></span>
+								<span id="ownerError" style="color: red;"></span>
 							</div>
 							
 							<div class="mb-3">
 								<label class="form-label">Contact number</label> 
 								<input type="number" class="form-control" id="contactNumber"
-									name="contactNumber"  
-									value="${vendorEntity.getContactNumber()}" />
+									name="contactNumber" value="${vendorEntity.getContactNumber()}" 
+									onblur="validateMobile()" />
 									
-								<span id="emailError" style="color: red;"></span>
+								<span id="numberError" style="color: red;"></span>
 							</div>
 							
-							<div class="mb-3">
-								<label class="form-label">Email Address</label> 
-								<input type="email" class="form-control" id="vendorEmail"
-									name="vendorEmail" 
-									value="${vendorEntity.getVendorEmail()}" />
-									
-								<span id="emailError" style="color: red;"></span>
+							<div class="mb-3"> 
+								<input type="hidden" class="form-control" id="vendorEmail"
+									name="vendorEmail" value="${vendorEntity.getVendorEmail()}" />
 							</div>
 							
-							<button type="submit" id="otpVerifyBtn"
+							<button type="submit" id="updateButton"
 								class="btn form-control btn-primary btn-sm mt-4 mb-2">Update</button>
-								
 							
 						</form>
 					</div>
@@ -202,6 +172,121 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 		</div>
 	</footer>
 
+	<script>
+	
+		// name validate
+	    function validateName() {
+	        let name = document.getElementById("vendorNname").value;
+	        let btn = document.getElementById("updateButton");
+	
+	        if (name == null || name == "") {
+	            document.getElementById("nameError").innerHTML = "*name can't be blank.";
+	            btn.setAttribute("disabled", "");
+	            
+	        } else if (name.includes('  ')) {
+	            document.getElementById("nameError").innerHTML = "*name can't be empty.";
+	            btn.setAttribute("disabled", "");
+	            
+	        } else if (name.match(/[0-9]/)) {
+	            document.getElementById("nameError").innerHTML = "*name should be in characters.";
+	            btn.setAttribute("disabled", "");
+	            
+	        } else if (name.length < 3 || name.length > 20) {
+	            document.getElementById("nameError").innerHTML = "*name should be in 3-20 range.";
+	            btn.setAttribute("disabled", "");
+	            
+	        } else {
+	            document.getElementById("nameError").innerHTML = "";
+	            btn.removeAttribute("disabled");
+	        }
+	    }
+		
+	 	// location validate
+        function validateLocation() {
+            const location = document.getElementById("vendorLocation").value;
+            const btn = document.getElementById("updateButton");
+
+            if (location == null || location == "") {
+                document.getElementById("locationError").innerHTML = "*location can't be blank.";
+                btn.setAttribute("disabled", "");
+                
+            } else if (location.includes('  ')) {
+                document.getElementById("locationError").innerHTML = "*location can't be empty.";
+                btn.setAttribute("disabled", "");
+                
+            } else if (location.match(/[0-9]/)) {
+                document.getElementById("locationError").innerHTML = "*location should be in characters.";
+                btn.setAttribute("disabled", "");
+                
+            } else if (location.length < 3 || location.length > 20) {
+                document.getElementById("locationError").innerHTML = "*location should be in 3-20 range.";
+                btn.setAttribute("disabled", "");
+                
+            } else {
+                document.getElementById("locationError").innerHTML = "";
+                btn.removeAttribute("disabled");
+            }
+        }
+	 	
+     	// owner name validate
+        function validateOwnerName() {
+            let owner = document.getElementById("ownerName").value;
+            let btn = document.getElementById("updateButton");
+
+            if (owner == null || owner == "") {
+                document.getElementById("ownerError").innerHTML = "*owner name can't be blank.";
+                btn.setAttribute("disabled", "");
+                
+            } else if (owner.includes('  ')) {
+                document.getElementById("ownerError").innerHTML = "*owner name can't be empty.";
+                btn.setAttribute("disabled", "");
+                
+            } else if (owner.match(/[0-9]/)) {
+                document.getElementById("ownerError").innerHTML = "*owner name should be in characters.";
+                btn.setAttribute("disabled", "");
+                
+            } else if (owner.length < 3 || owner.length > 20) {
+                document.getElementById("ownerError").innerHTML = "*owner name should be in 3-20 range.";
+                btn.setAttribute("disabled", "");
+                
+            } else {
+                document.getElementById("ownerError").innerHTML = "";
+                btn.removeAttribute("disabled");
+            }
+        }
+     	
+     	// contact number validation ajax
+        function validateMobile() {
+            const mobile = document.getElementById("contactNumber").value;
+            const btn = document.getElementById("updateButton");
+            var mobileNumberRegex = /^[6-9]{1}[0-9]{9}$/;
+
+            if (mobile != "" && mobile.length == 10) {
+                console.log(mobile);
+                document.getElementById("numberError").innerHTML = "";
+                btn.removeAttribute("disabled");
+                
+            } else if (mobile == null || mobile == "") {
+                document.getElementById("numberError").innerHTML = "*number can't blank.";
+                btn.setAttribute("disabled", "");
+                
+            } else if (mobile.includes('  ')) {
+                document.getElementById("numberError").innerHTML = "*number can't empty.";
+                btn.setAttribute("disabled", "");
+                
+            } else if (mobile.length < 10 || mobile.length > 10) {
+                document.getElementById("numberError").innerHTML = "*number should be 10 numbers.";
+                btn.setAttribute("disabled", "");
+                
+            }
+            else if (!mobileNumberRegex.test(mobile)) {
+                document.getElementById("numberError").innerHTML = "*number should in format.";
+                btn.setAttribute("disabled", "");
+            }
+        }
+
+	</script>
+	
 </body>
 
 </html>

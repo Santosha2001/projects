@@ -1,14 +1,12 @@
-package com.vmanager.controller;
+package com.vmanager.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.vmanager.service.VendorAjaxService;
+import com.vmanager.service.vendor.VendorAjaxService;
 
 @RestController
 public class VendorRestController {
@@ -24,7 +22,7 @@ public class VendorRestController {
 	/* GST AJAX */
 	@GetMapping("/gstAjax/{gst}")
 	public String gstAjax(@PathVariable String gst) {
-		String byGstAjax = this.ajaxService.findByGstAjax(gst);
+		String byGstAjax = this.ajaxService.getVendorGST(gst);
 		System.out.println("gst ajax: " + gst);
 		return byGstAjax;
 	}
@@ -32,7 +30,7 @@ public class VendorRestController {
 	/* MOBILE NUMBER AJAX */
 	@GetMapping(value = "/mobileAjax/{mobile}")
 	public String mobileAjax(@PathVariable Long mobile) {
-		String byMobileAjax = this.ajaxService.findByMobileAjax(mobile);
+		String byMobileAjax = this.ajaxService.getVendorMobile(mobile);
 		System.out.println("number ajax: " + mobile);
 		return byMobileAjax;
 	}
@@ -40,7 +38,7 @@ public class VendorRestController {
 	/* EMAIL AJAX */
 	@GetMapping(value = "/emailAjax/{email:.+}")
 	public String emailAjax(@PathVariable String email) {
-		String byEmail = this.ajaxService.findByEmail(email);
+		String byEmail = this.ajaxService.getVendorEmail(email);
 		System.out.println("ajax: " + email);
 		return byEmail;
 	}
@@ -48,15 +46,15 @@ public class VendorRestController {
 	/* WEBSITE AJAX */
 	@GetMapping(value = "/siteAjax/{website:.+}")
 	public String websiteAjax(@PathVariable String website) {
-		String byWebsiteAjax = this.ajaxService.findByWebsiteAjax(website);
+		String byWebsiteAjax = this.ajaxService.getVendorWebsite(website);
 		System.out.println("website ajax: " + website);
 		return byWebsiteAjax;
 	}
 
 	/* EMAIL AJAX FOR LOGIN */
-	@GetMapping(value = "/mailLogInAjax/{email:.+}")
+	@GetMapping(value = "/mailLogInAjax/{email:..+}")
 	public String emailAjaxForLogIn(@PathVariable String email) {
-		String emailLogInAjax = this.ajaxService.emailLogInAjax(email);
+		String emailLogInAjax = this.ajaxService.getVendorLoginEmail(email);
 		System.out.println("mail login ajax: " + email);
 		return emailLogInAjax;
 	}

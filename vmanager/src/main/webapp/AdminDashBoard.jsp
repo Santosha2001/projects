@@ -87,16 +87,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 				
-					<%-- <li class="nav-item"><a class="nav-link active"
-						aria-current="page"
-						href="${pageContext.request.contextPath}/loadLoginPage"><i
-							class="fa-solid fa-right-to-bracket"></i> LOGIN</a></li> --%>
-							
-					<%-- <li class="nav-item"><a class="nav-link active"
-						aria-current="page"
-						href="${pageContext.request.contextPath}/loadRegister"><i
-							class="fa-regular fa-address-card"></i> REGISTER</a></li> --%>
-
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="${pageContext.request.contextPath}/loadAdmin"><i
 							class="fa-solid fa-user-plus"></i> ADMIN</a></li>

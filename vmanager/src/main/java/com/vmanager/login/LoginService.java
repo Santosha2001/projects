@@ -4,15 +4,15 @@ import java.time.LocalDateTime;
 
 public interface LoginService {
 
-	boolean sendOtp(String email);
+	boolean sendOtpToVendorEmail(String email);
 
 	boolean verifyOtp(Integer otp, String email);
 
-	void updateFailedAttemptCount(int failedAttempt, String email);
+	void updateVendorFailedAttemptCount(int failedAttempt, String email);
 
-	boolean unlockAccountTimeExpired(String email);
+	boolean unlockVendorAccountTimeExpired(String email);
 
-	void accountLockTime(LocalDateTime accountLocakTime, String email);
+	void vendorAccountLockTime(LocalDateTime accountLocakTime, String email);
 
 	void expireOTPAndResetAttempt(Integer OTP, int resetAttempt, String email);
 }

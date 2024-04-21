@@ -28,7 +28,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 
 	/* SAVE ENTITY */
 	@Override
-	public void save(VendorEntity vendorEntity) {
+	public void saveVendor(VendorEntity vendorEntity) {
 
 		EntityManager entityManager = factory.createEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
@@ -75,7 +75,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 
 	/* FIND ALL ENTITIES */
 	@Override
-	public List<VendorEntity> findAll() {
+	public List<VendorEntity> findAllVendors() {
 		EntityManager entityManager = factory.createEntityManager();
 		List<VendorEntity> list = new ArrayList<VendorEntity>();
 
@@ -224,13 +224,35 @@ public class VendorRepositoryImpl implements VendorRepository {
 		}
 	}
 
+	/* UPDATE VENDOR STATUS */
 	@Override
-	public void updateDetails(String vendorName, String location, String ownerName, Long contact, String email,
-			int id) {
+	public void updateVendorStatusByEmail(String status, String email) {
 
 		EntityManager entityManager = factory.createEntityManager();
 		try {
+			entityManager.getTransaction().begin();
+			Query query = entityManager.createNamedQuery("updateStatusByEmail");
+			query.setParameter("status", status);
+			query.setParameter("email", email);
+			query.executeUpdate();
 
+			entityManager.getTransaction().commit();
+
+		} catch (PersistenceException e) {
+			System.out.println("PersistenceException: in updateStatusByEmail " + e.getMessage());
+			entityManager.getTransaction().rollback();
+		} finally {
+			entityManager.close();
+		}
+
+	}
+
+	/* UPDATE DETAILS */
+	@Override
+	public void updateVendorDetails(String vendorName, String location, String ownerName, Long contact, String email) {
+
+		EntityManager entityManager = factory.createEntityManager();
+		try {
 			entityManager.getTransaction().begin();
 			Query query = entityManager.createNamedQuery("updateDetails");
 			query.setParameter("vName", vendorName);
@@ -238,11 +260,8 @@ public class VendorRepositoryImpl implements VendorRepository {
 			query.setParameter("vOwner", ownerName);
 			query.setParameter("number", contact);
 			query.setParameter("email", email);
-			query.setParameter("id", id);
 
-			int executeUpdate = query.executeUpdate();
-			System.out.println("executeUpdate: " + executeUpdate);
-
+			query.executeUpdate();
 			entityManager.getTransaction().commit();
 
 		} catch (PersistenceException e) {
@@ -272,19 +291,19 @@ public class VendorRepositoryImpl implements VendorRepository {
 		return entity;
 	}
 
+	/* UPDATE UPDATED DATE AND UPDATED BY */
 	@Override
-	public void updateUpdatedDate(String updatedBy, LocalDate date, int id) {
+	public void updateUpdatedDateAndUpdatedBy(String updatedBy, LocalDate date, String email) {
 		EntityManager entityManager = factory.createEntityManager();
 
 		try {
 			entityManager.getTransaction().begin();
-			Query query = entityManager.createNamedQuery("updateUpdatedDate");
+			Query query = entityManager.createNamedQuery("updateUpdatedDateAndBy");
 			query.setParameter("by", updatedBy);
 			query.setParameter("date", date);
-			query.setParameter("id", id);
+			query.setParameter("email", email);
 
-			int update = query.executeUpdate();
-			System.out.println("date updated: " + update);
+			query.executeUpdate();
 			entityManager.getTransaction().commit();
 
 		} catch (PersistenceException e) {
@@ -293,12 +312,11 @@ public class VendorRepositoryImpl implements VendorRepository {
 		} finally {
 			entityManager.close();
 		}
-
 	}
 
 	// delete account
 	@Override
-	public void deleteAccount(String email) {
+	public void deleteVendorAccount(String email) {
 
 		EntityManager entityManager = factory.createEntityManager();
 		try {

@@ -82,16 +82,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 				</ul>
 
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-				
-					<%-- <li class="nav-item"><a class="nav-link active"
-						aria-current="page"
-						href="${pageContext.request.contextPath}/loadLoginPage"><i
-							class="fa-solid fa-right-to-bracket"></i> LOGIN</a></li> --%>
-							
-					<%-- <li class="nav-item"><a class="nav-link active"
-						aria-current="page"
-						href="${pageContext.request.contextPath}/loadRegister"><i
-							class="fa-regular fa-address-card"></i> REGISTER</a></li> --%>
 
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="${pageContext.request.contextPath}/loadAdmin"><i
@@ -110,9 +100,9 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 					<div class="card-header text-center">
 						<p class="fs-3 text-uppercase">Admin Login</p>
 						
-						<% if (session.getAttribute("message") != null) { %>
-						<div class="text-center text-danger fs-4"><%= session.getAttribute("message") %></div>
-						<% session.removeAttribute("message"); %>
+						<% if (session.getAttribute("admin-login-failed") != null) { %>
+						<div class="text-center text-danger fs-4"><%= session.getAttribute("admin-login-failed") %></div>
+						<% session.removeAttribute("admin-login-failed"); %>
 						<% } %>
 						
 					</div>
