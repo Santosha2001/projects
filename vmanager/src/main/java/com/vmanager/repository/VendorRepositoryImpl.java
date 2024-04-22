@@ -336,4 +336,26 @@ public class VendorRepositoryImpl implements VendorRepository {
 		}
 	}
 
+	@Override
+	public void updateVendorImage(String imageName, String email) {
+
+		EntityManager entityManager = factory.createEntityManager();
+		try {
+			entityManager.getTransaction().begin();
+			Query query = entityManager.createNamedQuery("updateImage");
+			query.setParameter("image", imageName);
+			query.setParameter("email", email);
+			int imageUpdated = query.executeUpdate();
+			System.out.println("image updated: " + imageUpdated);
+
+			entityManager.getTransaction().commit();
+
+		} catch (PersistenceException e) {
+			System.out.println("PersistenceException in image: " + e.getMessage());
+			entityManager.getTransaction().rollback();
+		} finally {
+			entityManager.close();
+		}
+	}
+
 }

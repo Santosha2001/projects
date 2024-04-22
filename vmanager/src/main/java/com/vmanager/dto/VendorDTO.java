@@ -73,5 +73,7 @@ public class VendorDTO {
 	private LocalDateTime accountLockTime;
 
 	private String applyStatus;
+	
+	private String imageName;
 
 }

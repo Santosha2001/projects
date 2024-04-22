@@ -47,11 +47,14 @@ import lombok.RequiredArgsConstructor;
 		+ "et.vendorLocation=:location, et.ownerName=:vOwner, et.contactNumber=:number "
 		+ "WHERE et.vendorEmail=:email")
 
+
 @NamedQuery(name = "findById", query = "SELECT et FROM VendorEntity et WHERE et.id=:id")
 
 @NamedQuery(name = "updateUpdatedDateAndBy", query = "UPDATE VendorEntity et SET et.updatedBy=:by, et.updatedDate=:date WHERE et.vendorEmail=:email")
 
 @NamedQuery(name = "deleteAccount", query = "DELETE FROM VendorEntity et WHERE et.vendorEmail=:email")
+
+@NamedQuery(name = "updateImage", query = "UPDATE VendorEntity et SET et.imageName=:image WHERE et.vendorEmail=:email")
 
 public class VendorEntity {
 
@@ -119,5 +122,8 @@ public class VendorEntity {
 
 	@Column(name = "apply_status")
 	private String applyStatus;
+
+	@Column(name = "image_name")
+	private String imageName;
 
 }

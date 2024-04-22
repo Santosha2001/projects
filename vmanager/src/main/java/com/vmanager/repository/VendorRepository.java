@@ -35,4 +35,6 @@ public interface VendorRepository {
 	void updateUpdatedDateAndUpdatedBy(String updatedBy, LocalDate date, String email);
 
 	void deleteVendorAccount(String email);
+	
+	void updateVendorImage(String imageName,String email);
 }

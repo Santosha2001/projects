@@ -27,5 +27,7 @@ public interface VendorService {
 	boolean updateVendorByEmail(String vendorName, String location, String ownerName, Long contact, String email);
 
 	boolean deleteVendorByEmail(String email);
+	
+	
 
 }
