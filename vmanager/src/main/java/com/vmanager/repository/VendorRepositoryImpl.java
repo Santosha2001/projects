@@ -368,14 +368,14 @@ public class VendorRepositoryImpl implements VendorRepository {
 	}
 
 	@Override
-	public void updateVendorImage(String imageName, String email) {
+	public void updateVendorImage(String imageName, int id) {
 
 		EntityManager entityManager = factory.createEntityManager();
 		try {
 			entityManager.getTransaction().begin();
 			Query query = entityManager.createNamedQuery("updateImage");
 			query.setParameter("image", imageName);
-			query.setParameter("email", email);
+			query.setParameter("id", id);
 			int imageUpdated = query.executeUpdate();
 			System.out.println("image updated: " + imageUpdated);
 

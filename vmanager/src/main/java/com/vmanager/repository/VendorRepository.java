@@ -39,5 +39,5 @@ public interface VendorRepository {
 
 	void deleteVendorAccount(String email);
 
-	void updateVendorImage(String imageName, String email);
+	void updateVendorImage(String imageName, int id);
 }

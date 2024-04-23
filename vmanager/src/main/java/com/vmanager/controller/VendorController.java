@@ -177,15 +177,17 @@ public class VendorController {
 	@PostMapping("/update-details")
 	public String updateDetails(@RequestParam String vendorNname, @RequestParam String vendorLocation,
 			@RequestParam String ownerName, @RequestParam Long contactNumber, @RequestParam String vendorEmail,
-			@RequestParam int id, HttpSession session, Model model) {
+			@RequestParam int id, @RequestParam("imageName") MultipartFile file, HttpSession session, Model model) {
 
 		boolean detailsUpdated = this.vendorService.detailsUpdated(vendorNname, vendorLocation, ownerName,
 				contactNumber, vendorEmail, id);
 		
+		boolean isImageUpdated = vendorService.isVendorImageUpdatedByEmail(file, id);
+		
 		VendorDTO vendorEntity = this.vendorService.findByEmail(vendorEmail);
 		model.addAttribute("vendorEntity", vendorEntity);
 		
-		if (detailsUpdated) {
+		if (detailsUpdated && isImageUpdated) {
 
 			session.setAttribute("update-success", "Update Successfully");
 			return "UserDashBoard";

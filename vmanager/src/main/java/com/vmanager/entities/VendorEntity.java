@@ -63,7 +63,7 @@ import lombok.RequiredArgsConstructor;
 
 @NamedQuery(name = "deleteAccount", query = "DELETE FROM VendorEntity et WHERE et.vendorEmail=:email")
 
-@NamedQuery(name = "updateImage", query = "UPDATE VendorEntity et SET et.imageName=:image WHERE et.vendorEmail=:email")
+@NamedQuery(name = "updateImage", query = "UPDATE VendorEntity et SET et.imageName=:image WHERE et.id=:id")
 
 public class VendorEntity {
 

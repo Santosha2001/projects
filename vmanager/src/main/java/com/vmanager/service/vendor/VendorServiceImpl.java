@@ -219,18 +219,17 @@ repository.updateUpdatedDateAndUpdatedBy(ownerName, LocalDate.now(), email);
 	}
 
 	@Override
-	public boolean isVendorImageUpdatedByEmail(String email, MultipartFile file) {
+	public boolean isVendorImageUpdatedByEmail(MultipartFile file, int id) {
 
-		VendorEntity vendorEntity = repository.findByEmail(email);
+		VendorEntity vendorEntity = repository.findById(id);
 
 		String imageName = file.isEmpty() ? "default.jpg" : file.getOriginalFilename();
 		vendorEntity.setImageName(imageName);
 
-		if (!ObjectUtils.isEmpty(email)) {
+		if (!ObjectUtils.isEmpty(id)) {
 
-			File saveFile = null;
 			try {
-				saveFile = new ClassPathResource("C:\\Users\\HP\\Desktop\\image upload").getFile();
+				new ClassPathResource("C:\\Users\\HP\\Desktop\\image upload").getFile();
 			} catch (Exception e) {
 				System.out.println("file upload exception: " + e.getMessage());
 			}
@@ -245,7 +244,7 @@ repository.updateUpdatedDateAndUpdatedBy(ownerName, LocalDate.now(), email);
 				e.printStackTrace();
 			}
 
-			this.repository.updateVendorImage(imageName, email);
+			this.repository.updateVendorImage(imageName, id);
 			return true;
 
 		}

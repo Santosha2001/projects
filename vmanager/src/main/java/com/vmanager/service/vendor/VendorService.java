@@ -33,6 +33,6 @@ public interface VendorService {
 
 	boolean deleteVendorByEmail(String email);
 
-	boolean isVendorImageUpdatedByEmail(String email, MultipartFile file);
+	boolean isVendorImageUpdatedByEmail(MultipartFile file,int id);
 
 }

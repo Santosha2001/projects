@@ -110,7 +110,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 					</div>
 
 					<div class="card-body">
-						<form action="update-details" method="post">
+						<form action="update-details" method="post" enctype="multipart/form-data">
 						
 							<div class="mb-3">
 								<!-- <label class="form-label">Id</label> --> 
@@ -161,6 +161,15 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 									onblur="validateEmail()" required />
 									
 								<span id="emailError" style="color: red;"></span>
+							</div>
+							
+							<div class="mb-3">
+								<label class="form-label">Profile Image</label> 
+								<input type="file" class="form-control" id="imageName"
+									name="imageName" value="${vendorEntity.getImageName()}" 
+									 onblur="validateImage()"  />
+									
+								<span id="imageError" style="color: red;"></span>
 							</div>
 							
 							<button type="submit" id="updateButton"
@@ -294,6 +303,47 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
                 btn.setAttribute("disabled", "");
             }
         }
+     	
+     	//image validation
+     	/*
+     	function validateImage() {
+     		const fileInput = document.getElementById("imageName");
+            const btn = document.getElementById("updateButton");
+            
+            const filetype = fileInput.files[0].type;
+            
+            if (fileType === "image/jpeg" || fileType === "image/png") {
+            	document.getElementById("imageError").innerHTML = "";
+                btn.removeAttribute("disabled");
+            	
+			} else {
+				document.getElementById("imageError").innerHTML = "*file should be jpg/png format.";
+                btn.setAttribute("disabled", "");
+			}
+		}
+     	*/
+     	
+     	// JavaScript
+    	 /*
+     	const fileInput = document.getElementById('file');
+     	const submitButton = document.querySelector('input[type="submit"]');
+
+     	// Disable the submit button by default
+     	submitButton.disabled = true;
+
+     	// Add an event listener to the file input
+     	fileInput.addEventListener('change', function() {
+     	  // Check if a file has been selected
+     	  if (fileInput.files.length > 0) {
+     	    // Enable the submit button
+     	    submitButton.disabled = false;
+     	  } else {
+     	    // Disable the submit button and display an error message
+     	    submitButton.disabled = true;
+     	    alert('Please select a file to upload.');
+     	  }
+     	});
+     	*/
 
 	</script>
 	
