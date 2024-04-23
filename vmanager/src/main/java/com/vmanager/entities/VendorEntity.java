@@ -40,17 +40,26 @@ import lombok.RequiredArgsConstructor;
 @NamedQuery(name = "updateStatusByEmail", query = "UPDATE VendorEntity et SET et.applyStatus=:status "
 		+ "WHERE et.vendorEmail=:email")
 
-@NamedQuery(name = "updateUpdatedDateAndUpdatedBy", query = "UPDATE VendorEntity et SET et.updatedBy=:updatedBy, "
-		+ "et.updatedDate=:updateDate WHERE et.vendorEmail=:email")
+/*
+ * @NamedQuery(name = "updateUpdatedDateAndUpdatedBy", query =
+ * "UPDATE VendorEntity et SET et.updatedBy=:updatedBy, " +
+ * "et.updatedDate=:updateDate WHERE et.id=:id")
+ */
+
+//et.vendorNname=:vName, 
+/*
+ * @NamedQuery(name = "updateDetails", query = "UPDATE VendorEntity et SET " +
+ * "et.vendorLocation=:location, et.ownerName=:vOwner, et.contactNumber=:number "
+ * + "WHERE et.vendorEmail=:email")
+ */
 
 @NamedQuery(name = "updateDetails", query = "UPDATE VendorEntity et SET et.vendorNname=:vName, "
-		+ "et.vendorLocation=:location, et.ownerName=:vOwner, et.contactNumber=:number "
-		+ "WHERE et.vendorEmail=:email")
-
+		+ "et.vendorLocation=:location, et.ownerName=:vOwner, et.contactNumber=:number, "
+		+ "et.vendorEmail=:email WHERE et.id=:id")
 
 @NamedQuery(name = "findById", query = "SELECT et FROM VendorEntity et WHERE et.id=:id")
 
-@NamedQuery(name = "updateUpdatedDateAndBy", query = "UPDATE VendorEntity et SET et.updatedBy=:by, et.updatedDate=:date WHERE et.vendorEmail=:email")
+@NamedQuery(name = "updateUpdatedDateAndBy", query = "UPDATE VendorEntity et SET et.updatedBy=:by, et.updatedDate=:date WHERE et.id=:id")
 
 @NamedQuery(name = "deleteAccount", query = "DELETE FROM VendorEntity et WHERE et.vendorEmail=:email")
 

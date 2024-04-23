@@ -13,6 +13,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.vmanager.dto.VendorDTO;
@@ -149,25 +150,50 @@ public class VendorController {
 		return "UpdateDetails";
 	}
 
+	/*
 	@PostMapping("/update-details")
-	public String updateDetails(@RequestParam String vendorNname, @RequestParam String vendorLocation,
+	public String updateDetails( @RequestParam String vendorLocation,
 			@RequestParam String ownerName, @RequestParam Long contactNumber, @RequestParam String vendorEmail,
+			
 			HttpSession session, Model model) {
 
-		boolean detailsUpdated = this.vendorService.updateVendorByEmail(vendorNname, vendorLocation, ownerName,
+		boolean detailsUpdated = this.vendorService.updateVendorByEmail( vendorLocation, ownerName,
 				contactNumber, vendorEmail);
+		
+		//boolean vendorImageUpdatedByEmail = vendorService.isVendorImageUpdatedByEmail(vendorEmail, file);
 
 		VendorDTO dto = this.vendorService.findByEmail(vendorEmail);
 		model.addAttribute("vendorEntity", dto);
 
-		if (detailsUpdated) {
+		if (detailsUpdated ) {
 			session.setAttribute("update-success", "Update Successfully");
 			return "UserDashBoard";
 		}
 		session.setAttribute("update-failed", "Update is not allowed until status approved.");
 		return "UserDashBoard";
 	}
+	*/
+	
+	@PostMapping("/update-details")
+	public String updateDetails(@RequestParam String vendorNname, @RequestParam String vendorLocation,
+			@RequestParam String ownerName, @RequestParam Long contactNumber, @RequestParam String vendorEmail,
+			@RequestParam int id, HttpSession session, Model model) {
 
+		boolean detailsUpdated = this.vendorService.detailsUpdated(vendorNname, vendorLocation, ownerName,
+				contactNumber, vendorEmail, id);
+		
+		VendorDTO vendorEntity = this.vendorService.findByEmail(vendorEmail);
+		model.addAttribute("vendorEntity", vendorEntity);
+		
+		if (detailsUpdated) {
+
+			session.setAttribute("update-success", "Update Successfully");
+			return "UserDashBoard";
+		}
+		session.setAttribute("update-failed", "Update is not allowed until status approved.");
+		return "UserDashBoard";
+	}
+	
 	// load delete account page
 	@GetMapping("/load-delete-account")
 	public String loadDeleteAccount() {

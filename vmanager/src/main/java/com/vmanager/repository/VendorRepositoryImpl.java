@@ -248,11 +248,39 @@ public class VendorRepositoryImpl implements VendorRepository {
 	}
 
 	/* UPDATE DETAILS */
+	/*
 	@Override
-	public void updateVendorDetails(String vendorName, String location, String ownerName, Long contact, String email) {
+	public void updateVendorDetails(String location, String ownerName, Long contact, String email) {
+//		String vendorName, 
+		EntityManager entityManager = factory.createEntityManager();
+		try {
+			entityManager.getTransaction().begin();
+			Query query = entityManager.createNamedQuery("updateDetails");
+			//query.setParameter("vName", vendorName);
+			query.setParameter("location", location);
+			query.setParameter("vOwner", ownerName);
+			query.setParameter("number", contact);
+			query.setParameter("email", email);
+
+			query.executeUpdate();
+			entityManager.getTransaction().commit();
+
+		} catch (PersistenceException e) {
+			System.out.println("PersistenceException in updateDetails: " + e.getMessage());
+			entityManager.getTransaction().rollback();
+		} finally {
+			entityManager.close();
+		}
+	}
+	*/
+	
+	@Override
+	public void updateDetails(String vendorName, String location, String ownerName, Long contact, String email,
+			int id) {
 
 		EntityManager entityManager = factory.createEntityManager();
 		try {
+
 			entityManager.getTransaction().begin();
 			Query query = entityManager.createNamedQuery("updateDetails");
 			query.setParameter("vName", vendorName);
@@ -260,8 +288,11 @@ public class VendorRepositoryImpl implements VendorRepository {
 			query.setParameter("vOwner", ownerName);
 			query.setParameter("number", contact);
 			query.setParameter("email", email);
+			query.setParameter("id", id);
 
-			query.executeUpdate();
+			int executeUpdate = query.executeUpdate();
+			System.out.println("executeUpdate: " + executeUpdate);
+
 			entityManager.getTransaction().commit();
 
 		} catch (PersistenceException e) {
@@ -293,7 +324,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 
 	/* UPDATE UPDATED DATE AND UPDATED BY */
 	@Override
-	public void updateUpdatedDateAndUpdatedBy(String updatedBy, LocalDate date, String email) {
+	public void updateUpdatedDateAndUpdatedBy(String updatedBy, LocalDate date, int  id) {
 		EntityManager entityManager = factory.createEntityManager();
 
 		try {
@@ -301,7 +332,7 @@ public class VendorRepositoryImpl implements VendorRepository {
 			Query query = entityManager.createNamedQuery("updateUpdatedDateAndBy");
 			query.setParameter("by", updatedBy);
 			query.setParameter("date", date);
-			query.setParameter("email", email);
+			query.setParameter("id", id);
 
 			query.executeUpdate();
 			entityManager.getTransaction().commit();

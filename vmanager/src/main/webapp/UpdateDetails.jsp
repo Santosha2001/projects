@@ -111,6 +111,12 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 
 					<div class="card-body">
 						<form action="update-details" method="post">
+						
+							<div class="mb-3">
+								<!-- <label class="form-label">Id</label> --> 
+								<input type="hidden" class="form-control" name="id" 
+									value="${vendorEntity.getId()}"  />
+							</div>
 							
 							<div class="mb-3">
 								<label class="form-label">Vendor name</label> 
@@ -125,7 +131,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 								<label class="form-label">Vendor Location</label> 
 								<input type="text" class="form-control" id="vendorLocation"
 									name="vendorLocation" value="${vendorEntity.getVendorLocation()}" 
-									onblur="validateLocation()" />
+									maxlength="20" onblur="validateLocation()" required />
 									
 								<span id="locationError" style="color: red;"></span>
 							</div>
@@ -134,7 +140,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 								<label class="form-label">Owner name</label> 
 								<input type="text" class="form-control" id="ownerName"
 									name="ownerName" value="${vendorEntity.getOwnerName()}" 
-									onblur="validateOwnerName()" />
+									maxlength="20" onblur="validateOwnerName()" required />
 									
 								<span id="ownerError" style="color: red;"></span>
 							</div>
@@ -143,19 +149,23 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 								<label class="form-label">Contact number</label> 
 								<input type="number" class="form-control" id="contactNumber"
 									name="contactNumber" value="${vendorEntity.getContactNumber()}" 
-									onblur="validateMobile()" />
+									onblur="validateMobile()" required />
 									
 								<span id="numberError" style="color: red;"></span>
 							</div>
 							
-							<div class="mb-3"> 
-								<input type="hidden" class="form-control" id="vendorEmail"
-									name="vendorEmail" value="${vendorEntity.getVendorEmail()}" />
+							<div class="mb-3">
+								<label class="form-label">Email Address</label> 
+								<input type="email" class="form-control" id="vendorEmail"
+									name="vendorEmail" value="${vendorEntity.getVendorEmail()}" 
+									onblur="validateEmail()" required />
+									
+								<span id="emailError" style="color: red;"></span>
 							</div>
 							
 							<button type="submit" id="updateButton"
 								class="btn form-control btn-primary btn-sm mt-4 mb-2">Update</button>
-							
+								
 						</form>
 					</div>
 				</div>

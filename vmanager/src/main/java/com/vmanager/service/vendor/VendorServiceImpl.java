@@ -1,5 +1,11 @@
 package com.vmanager.service.vendor;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -7,8 +13,10 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.vmanager.dto.VendorDTO;
 import com.vmanager.entities.VendorEntity;
@@ -131,10 +139,11 @@ public class VendorServiceImpl implements VendorService {
 	}
 
 	/* UPDATED DETAILS */
+	/*
 	@Override
-	public boolean updateVendorByEmail(String vendorName, String location, String ownerName, Long contact,
+	public boolean updateVendorByEmail(String location, String ownerName, Long contact,
 			String email) {
-
+//String vendorName, 
 		VendorDTO dto = new VendorDTO();
 		VendorEntity vendorEntity = this.repository.findByEmail(email);
 
@@ -149,11 +158,34 @@ public class VendorServiceImpl implements VendorService {
 			BeanUtils.copyProperties(vendorEntity, dto);
 			System.out.println("dto in detailsUpdated: " + dto);
 
-			repository.updateVendorDetails(vendorName, location, ownerName, contact, email);
-
-			this.repository.updateUpdatedDateAndUpdatedBy(vendorName, LocalDate.now(), email);
+			//repository.updateVendorDetails(dto.getVendorNname(), dto.getVendorLocation(), dto.getOwnerName(), dto.getContactNumber(), dto.getVendorEmail());
+repository.updateVendorDetails( location, ownerName, contact, email);
+repository.updateUpdatedDateAndUpdatedBy(ownerName, LocalDate.now(), email);
+			//this.repository.updateUpdatedDateAndUpdatedBy(dto.getVendorNname(), LocalDate.now(), dto.getVendorEmail());
 
 			System.out.println("EMAIL " + email + " details updated.");
+
+			return true;
+		}
+
+		return false;
+	}
+	*/
+	
+	@Override
+	public boolean detailsUpdated(String vendorName, String location, String ownerName, Long contact, String email,
+			int id) {
+
+		VendorEntity vendorEntity = this.repository.findById(id);
+
+		if (!ObjectUtils.isEmpty(vendorEntity.getId()) && vendorEntity.getId() == id
+				&& vendorEntity.getApplyStatus().equalsIgnoreCase("APPROVED")) {
+
+			repository.updateDetails(vendorName, location, ownerName, contact, email, id);
+
+			this.repository.updateUpdatedDateAndUpdatedBy(vendorName, LocalDate.now(), id);
+
+			System.out.println("ID " + id + " details updated.");
 
 			return true;
 		}
@@ -184,6 +216,41 @@ public class VendorServiceImpl implements VendorService {
 		entities.forEach(a -> System.out.println(a));
 
 		return entities;
+	}
+
+	@Override
+	public boolean isVendorImageUpdatedByEmail(String email, MultipartFile file) {
+
+		VendorEntity vendorEntity = repository.findByEmail(email);
+
+		String imageName = file.isEmpty() ? "default.jpg" : file.getOriginalFilename();
+		vendorEntity.setImageName(imageName);
+
+		if (!ObjectUtils.isEmpty(email)) {
+
+			File saveFile = null;
+			try {
+				saveFile = new ClassPathResource("C:\\Users\\HP\\Desktop\\image upload").getFile();
+			} catch (Exception e) {
+				System.out.println("file upload exception: " + e.getMessage());
+			}
+
+			Path path = Paths.get("C:\\Users\\HP\\Desktop\\image upload\\" + file.getOriginalFilename());
+
+			System.out.println("File Path: " + path);
+
+			try {
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			this.repository.updateVendorImage(imageName, email);
+			return true;
+
+		}
+
+		return false;
 	}
 
 }
